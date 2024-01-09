@@ -50,12 +50,11 @@ class ChatMessage {
     final to = data['to'] as String;
     final timestamp = DateTime.parse(data['created_at']);
 
-    // TODO : 추가 되어야 함.
-    // 읽었는 지 처리 필요 함.
     StringEncryptor encryptor = StringEncryptor.instance;
 
     final decryptText = encryptor.AES_decrypt(message);
-    final read = data['read_at'].toString().isEmpty;
+    bool read = false;
+    data['read_at'].toString() == "null" ? read = false : read = true;
 
     return ChatMessage(
       message: decryptText,
@@ -145,7 +144,7 @@ class ChatRoom {
     // 스크롤 위치를 가장 아래 부분으로 변경
     scrollController.animateTo(
       0,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 30),
       curve: Curves.easeInOut,
     );
 

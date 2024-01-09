@@ -111,16 +111,16 @@ class _CustomListItemState extends State<CustomListItem> {
     int unreadCount = 0;
 
     messages.sort((a, b) => a.time.compareTo(b.time));
-    bool foundLastSentMessage = false;
+    bool foundLastSentMessage = false; // 마지막 보낸 메시지가 나인 경우
 
-    for (ChatMessage message in messages.reversed) {
-      if (message.from != UserService.instance.uid && !message.read) {
-        unreadCount++;
+    for (int i = 0; i < messages.length; i++) {
+      if (i == messages.length) {
+        if (messages[i].from == UserService.instance.uid) {
+          foundLastSentMessage = true;
+        }
       }
-
-      if (message.from == UserService.instance.uid) {
-        foundLastSentMessage = true;
-        break; // 마지막으로 내가 보낸 메시지를 찾으면 반복문 종료
+      if ((messages[i].from != UserService.instance.uid) && !messages[i].read) {
+        unreadCount++;
       }
     }
 
@@ -166,11 +166,12 @@ class _CustomListItemState extends State<CustomListItem> {
     return InkWell(
       onTap: () {
         if (!widget.edit) {
-          // TODO : Message Read 업데이트 처리
           for (int i = 0; i < widget.room.messages.length; i++) {
-            widget.room.messages[i].read = true;
-            widget.viewmodel.viewUpdateField(
-                widget.room.chatId, widget.room.messages[i].msg_id);
+            if (widget.room.messages[i].read == false) {
+              widget.room.messages[i].read = true;
+              widget.viewmodel.viewUpdateField(
+                  widget.room.chatId, widget.room.messages[i].msg_id);
+            }
           }
           Navigator.push(
             context,
@@ -219,23 +220,6 @@ class _CustomListItemState extends State<CustomListItem> {
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
                     ),
-                    /*ExtendedImage.network(
-                      widget.room.user1.photoUrl!,
-                      cache: true,
-                      fit: BoxFit.fill,
-                      width: 56,
-                      height: 56,
-                      loadStateChanged: (ExtendedImageState state) {
-                        switch (state.extendedImageLoadState) {
-                          case LoadState.loading:
-                            return Center(child: CircularProgressIndicator());
-                          case LoadState.completed:
-                            return null;
-                          case LoadState.failed:
-                            return Icon(Icons.error);
-                        }
-                      },
-                    ),*/
                   ),
             const SizedBox(width: 8),
             Expanded(

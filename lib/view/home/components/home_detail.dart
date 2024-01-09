@@ -59,6 +59,7 @@ class _CombinedFlipAndSwipeState extends State<CombinedFlipAndSwipe> {
 
   void _initializeData() {
     final ViewModel = Provider.of<HomeViewModel>(context, listen: false);
+    final myViewmodel = Provider.of<MypageViewModel>(context, listen: false);
 
     _Frontcards = widget.items
         .map((item) => FrontCard(
@@ -70,6 +71,7 @@ class _CombinedFlipAndSwipeState extends State<CombinedFlipAndSwipe> {
         .map((item) => BackCard(
               item,
               viewModel: ViewModel,
+              myviewmodel: myViewmodel,
             ))
         .toList();
   }
@@ -222,13 +224,18 @@ class _CombinedFlipAndSwipeState extends State<CombinedFlipAndSwipe> {
 class BackCard extends StatefulWidget {
   final ItemInfo _itemInfo;
   final HomeViewModel _viewModel;
+  final MypageViewModel _mypageViewModel;
 
   late bool isSubscribed = false;
   final _pageController = PageController(viewportFraction: 1.0, keepPage: true);
   int _pageindex = 0;
 
-  BackCard(this._itemInfo, {required HomeViewModel viewModel, super.key})
-      : _viewModel = viewModel;
+  BackCard(this._itemInfo,
+      {required HomeViewModel viewModel,
+      required MypageViewModel myviewmodel,
+      super.key})
+      : _viewModel = viewModel,
+        _mypageViewModel = myviewmodel;
 
   @override
   _BackCardState createState() => _BackCardState();
@@ -242,22 +249,20 @@ class _BackCardState extends State<BackCard> {
     super.initState();
 
     if (mounted) {
-      final mypage = Provider.of<MypageViewModel>(context, listen: false);
-
-      mypage.addListener(checkListen);
+      widget._mypageViewModel.addListener(checkListen);
     }
   }
 
   @override
   void dispose() {
+    if (mounted) {
+      widget._mypageViewModel.removeListener(checkListen);
+    }
     super.dispose();
-    final mypage = Provider.of<MypageViewModel>(context, listen: false);
-    mypage.removeListener(checkListen);
   }
 
   void checkListen() {
-    final mypage = Provider.of<MypageViewModel>(context, listen: false);
-    bool isFollowing = mypage.model.Following!
+    bool isFollowing = widget._mypageViewModel.model.Following!
         .any((following) => following.uid == widget._itemInfo.item_owner_id);
 
     setState(() {

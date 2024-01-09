@@ -152,7 +152,7 @@ class ChatViewModel extends ChangeNotifier {
             }
           }
 
-          ChatRoom Room = ChatRoom(
+          _model.addChatRoom(ChatRoom(
               ChatMember(
                   Keyword: item1Keyword,
                   itemid: item1,
@@ -173,8 +173,7 @@ class ChatViewModel extends ChangeNotifier {
               "",
               create,
               false,
-              updateChatMessage);
-          _model.addChatRoom(Room);
+              updateChatMessage));
           notifyListeners();
         }
       }

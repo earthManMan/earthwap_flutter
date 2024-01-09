@@ -39,10 +39,6 @@ class _MypageViewState extends State<MypageView>
     final userService = UserService.instance;
 
     userService.addListener(mypageViewListen);
-    if (mounted) {
-      final mypage = Provider.of<MypageViewModel>(context, listen: false);
-      mypage.addListener(fllowListen);
-    }
   }
 
   void mypageViewListen() async {
@@ -56,12 +52,11 @@ class _MypageViewState extends State<MypageView>
     }
   }
 
-  void fllowListen() async {
+  void fllowListen() {
     final mypage = Provider.of<MypageViewModel>(context, listen: false);
     if (mypage.notification_followers || mypage.notification_following) {
       mypage.notification_followers = false;
       mypage.notification_following = false;
-      setState(() {});
     }
   }
 
@@ -70,10 +65,6 @@ class _MypageViewState extends State<MypageView>
     _tabController.dispose();
     final userService = UserService.instance;
     userService.removeListener(mypageViewListen);
-    if (mounted) {
-      final mypage = Provider.of<MypageViewModel>(context, listen: false);
-      mypage.removeListener(fllowListen);
-    }
 
     super.dispose();
   }
@@ -87,6 +78,8 @@ class _MypageViewState extends State<MypageView>
       if (initMyPage == false && userService.nickname!.isEmpty) {
         return const Center(child: CircularProgressIndicator());
       }
+
+      fllowListen();
 
       return Scaffold(
           key: _scaffoldKey,
