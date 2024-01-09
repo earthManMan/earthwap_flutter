@@ -133,7 +133,6 @@ flutter:
     - assets/
     - assets/images/
     - assets/icons/
-    - assets/memoji/
     - assets/components/
     - assets/sample/
   # To add assets to your application, add an assets section, like this:

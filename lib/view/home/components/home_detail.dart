@@ -242,14 +242,17 @@ class _BackCardState extends State<BackCard> {
     super.initState();
 
     if (mounted) {
-      widget._viewModel.addListener(checkListen);
+      final mypage = Provider.of<MypageViewModel>(context, listen: false);
+
+      mypage.addListener(checkListen);
     }
   }
 
   @override
   void dispose() {
     super.dispose();
-    widget._viewModel.removeListener(checkListen);
+    final mypage = Provider.of<MypageViewModel>(context, listen: false);
+    mypage.removeListener(checkListen);
   }
 
   void checkListen() {
@@ -289,6 +292,9 @@ class _BackCardState extends State<BackCard> {
 
   @override
   Widget build(BuildContext context) {
+    //widget.isSubscribed =
+    //    IsUserbySubscribe(context, widget._itemInfo.item_owner_id);
+
     final pages = List.generate(
       widget._itemInfo.otherImagesLocation.length + 1,
       (pageindex) => Container(
@@ -445,21 +451,17 @@ class _BackCardState extends State<BackCard> {
           ),
           onPressed: () {
             if (widget.isSubscribed) {
-              widget._viewModel
-                  .unfollow(widget._itemInfo.item_owner_id)
-                  .then((value) => {
-                        widget.isSubscribed = !widget.isSubscribed,
-                        showSnackbar(context, '해당 사용자를 언팔로우 했습니다.'),
-                        setState(() {}),
-                      });
+              widget.isSubscribed = !widget.isSubscribed;
+              widget._viewModel.unfollow(widget._itemInfo.item_owner_id);
+              setState(() {
+                showSnackbar(context, '해당 사용자를 언팔로우 했습니다.');
+              });
             } else {
-              widget._viewModel
-                  .follow(widget._itemInfo.item_owner_id)
-                  .then((value) => {
-                        widget.isSubscribed = !widget.isSubscribed,
-                        showSnackbar(context, '해당 사용자를 팔로우 했습니다.'),
-                        setState(() {}),
-                      });
+              widget.isSubscribed = !widget.isSubscribed;
+              widget._viewModel.follow(widget._itemInfo.item_owner_id);
+              setState(() {
+                showSnackbar(context, '해당 사용자를 팔로우 했습니다.');
+              });
             }
           },
           child: Row(

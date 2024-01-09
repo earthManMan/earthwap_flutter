@@ -32,6 +32,7 @@ import 'package:firebase_login/service/alarmService.dart';
 import 'package:firebase_login/viewModel/mypageViewModel.dart';
 import 'package:firebase_login/viewModel/passwordViewModel.dart';
 import 'package:firebase_login/components/popup_widget.dart';
+import 'package:firebase_login/view/mypage/components/mypage_webview.dart';
 
 class settingLayout extends StatefulWidget {
   const settingLayout({super.key});
@@ -41,68 +42,9 @@ class settingLayout extends StatefulWidget {
 }
 
 class _settingLayoutState extends State<settingLayout> {
-  String pathPDF = "";
-
   @override
   void initState() {
     super.initState();
-/*
-    fromAsset('assets/sample/개인정보처리방침.pdf', '개인정보처리방침.pdf').then((f) {
-      setState(() {
-        pathPDF = f.path;
-      });
-    });
-*/
-    createFileOfPdfUrl().then((f) {
-      if (mounted) {
-        setState(() {
-          pathPDF = f.path;
-        });
-      }
-    });
-  }
-
-  Future<File> createFileOfPdfUrl() async {
-    Completer<File> completer = Completer();
-    print("Start download file from internet!");
-    try {
-      final remote = RemoteConfigService.instance;
-      final url = remote.getPrivacyPolicy().toString();
-      print(url);
-      final filename = url.substring(url.lastIndexOf("/") + 1);
-      var request = await HttpClient().getUrl(Uri.parse(url));
-      var response = await request.close();
-      var bytes = await consolidateHttpClientResponseBytes(response);
-      var dir = await getApplicationDocumentsDirectory();
-      print("Download files");
-      print("${dir.path}/$filename");
-      File file = File("${dir.path}/$filename");
-
-      await file.writeAsBytes(bytes, flush: true);
-      completer.complete(file);
-    } catch (e) {
-      throw Exception('Error parsing asset file!');
-    }
-
-    return completer.future;
-  }
-
-  Future<File> fromAsset(String asset, String filename) async {
-    // To open from assets, you can copy them to the app storage folder, and the access them "locally"
-    Completer<File> completer = Completer();
-
-    try {
-      var dir = await getApplicationDocumentsDirectory();
-      File file = File("${dir.path}/$filename");
-      var data = await rootBundle.load(asset);
-      var bytes = data.buffer.asUint8List();
-      await file.writeAsBytes(bytes, flush: true);
-      completer.complete(file);
-    } catch (e) {
-      throw Exception('Error parsing asset file!');
-    }
-
-    return completer.future;
   }
 
   @override
@@ -130,16 +72,13 @@ class _settingLayoutState extends State<settingLayout> {
         ),
         backgroundColor: const Color.fromARGB(255, 20, 22, 25),
       ),
-      body: SettingItemList(
-        pathPDF: pathPDF,
-      ),
+      body: SettingItemList(),
     );
   }
 }
 
 class SettingItemList extends StatefulWidget {
-  String pathPDF = "";
-  SettingItemList({super.key, required this.pathPDF});
+  const SettingItemList({super.key});
 
   @override
   _SettingItemListState createState() => _SettingItemListState();
@@ -155,6 +94,7 @@ class _SettingItemListState extends State<SettingItemList> {
       'hasIcon': true,
       'value': AlarmService.instance.getAlaramStatus() == true ? 'on' : 'off',
     });
+
     items.add(
       {'title': '고객센터', 'hasIcon': true},
     );
@@ -173,7 +113,6 @@ class _SettingItemListState extends State<SettingItemList> {
       itemBuilder: (context, index) {
         final item = items[index];
         return SettingItem(
-          pdfPath: widget.pathPDF,
           title: item['title'],
           hasIcon: item['hasIcon'],
           value: item['value'],
@@ -194,7 +133,6 @@ class _SettingItemListState extends State<SettingItemList> {
 }
 
 class SettingItem extends StatelessWidget {
-  final String pdfPath;
   final String title;
   final bool hasIcon;
   final String? value;
@@ -202,7 +140,6 @@ class SettingItem extends StatelessWidget {
   final Function(bool) onMainMove;
   const SettingItem({
     super.key,
-    required this.pdfPath,
     required this.title,
     required this.hasIcon,
     required this.value,
@@ -212,6 +149,8 @@ class SettingItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final remote = RemoteConfigService.instance;
+
     return ListTile(
       title: Text(
         title,
@@ -240,28 +179,24 @@ class SettingItem extends StatelessWidget {
               builder: (context) => const TermsOfServicePage(),
             ),
           );*/
-          if (pdfPath.isEmpty) {
-            showSnackbar(context, '파일 가져오는 중...');
-          } else {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PDFScreen(path: pdfPath, title: "이용약관"),
-              ),
-            );
-          }
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => InAppWebViewScreen(
+                      myUrl: Uri.parse(remote.getPrivacyPolicy().toString()),
+                      title: "이용약관",
+                    )),
+          );
         } else if (title == '개인 정보 처리 방침') {
-          if (pdfPath.isEmpty) {
-            showSnackbar(context, '파일 가져오는 중...');
-          } else {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    PDFScreen(path: pdfPath, title: "개인 정보 처리 방침"),
-              ),
-            );
-          }
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => InAppWebViewScreen(
+                      myUrl: Uri.parse(remote.getPrivacyPolicy().toString()),
+                      title: "개인 정보 처리 방침",
+                    )),
+          );
         } else if (title == '버전 정보') {
           showAppVersion(context, value!);
         } else if (title == '탈퇴하기') {

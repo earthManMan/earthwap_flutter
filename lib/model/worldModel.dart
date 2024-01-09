@@ -17,8 +17,8 @@ class WorldModel {
   String _date = "";
   String _orderID = "";
 
-  int _world_days = 10;
-  DateTime _world_since = DateTime.now().subtract(Duration(days: 10));
+  int _world_days = 30;
+  DateTime _world_since = DateTime.now().subtract(Duration(days: 30));
   DateTime _world_till = DateTime.now();
 
   void update_world_days() {

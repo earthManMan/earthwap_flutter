@@ -783,6 +783,8 @@ class _FollowerPageState extends State<FollowerPage> {
   void checkListen() {
     if (widget._viewModel.notification_followers ||
         widget._viewModel.notification_following) {
+      widget._viewModel.notification_followers = false;
+      widget._viewModel.notification_following = false;
       setState(() {});
     }
   }
@@ -837,17 +839,15 @@ class _FollowerPageState extends State<FollowerPage> {
               onPressed: () {
                 // Check if the user is already following
                 if (isFollowing) {
+                  isFollowing = !isFollowing;
                   // If following, perform unfollow action
-                  widget._viewModel
-                      .unfollow(targetUid)
-                      .then((value) => {isFollowing = !isFollowing});
+                  widget._viewModel.unfollow(targetUid);
+                  setState(() {});
                 } else {
-                  // If not following, perform follow action
-                  widget._viewModel
-                      .follow(targetUid)
-                      .then((value) => isFollowing = !isFollowing);
+                  isFollowing = !isFollowing;
+                  widget._viewModel.follow(targetUid);
+                  setState(() {});
                 }
-                setState(() {});
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorStyles.primary,

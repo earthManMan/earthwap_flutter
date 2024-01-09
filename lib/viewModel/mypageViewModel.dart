@@ -70,17 +70,25 @@ class MypageViewModel extends ChangeNotifier {
         for (int i = 0; i < event.docs.length; i++) {
           final userData = event.docs[i].data();
           String id = userData['uid'];
-          final result = await api.getUserInfoOnCallFunction(id);
-          if (result != null) {
-            AnotherUserProfile userProfile = AnotherUserProfile.fromMap(result);
-            createAnotherItemInfo(userProfile);
-            model.addFollowing(userProfile);
+          if (id.isEmpty) {
             notification_following = true;
             notifyListeners();
+          } else {
+            final result = await api.getUserInfoOnCallFunction(id);
+            if (result != null) {
+              AnotherUserProfile userProfile =
+                  AnotherUserProfile.fromMap(result);
+              createAnotherItemInfo(userProfile);
+              model.addFollowing(userProfile);
+              notification_following = true;
+              notifyListeners();
+            }
           }
         }
       } else {
         _model.Following!.clear();
+        notification_following = true;
+
         notifyListeners();
       }
     });
@@ -112,6 +120,8 @@ class MypageViewModel extends ChangeNotifier {
         }
       } else {
         _model.Followers!.clear();
+        notification_followers = true;
+
         notifyListeners();
       }
     });

@@ -39,6 +39,10 @@ class _MypageViewState extends State<MypageView>
     final userService = UserService.instance;
 
     userService.addListener(mypageViewListen);
+    if (mounted) {
+      final mypage = Provider.of<MypageViewModel>(context, listen: false);
+      mypage.addListener(fllowListen);
+    }
   }
 
   void mypageViewListen() async {
@@ -52,11 +56,25 @@ class _MypageViewState extends State<MypageView>
     }
   }
 
+  void fllowListen() async {
+    final mypage = Provider.of<MypageViewModel>(context, listen: false);
+    if (mypage.notification_followers || mypage.notification_following) {
+      mypage.notification_followers = false;
+      mypage.notification_following = false;
+      setState(() {});
+    }
+  }
+
   @override
   void dispose() {
     _tabController.dispose();
     final userService = UserService.instance;
     userService.removeListener(mypageViewListen);
+    if (mounted) {
+      final mypage = Provider.of<MypageViewModel>(context, listen: false);
+      mypage.removeListener(fllowListen);
+    }
+
     super.dispose();
   }
 
