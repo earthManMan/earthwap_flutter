@@ -1,6 +1,5 @@
 import 'package:firebase_login/viewModel/startViewModel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:firebase_login/components/theme.dart';
 import 'package:firebase_login/components/common_components.dart';
@@ -126,6 +125,7 @@ class _StartViewState extends State<StartView> {
                           padding: const EdgeInsets.only(top: 40, bottom: 10),
                           child: TextRoundButton(
                             text: "START",
+                            enable: true,
                             call: () {
                               // RegisterAuth Page로 이동
                               Navigator.of(context).pushNamed('/registerAuth');

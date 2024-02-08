@@ -1,21 +1,13 @@
 import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:firebase_login/service/contentService.dart';
-//import 'package:firebase_login/controllers/firebase/firebase_controller.dart';
 import 'package:firebase_login/viewModel/worldViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:firebase_login/components/profile_image_widget.dart';
 import 'package:firebase_login/components/theme.dart';
-import 'package:firebase_login/components/content/post_detail_widget.dart';
-import 'package:firebase_login/components/content/post_item_widget.dart';
-import 'package:firebase_login/model/postItemModel.dart';
 import 'package:firebase_login/service/userService.dart';
-//import 'package:extended_image/extended_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:firebase_login/view/mypage/components/mypage_detail.dart';
-import 'package:firebase_login/components/user_profile_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -140,7 +132,7 @@ class ReCyclePage extends StatefulWidget {
 
 class _ReCyclePageState extends State<ReCyclePage> {
   final List<String> _images = [];
-  
+
   @override
   void initState() {
     final options = RemoteConfigService.instance;

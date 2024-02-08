@@ -1,7 +1,5 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_login/service/contentService.dart';
 import 'package:firebase_login/service/userService.dart';
-import 'package:firebase_login/view/world/components/world_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_login/model/worldModel.dart';
 import 'package:firebase_login/model/postItemModel.dart';

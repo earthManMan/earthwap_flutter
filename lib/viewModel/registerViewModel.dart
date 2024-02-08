@@ -111,7 +111,7 @@ class RegisterViewModel extends ChangeNotifier {
 
     final result = await api.registerUserOnCallFunction(
         _model.email, _model.password, _model.authCode, _model.university);
-    return true;
+    return result;
   }
 
   void clearModel() {

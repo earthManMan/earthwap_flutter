@@ -131,10 +131,15 @@ class CustomTextButtonWidget extends StatelessWidget {
 class TextRoundButton extends StatelessWidget {
   final VoidCallback _callback;
   final String _title;
+  final bool _isEnabled;
   const TextRoundButton(
-      {required VoidCallback call, required String text, super.key})
+      {required VoidCallback call,
+      required String text,
+      required bool enable,
+      super.key})
       : _callback = call,
-        _title = text;
+        _title = text,
+        _isEnabled = enable;
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +153,7 @@ class TextRoundButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(30.0),
           ),
         ),
-        onPressed: _callback,
+        onPressed: _isEnabled ? _callback : null,
         child: Text(
           _title,
           style: const TextStyle(

@@ -1,17 +1,7 @@
-import 'package:firebase_login/view/sell/sellView.dart';
 import 'package:firebase_login/viewModel/sellViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:firebase_login/components/theme.dart';
-//import 'package:extended_image/extended_image.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:firebase_login/components/apply_button_widget.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 class ImageAddButton extends StatefulWidget {
   final String title;

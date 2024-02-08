@@ -1,7 +1,6 @@
 import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_login/model/passwordModel.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class PasswordViewModel extends ChangeNotifier {
   final PasswordModel _model;

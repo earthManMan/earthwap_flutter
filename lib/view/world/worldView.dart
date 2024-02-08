@@ -5,7 +5,6 @@ import 'package:firebase_login/view/world/components/world_detail.dart';
 import 'package:firebase_login/components/theme.dart';
 import 'package:firebase_login/components/common_components.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_login/model/postItemModel.dart';
 
 class WorldView extends StatefulWidget {
   const WorldView({super.key});

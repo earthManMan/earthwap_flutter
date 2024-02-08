@@ -1,4 +1,3 @@
-import 'package:firebase_login/model/alarmModel.dart';
 import 'package:firebase_login/service/alarmService.dart';
 import 'package:firebase_login/service/itemService.dart';
 import 'package:firebase_login/service/userService.dart';
@@ -8,7 +7,6 @@ import 'package:firebase_login/model/categoryModel.dart';
 
 // 추가된 import 문
 import 'package:firebase_login/API/firebaseAPI.dart';
-import 'package:firebase_login/application_options.dart';
 
 class HomeViewModel extends ChangeNotifier {
   HomeModel _model;

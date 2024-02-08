@@ -1,6 +1,5 @@
 import 'package:firebase_login/service/alarmService.dart';
 import 'package:firebase_login/service/userService.dart';
-import 'package:firebase_login/view/mypage/mypageView.dart';
 import 'package:firebase_login/viewModel/mypageViewModel.dart';
 import 'package:firebase_login/viewModel/sellViewModel.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:provider/provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_login/components/Encryptoring.dart'; // Replace with the actual file path where you put the StringEncryptor class
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_login/viewModel/homeViewModel.dart';
 
 class LoginViewModel extends ChangeNotifier {

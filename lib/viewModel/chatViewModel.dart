@@ -3,8 +3,6 @@ import 'package:firebase_login/service/userService.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_login/model/chatModel.dart';
 import 'package:firebase_login/API/firebaseAPI.dart';
-import 'package:intl/intl.dart';
-import 'package:cryptography/cryptography.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
 

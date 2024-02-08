@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_login/components/theme.dart';
 import 'package:firebase_login/viewModel/registerViewModel.dart';
 import 'package:provider/provider.dart';
-import 'package:textfield_search/textfield_search.dart';
 import 'package:firebase_login/view/register/components/register_detail.dart';
-import 'package:firebase_login/model/registerModel.dart';
+import 'package:firebase_login/components/common_components.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -133,10 +132,27 @@ class _RegisterViewState extends State<RegisterView> {
                           _controller)
                           */
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 40, bottom: 10),
+                    child: TextRoundButton(
+                      text: "START",
+                      enable: registerViewModel.isValid_uni(),
+                      call: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                AuthEmailLayout(viewmodel: registerViewModel),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  /*
                   StartButton(
                     viewmodel: registerViewModel,
                     isEnabled: registerViewModel.isValid_uni(),
-                  ),
+                  ),*/
                   const LoginButton(),
                 ],
               ),
