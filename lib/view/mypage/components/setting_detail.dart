@@ -1,9 +1,5 @@
 import 'package:firebase_login/API/firebaseAPI.dart';
-import 'package:firebase_login/components/theme.dart';
-import 'package:firebase_login/service/chatService.dart';
-import 'package:firebase_login/service/commentService.dart';
 import 'package:firebase_login/service/contentService.dart';
-import 'package:firebase_login/view/sell/sellView.dart';
 import 'package:firebase_login/view/start/startView.dart';
 
 import 'package:flutter/material.dart';
@@ -12,25 +8,15 @@ import 'package:firebase_login/service/userService.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'dart:async';
-import 'dart:io';
-import 'package:flutter/foundation.dart';
-
-import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:firebase_login/application_options.dart';
 
 // view model
-import 'package:firebase_login/viewModel/startViewModel.dart';
 import 'package:firebase_login/viewModel/homeViewModel.dart';
-import 'package:firebase_login/viewModel/loginViewModel.dart';
 import 'package:firebase_login/viewModel/mypageViewModel.dart';
 import 'package:firebase_login/viewModel/sellViewModel.dart';
 import 'package:firebase_login/viewModel/worldViewModel.dart';
 import 'package:firebase_login/viewModel/chatViewModel.dart';
-import 'package:firebase_login/viewModel/registerViewModel.dart';
 import 'package:firebase_login/service/alarmService.dart';
-import 'package:firebase_login/viewModel/mypageViewModel.dart';
-import 'package:firebase_login/viewModel/passwordViewModel.dart';
 import 'package:firebase_login/components/popup_widget.dart';
 import 'package:firebase_login/view/mypage/components/mypage_webview.dart';
 

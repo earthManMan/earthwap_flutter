@@ -7,7 +7,6 @@ import 'package:firebase_login/viewModel/worldViewModel.dart';
 import 'package:provider/provider.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'dart:async';
-import 'dart:math';
 
 class PostGridView extends StatefulWidget {
   List<PostItemModel> contents;

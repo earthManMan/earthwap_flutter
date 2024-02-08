@@ -1,5 +1,4 @@
 import 'dart:ui' as ui;
-import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:firebase_login/service/itemService.dart';
 import 'package:firebase_login/service/userService.dart';
 import 'package:firebase_login/viewModel/homeViewModel.dart';
@@ -16,12 +15,10 @@ import 'package:firebase_login/components/profile_image_widget.dart';
 import 'package:firebase_login/components/theme.dart';
 import 'package:firebase_login/components/common_components.dart';
 import 'package:firebase_login/model/homeModel.dart';
-//import 'package:extended_image/extended_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:firebase_login/components/user_profile_widget.dart';
 import 'package:firebase_login/service/alarmService.dart';
-import 'package:firebase_login/model/alarmModel.dart';
 import 'dart:async';
 
 class CombinedFlipAndSwipe extends StatefulWidget {

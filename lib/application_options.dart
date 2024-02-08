@@ -12,14 +12,6 @@ class RemoteConfigService {
   static final RemoteConfigService _instance =
       RemoteConfigService._privateConstructor();
 
-  // Callback to notify listeners about config changes
-  Function(Map<String, dynamic>)? _configChangeListener;
-
-  // Setter for the callback
-  void setConfigChangeListener(Function(Map<String, dynamic>) listener) {
-    _configChangeListener = listener;
-  }
-
   // Getter for the singleton instance
   static RemoteConfigService get instance => _instance;
   Future<bool> initialize() async {

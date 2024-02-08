@@ -1,6 +1,5 @@
 import 'package:firebase_login/viewModel/loginViewModel.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_login/components/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_login/view/login/components/loginComp.dart';
 import 'package:shared_preferences/shared_preferences.dart';

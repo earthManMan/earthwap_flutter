@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:firebase_login/model/postItemModel.dart';
 
 class ContentService with ChangeNotifier {
   List<String>? _contents;

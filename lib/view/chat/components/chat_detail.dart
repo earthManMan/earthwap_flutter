@@ -1,5 +1,4 @@
 import 'package:firebase_login/API/firebaseAPI.dart';
-import 'package:firebase_login/service/chatService.dart';
 import 'package:firebase_login/service/userService.dart';
 import 'package:firebase_login/viewModel/chatViewModel.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,6 @@ import 'package:firebase_login/components/user_profile_widget.dart';
 import 'package:firebase_login/components/theme.dart';
 
 import 'package:firebase_login/application_options.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class ChatRoomListView extends StatefulWidget {
   final Function(ChatRoom) updateChatRoom;

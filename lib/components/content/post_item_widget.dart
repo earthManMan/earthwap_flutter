@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:extended_image/extended_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_login/components/theme.dart';
 import 'package:firebase_login/model/postItemModel.dart';

@@ -1,6 +1,4 @@
-import 'package:firebase_login/view/world/components/world_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_login/viewModel/worldViewModel.dart';
 import 'package:firebase_login/model/postItemModel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cached_network_image/cached_network_image.dart';

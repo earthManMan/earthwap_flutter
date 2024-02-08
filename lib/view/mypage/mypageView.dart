@@ -1,18 +1,13 @@
-import 'dart:math';
-import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:firebase_login/components/item/image_grid_widget.dart';
 import 'package:firebase_login/components/content/post_grid_widget.dart';
-import 'package:firebase_login/model/homeModel.dart';
 import 'package:firebase_login/view/mypage/components/setting_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_login/components/theme.dart';
 import 'package:firebase_login/components/profile_image_widget.dart';
 import 'package:firebase_login/service/userService.dart';
-import 'package:firebase_login/view/mypage/components/setting_detail.dart';
 import 'package:firebase_login/view/mypage/components/mypage_detail.dart';
 import 'package:firebase_login/viewModel/mypageViewModel.dart';
-//import 'package:extended_image/extended_image.dart';
 import 'package:firebase_login/components/common_components.dart';
 
 class MypageView extends StatefulWidget {

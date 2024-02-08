@@ -1,15 +1,8 @@
-import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:firebase_login/viewModel/chatViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-// import model
-import 'package:firebase_login/model/chatModel.dart';
-
-// import controller
 import 'package:firebase_login/view/chat/components/chat_detail.dart';
 import 'package:firebase_login/components/common_components.dart';
-import 'package:firebase_login/service/userService.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});

@@ -3,7 +3,6 @@ import 'package:firebase_login/API/firebaseAPI.dart';
 
 import 'package:firebase_login/model/postItemModel.dart';
 import 'package:firebase_login/service/userService.dart';
-import 'package:intl/intl.dart';
 import 'dart:async';
 
 class CommentService {

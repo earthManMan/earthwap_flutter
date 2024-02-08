@@ -1,14 +1,10 @@
-import 'package:firebase_login/model/alarmModel.dart';
 import 'package:firebase_login/model/homeModel.dart';
 import 'package:firebase_login/service/alarmService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_login/view/home/components/home_detail.dart';
-import 'package:firebase_login/components/theme.dart';
 import 'package:firebase_login/viewModel/homeViewModel.dart';
-import 'package:flutter/material.dart';
-import 'package:badges/badges.dart' as badges;
 import 'package:firebase_login/components/category_widget.dart';
 import 'package:firebase_login/components/common_components.dart';
 import 'package:firebase_login/application_options.dart';

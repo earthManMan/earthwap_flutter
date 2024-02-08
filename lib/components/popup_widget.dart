@@ -1,9 +1,7 @@
-import 'package:firebase_login/model/sellModel.dart';
 import 'package:firebase_login/viewModel/sellViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_login/components/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_login/model/sellModel.dart';
 import 'package:provider/provider.dart';
 
 class KeyWordPopup extends Dialog {

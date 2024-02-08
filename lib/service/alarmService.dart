@@ -2,9 +2,7 @@ import 'package:firebase_login/service/userService.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_login/model/alarmModel.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 

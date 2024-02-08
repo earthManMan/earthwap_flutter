@@ -1,9 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_login/model/chatModel.dart';
-import 'package:flutter/foundation.dart';
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatService {
   StreamSubscription<DatabaseEvent>? _chatListener;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:extended_image/extended_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class ProfileImg extends StatelessWidget {
@@ -71,13 +70,6 @@ class ProfileImg extends StatelessWidget {
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
                   ),
-                  /*
-            ExtendedImage.network(
-              imageUrl,
-              width: width,
-              height: height,
-              fit: BoxFit.cover,
-            ),*/
                 ),
               ),
               onPressed: callback,

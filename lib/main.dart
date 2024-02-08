@@ -1,5 +1,4 @@
 // common
-
 import 'package:firebase_login/service/TrashPickupService.dart';
 import 'package:firebase_login/service/alarmService.dart';
 import 'package:firebase_login/service/contentService.dart';
@@ -26,7 +25,6 @@ import 'package:firebase_login/viewModel/passwordViewModel.dart';
 // View
 import 'package:firebase_login/view/splash/splashView.dart';
 import 'package:firebase_login/view/start/startView.dart';
-import 'dart:convert';
 import 'view/login/loginView.dart';
 import 'view/home/homeView.dart';
 import 'view/mypage/mypageView.dart';
@@ -38,9 +36,8 @@ import 'service/userService.dart';
 import 'service/itemService.dart';
 
 import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:firebase_login/application_options.dart';
-import 'package:device_preview/device_preview.dart';
+//import 'package:device_preview/device_preview.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class CustomImageCache extends WidgetsFlutterBinding {
@@ -72,9 +69,6 @@ void main() async {
   final remote = RemoteConfigService.instance;
   // initialize 메서드 호출 후 완료될 때까지 기다림
   bool initialized = await remote.initialize();
-
-  print("Complete");
-
   if (initialized) {
     print("Complete");
     runApp(MyApp());

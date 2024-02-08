@@ -1,12 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:firebase_login/service/chatService.dart';
 import 'package:firebase_login/service/userService.dart';
 import 'package:firebase_login/API/firebaseAPI.dart';
-import 'package:cryptography/cryptography.dart';
 import 'package:firebase_login/components/Encryptoring.dart';
 
 enum ChatMessageType {
