@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "655710366874",
+    "firebase_url": "https://earthuswap-dev-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "earthuswap-dev",
+    "storage_bucket": "earthuswap-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655710366874:android:3b0d4205afba17076e8323",
+        "android_client_info": {
+          "package_name": "com.example.firebase_login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655710366874-d27f7g55k7gmvquc03fa5rvdi5orjm78.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOhlnkGP_Ryeib6YGD-4LDJwL6OArRZLo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655710366874-d27f7g55k7gmvquc03fa5rvdi5orjm78.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "655710366874-kbu4ds8tg39s0sh9hknbcoroj35gn7h7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.firebaseLogin.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

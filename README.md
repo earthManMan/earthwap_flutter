@@ -1,2 +1,2 @@
-# earthwap_flutter
-earthwap
+# earthwap_app
+earthswap mobile application 
