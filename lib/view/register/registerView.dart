@@ -97,20 +97,8 @@ class _RegisterViewState extends State<RegisterView> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const SizedBox(height: 30),
-                  /* Padding(
-                    padding: const EdgeInsets.only(top: 30, bottom: 10),
-                    child: Center(
-                        child: Text(
-                      "WELCOME TO\n EARTHWAP!",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 40,
-                          color: ColorStyles.primary),
-                    )),
-                  ),*/
                   const Padding(
-                    padding: EdgeInsets.only(top: 10),
+                    padding: EdgeInsets.only(top: 40),
                     child: Center(
                         child: Text(
                       "재학중인 대학교를 입력해주세요!",
@@ -148,11 +136,6 @@ class _RegisterViewState extends State<RegisterView> {
                       },
                     ),
                   ),
-                  /*
-                  StartButton(
-                    viewmodel: registerViewModel,
-                    isEnabled: registerViewModel.isValid_uni(),
-                  ),*/
                   const LoginButton(),
                 ],
               ),
@@ -160,51 +143,6 @@ class _RegisterViewState extends State<RegisterView> {
           ),
         );
       },
-    );
-  }
-}
-
-class StartButton extends StatelessWidget {
-  final bool isEnabled;
-  final RegisterViewModel _registerViewModel;
-
-  const StartButton(
-      {required RegisterViewModel viewmodel, isEnabled, super.key})
-      : _registerViewModel = viewmodel,
-        isEnabled = isEnabled;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.8,
-      height: MediaQuery.of(context).size.height * 0.08,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: ColorStyles.primary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-        ),
-        onPressed: isEnabled
-            ? () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        AuthEmailLayout(viewmodel: _registerViewModel),
-                  ),
-                );
-              }
-            : null,
-        child: const Text(
-          'START',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            color: Color.fromARGB(255, 255, 255, 255),
-          ),
-        ),
-      ),
     );
   }
 }
@@ -341,6 +279,11 @@ class _UniInputState extends State<UniInput> {
             enableInteractiveSelection: true,
             controller: widget.textSearchController,
             onChanged: (query) {
+              if (widget.textSearchController.text.isEmpty) {
+                ViewModel.setUniversity("");
+                ViewModel.setDomain("");
+                isUniversitySelected = false;
+              }
               filterData(query);
             },
             decoration: InputDecoration(
@@ -357,6 +300,8 @@ class _UniInputState extends State<UniInput> {
                           isUniversitySelected = false;
                           selectedID = "";
                           widget.textSearchController.clear();
+                          ViewModel.setUniversity("");
+                          ViewModel.setDomain("");
                         });
                       },
                     )
