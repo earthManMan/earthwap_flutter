@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_login/viewModel/passwordViewModel.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_login/components/theme.dart';
+import 'package:firebase_login/components/popup_widget.dart';
 
 class PasswordView extends StatefulWidget {
   const PasswordView({super.key});
@@ -39,45 +41,60 @@ class _PasswordViewState extends State<PasswordView> {
             body: Padding(
               padding: const EdgeInsets.all(30.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   TextField(
+                    readOnly: emailVerified,
                     enableInteractiveSelection: true,
                     onChanged: (value) {
-                      passwordviewmodel.model.email = value;
+                      setState(() {
+                        passwordviewmodel.model.email = value;
+                      });
                     },
                     controller: emailController,
                     decoration: InputDecoration(
                       labelText: "이메일 주소",
-                      suffixIcon: emailController.text.isNotEmpty
-                          ? IconButton(
-                              icon: const Icon(Icons.clear),
-                              onPressed: () {
-                                emailController.clear();
-                              },
-                            )
-                          : null,
+                      suffixIcon:
+                          emailController.text.isNotEmpty && !emailVerified
+                              ? IconButton(
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: () {
+                                    setState(() {
+                                      emailController.clear();
+                                    });
+                                  },
+                                )
+                              : null,
                     ),
                   ),
                   const SizedBox(height: 20),
                   if (!emailVerified)
                     ElevatedButton(
-                        onPressed: () {
-                          passwordviewmodel.SendEmail().then((value) => {
-                                if (value)
-                                  {
-                                    setState(() {
-                                      emailVerified = true;
-                                    })
-                                  }
-                                else
-                                  {emailVerified = false}
-                              });
-                        },
+                        onPressed: emailController.text.isNotEmpty
+                            ? () async {
+                                passwordviewmodel
+                                    .resetPassword()
+                                    .then((value) => {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return CustomAlertDialog(
+                                                message: "이메일을 통해 비밀번호를 변경해주세요",
+                                                onConfirm: () => {
+                                                  Navigator.of(context).pop()
+                                                },
+                                                visibleCancel: false,
+                                                visibleConfirm: true,
+                                              );
+                                            },
+                                          )
+                                        });
+                              }
+                            : null,
                         style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorStyles.primary,
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(20.0), // 원하는 라운드 값으로 조정
+                            borderRadius: BorderRadius.circular(30.0),
                           ),
                         ),
                         child: SizedBox(
@@ -85,7 +102,7 @@ class _PasswordViewState extends State<PasswordView> {
                           height: 50,
                           child: const Center(
                               child: Text(
-                            "인증 메일 푸시",
+                            "비밀번호 변경",
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.white,
@@ -93,24 +110,43 @@ class _PasswordViewState extends State<PasswordView> {
                             ),
                           )),
                         )),
-                  if (emailVerified)
+                  /*if (emailVerified)
                     TextField(
                       enableInteractiveSelection: true,
                       controller: authCodeController,
                       decoration: const InputDecoration(labelText: "인증 코드"),
-                    ),
-                  if (emailVerified)
+                    ),*/
+                  /*if (emailVerified)
                     TextField(
                       enableInteractiveSelection: true,
                       controller: newPasswordController,
                       decoration: const InputDecoration(labelText: "새로운 비밀번호"),
-                    ),
+                    ),*/
                   if (emailVerified)
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorStyles.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
                       onPressed: () {
                         passwordviewmodel.resetPassword();
                       },
-                      child: const Text("확인"),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width - 20,
+                        height: 50,
+                        child: const Center(
+                          child: Text(
+                            "비밀번호 변경",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                 ],
               ),
