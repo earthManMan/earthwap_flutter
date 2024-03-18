@@ -22,6 +22,7 @@ import 'package:bootpay/model/user.dart';
 import 'package:firebase_login/application_options.dart';
 import 'package:firebase_login/components/common_components.dart';
 import 'package:firebase_login/components/content/post_grid_widget.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 String getCurrentTime(String seconds) {
   int unixSeconds = int.parse(seconds);
@@ -91,7 +92,7 @@ class _CommunityPageState extends State<CommunityPage> {
 
     return ViewModel.model.communityItemList.isEmpty
         ? _isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? Center(child: PlatformCircularProgressIndicator())
             : Center(child: Text('게시글이 없습니다.\n 게시글을 등록해주세요!'))
         : PostGridView(
             contents: ViewModel.model.communityItemList,
@@ -160,8 +161,8 @@ class _ReCyclePageState extends State<ReCyclePage> {
                     ),
                   ),
                 ),
-                placeholder: (context, url) => const Center(
-                  child: CircularProgressIndicator(),
+                placeholder: (context, url) =>  Center(
+                  child: PlatformCircularProgressIndicator(),
                 ),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               )),
@@ -179,8 +180,8 @@ class _ReCyclePageState extends State<ReCyclePage> {
                   ),
                 ),
               ),
-              placeholder: (context, url) => const Center(
-                child: CircularProgressIndicator(),
+              placeholder: (context, url) =>  Center(
+                child: PlatformCircularProgressIndicator(),
               ),
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
@@ -297,7 +298,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
         ),
         actions: [
           isRegisteringPost == true
-              ? CircularProgressIndicator()
+              ? PlatformCircularProgressIndicator()
               : TextButton(
                   onPressed: () async {
                     final content = ContentService.instance;

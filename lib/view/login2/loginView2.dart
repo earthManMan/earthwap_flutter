@@ -8,6 +8,7 @@ import 'package:firebase_login/view/login/components/loginComp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_login/viewModel/registerViewModel.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class LoginView2 extends StatefulWidget {
   const LoginView2({super.key});
@@ -131,7 +132,7 @@ class _LoginView2State extends State<LoginView2> {
                         SizedBox(
                           width: 50, // 원하는 너비로 설정
                           height: 50, // 원하는 높이로 설정
-                          child: CircularProgressIndicator(),
+                          child: PlatformCircularProgressIndicator(),
                         ),
                       ],
                     ),

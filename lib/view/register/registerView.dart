@@ -4,6 +4,7 @@ import 'package:firebase_login/viewModel/registerViewModel.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_login/view/register/components/register_detail.dart';
 import 'package:firebase_login/components/common_components.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -60,7 +61,7 @@ class _RegisterViewState extends State<RegisterView> {
                 image: AssetImage('assets/components/background.png'),
               ),
             ),
-            child: Center(child: CircularProgressIndicator()),
+            child: Center(child: PlatformCircularProgressIndicator()),
           );
         }
       },

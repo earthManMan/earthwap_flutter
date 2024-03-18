@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:firebase_login/components/item/image_detail_widget.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class ImageGridView extends StatefulWidget {
   List<ItemInfo> itemInfo;
@@ -80,8 +81,8 @@ class _ImageGridViewState extends State<ImageGridView> {
                       ),
                     ),
                   ),
-                  placeholder: (context, url) => const Center(
-                    child: CircularProgressIndicator(),
+                  placeholder: (context, url) => Center(
+                    child: PlatformCircularProgressIndicator(),
                   ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),

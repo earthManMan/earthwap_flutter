@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_login/model/mypageModel.dart';
 import 'package:firebase_login/components/user_profile_widget.dart';
 import 'package:firebase_login/components/common_components.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class PremiumPage extends StatelessWidget {
   bool isPremium;
@@ -617,8 +618,13 @@ class _TrashDetailPageState extends State<TrashDetailPage> {
                         });
                       },
                 child: _isLoading
-                    ? CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ? PlatformCircularProgressIndicator(
+                        material: (context, platform) {
+                          return MaterialProgressIndicatorData(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                          );
+                        },
                       )
                     : const Text(
                         '취소하기',

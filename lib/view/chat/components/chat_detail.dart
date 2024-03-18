@@ -16,6 +16,7 @@ import 'package:firebase_login/components/user_profile_widget.dart';
 import 'package:firebase_login/components/theme.dart';
 
 import 'package:firebase_login/application_options.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class ChatRoomListView extends StatefulWidget {
   final Function(ChatRoom) updateChatRoom;
@@ -212,8 +213,8 @@ class _CustomListItemState extends State<CustomListItem> {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
+                      placeholder: (context, url) =>  Center(
+                        child: PlatformCircularProgressIndicator(),
                       ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
@@ -422,8 +423,8 @@ class _NotificationMessageState extends State<NotificationMessage> {
                                       ),
                                     ),
                                   ),
-                                  placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator(),
+                                  placeholder: (context, url) =>  Center(
+                                    child: PlatformCircularProgressIndicator(),
                                   ),
                                   errorWidget: (context, url, error) =>
                                       const Icon(Icons.error),
@@ -466,8 +467,8 @@ class _NotificationMessageState extends State<NotificationMessage> {
                                         ),
                                       ),
                                     ),
-                                    placeholder: (context, url) => const Center(
-                                      child: CircularProgressIndicator(),
+                                    placeholder: (context, url) =>  Center(
+                                      child: PlatformCircularProgressIndicator(),
                                     ),
                                     errorWidget: (context, url, error) =>
                                         const Icon(Icons.error),
@@ -761,8 +762,8 @@ class _BottomInputFieldState extends State<BottomInputField> {
                       ),
                     ),
                   ),
-                  placeholder: (context, url) => const Center(
-                    child: CircularProgressIndicator(),
+                  placeholder: (context, url) =>  Center(
+                    child: PlatformCircularProgressIndicator(),
                   ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),

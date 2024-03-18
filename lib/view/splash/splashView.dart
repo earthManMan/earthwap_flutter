@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_login/application_options.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 //TODO : 디바이스에 저장 된 정보를 읽어 와서 초기 상태를 설정한다.
 // ex) user 로그인 정보 등등
@@ -60,8 +61,8 @@ class _SplashViewState extends State<SplashView> {
                 ),
               ),
             ),
-            placeholder: (context, url) => const Center(
-              child: CircularProgressIndicator(),
+            placeholder: (context, url) =>  Center(
+              child: PlatformCircularProgressIndicator(),
             ),
             errorWidget: (context, url, error) => const Icon(Icons.error),
           ),

@@ -16,6 +16,7 @@ import 'package:firebase_login/components/popup_widget.dart';
 import 'package:firebase_login/components/common_components.dart';
 import 'package:firebase_login/components/item/value_select_widget.dart';
 import 'package:firebase_login/API/firebaseAPI.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class EditItemPage extends StatefulWidget {
   ItemInfo itemInfo;
@@ -532,8 +533,8 @@ Widget getImageWidget(String imagePath) {
           ),
         ),
       ),
-      placeholder: (context, url) => const Center(
-        child: CircularProgressIndicator(),
+      placeholder: (context, url) =>  Center(
+        child: PlatformCircularProgressIndicator(),
       ),
       errorWidget: (context, url, error) => const Icon(Icons.error),
     );

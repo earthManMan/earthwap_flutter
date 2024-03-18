@@ -20,6 +20,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_login/components/user_profile_widget.dart';
 import 'package:firebase_login/service/alarmService.dart';
 import 'dart:async';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class CombinedFlipAndSwipe extends StatefulWidget {
   List<ItemInfo> items = [];
@@ -643,8 +644,8 @@ class FrontCard extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    placeholder: (context, url) => const Center(
-                                      child: CircularProgressIndicator(),
+                                    placeholder: (context, url) =>  Center(
+                                      child: PlatformCircularProgressIndicator(),
                                     ),
                                     errorWidget: (context, url, error) =>
                                         const Icon(Icons.error),
@@ -682,8 +683,8 @@ class FrontCard extends StatelessWidget {
                                           ),
                                         ),
                                         placeholder: (context, url) =>
-                                            const Center(
-                                          child: CircularProgressIndicator(),
+                                             Center(
+                                          child: PlatformCircularProgressIndicator(),
                                         ),
                                         errorWidget: (context, url, error) =>
                                             const Icon(Icons.error),

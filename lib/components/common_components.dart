@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_login/application_options.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 // 하단에 잠시 출력 되었다가 사라지는 Widget
 void showSnackbar(BuildContext context, String message) {
@@ -296,8 +297,8 @@ class _BottomInputFieldState extends State<BottomInputField> {
                       ),
                     ),
                   ),
-                  placeholder: (context, url) => const Center(
-                    child: CircularProgressIndicator(),
+                  placeholder: (context, url) =>  Center(
+                    child: PlatformCircularProgressIndicator(),
                   ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),

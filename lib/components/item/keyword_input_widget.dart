@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_login/components/theme.dart';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class KeyWordInputButton extends StatelessWidget {
   final String text;
@@ -235,8 +236,8 @@ class _KeywordWorkPageState extends State<KeywordWorkPage> {
             ),
           ),
         ),
-        placeholder: (context, url) => const Center(
-          child: CircularProgressIndicator(),
+        placeholder: (context, url) => Center(
+          child: PlatformCircularProgressIndicator(),
         ),
         errorWidget: (context, url, error) => const Icon(Icons.error),
       );

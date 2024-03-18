@@ -5,6 +5,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:io';
 import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:firebase_login/service/userService.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class EditPostPage extends StatefulWidget {
   final PostItemModel post; // Assuming you have a Post model class
@@ -216,8 +218,8 @@ class _EditPostPageState extends State<EditPostPage> {
             ),
           ),
         ),
-        placeholder: (context, url) => const Center(
-          child: CircularProgressIndicator(),
+        placeholder: (context, url) =>  Center(
+          child: PlatformCircularProgressIndicator(),
         ),
         errorWidget: (context, url, error) => const Icon(Icons.error),
       );

@@ -9,6 +9,7 @@ import 'package:firebase_login/viewModel/mypageViewModel.dart';
 
 import 'package:firebase_login/application_options.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class CommentWidget extends StatefulWidget {
   final CommentModel comment;
@@ -218,8 +219,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                         ),
                       ),
                     ),
-                    placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(),
+                    placeholder: (context, url) =>  Center(
+                      child: PlatformCircularProgressIndicator(),
                     ),
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),

@@ -3,6 +3,7 @@ import 'package:firebase_login/components/theme.dart';
 import 'package:firebase_login/components/common_components.dart';
 import 'package:firebase_login/viewModel/loginViewModel.dart';
 import 'package:firebase_login/components/popup_widget.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class EmailInput extends StatelessWidget {
   final LoginViewModel _viewmodel;
@@ -126,8 +127,12 @@ class _LoginButtonState extends State<LoginButton> {
                 }
               },
         child: _isLoading
-            ? CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            ? PlatformCircularProgressIndicator(
+                material: (context, platform) {
+                  return MaterialProgressIndicatorData(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  );
+                },
               )
             : const Text(
                 '로그인',

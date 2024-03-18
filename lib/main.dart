@@ -307,8 +307,8 @@ class _MainScreensState extends State<MainScreens> {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
+                      placeholder: (context, url) => Center(
+                        child: PlatformCircularProgressIndicator(),
                       ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
@@ -326,8 +326,8 @@ class _MainScreensState extends State<MainScreens> {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
+                      placeholder: (context, url) =>  Center(
+                        child: PlatformCircularProgressIndicator(),
                       ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
@@ -349,8 +349,8 @@ class _MainScreensState extends State<MainScreens> {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
+                      placeholder: (context, url) =>  Center(
+                        child: PlatformCircularProgressIndicator(),
                       ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
@@ -368,8 +368,8 @@ class _MainScreensState extends State<MainScreens> {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
+                      placeholder: (context, url) =>  Center(
+                        child: PlatformCircularProgressIndicator(),
                       ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
@@ -391,8 +391,8 @@ class _MainScreensState extends State<MainScreens> {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
+                      placeholder: (context, url) =>  Center(
+                        child: PlatformCircularProgressIndicator(),
                       ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
@@ -410,8 +410,8 @@ class _MainScreensState extends State<MainScreens> {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
+                      placeholder: (context, url) =>  Center(
+                        child: PlatformCircularProgressIndicator(),
                       ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
@@ -433,8 +433,8 @@ class _MainScreensState extends State<MainScreens> {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
+                      placeholder: (context, url) =>  Center(
+                        child: PlatformCircularProgressIndicator(),
                       ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
@@ -452,8 +452,8 @@ class _MainScreensState extends State<MainScreens> {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
+                      placeholder: (context, url) =>  Center(
+                        child: PlatformCircularProgressIndicator(),
                       ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
@@ -475,8 +475,8 @@ class _MainScreensState extends State<MainScreens> {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
+                      placeholder: (context, url) =>  Center(
+                        child: PlatformCircularProgressIndicator(),
                       ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
@@ -494,8 +494,8 @@ class _MainScreensState extends State<MainScreens> {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
+                      placeholder: (context, url) =>  Center(
+                        child: PlatformCircularProgressIndicator(),
                       ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),

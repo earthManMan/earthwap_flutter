@@ -5,6 +5,7 @@ import 'package:firebase_login/viewModel/registerViewModel.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_login/components/common_components.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class RegisterView2 extends StatefulWidget {
   const RegisterView2({Key? key}) : super(key: key);
@@ -168,7 +169,7 @@ class _RegisterView2State extends State<RegisterView2> {
                   Padding(
                     padding: const EdgeInsets.only(top: 40, bottom: 10),
                     child: _isLoading
-                        ? const CircularProgressIndicator()
+                        ?  PlatformCircularProgressIndicator()
                         : TextRoundButton(
                             text: _isAuthCodeInput
                                 ? "인증 코드 확인"

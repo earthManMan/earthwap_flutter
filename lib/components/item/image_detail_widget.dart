@@ -8,6 +8,7 @@ import 'package:firebase_login/components/common_components.dart';
 import 'package:firebase_login/components/item/edit_item_widget.dart';
 import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:firebase_login/service/userService.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class ImageDetailPage extends StatefulWidget {
   ItemInfo info;
@@ -160,7 +161,7 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
             ),
           ),
           placeholder: (context, url) => Center(
-            child: CircularProgressIndicator(),
+            child: PlatformCircularProgressIndicator(),
           ),
           errorWidget: (context, url, error) => Icon(Icons.error),
         ),

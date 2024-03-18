@@ -11,6 +11,7 @@ import 'package:firebase_login/components/profile_image_widget.dart';
 import 'package:firebase_login/model/postItemModel.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_login/components/common_components.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class UserProfile extends StatefulWidget {
   final String uid;
@@ -198,8 +199,8 @@ class _UserProfileState extends State<UserProfile>
                       fontSize: 20,
                       fontWeight: FontWeight.bold)),
             ),
-            body: const Center(
-              child: CircularProgressIndicator(),
+            body:  Center(
+              child: PlatformCircularProgressIndicator(),
             ),
           );
         }

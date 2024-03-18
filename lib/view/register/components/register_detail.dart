@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_login/components/theme.dart';
 import 'package:firebase_login/viewModel/registerViewModel.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class AuthEmailLayout extends StatefulWidget {
   final RegisterViewModel _viewModel;
@@ -156,10 +157,14 @@ class _EmailSendButtonState extends State<EmailSendButton> {
         ),
         onPressed: widget.isEnabled ? _onPressed : null,
         child: isSending
-            ? CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  Color.fromARGB(255, 255, 255, 255),
-                ),
+            ? PlatformCircularProgressIndicator(
+                material: (context, platform) {
+                  return MaterialProgressIndicatorData(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Color.fromARGB(255, 255, 255, 255),
+                    ),
+                  );
+                },
               )
             : const Text(
                 '인증 메일 받기',

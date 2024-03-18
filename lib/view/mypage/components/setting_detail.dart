@@ -19,6 +19,7 @@ import 'package:firebase_login/viewModel/chatViewModel.dart';
 import 'package:firebase_login/service/alarmService.dart';
 import 'package:firebase_login/components/popup_widget.dart';
 import 'package:firebase_login/view/mypage/components/mypage_webview.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class settingLayout extends StatefulWidget {
   const settingLayout({super.key});
@@ -513,7 +514,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
           errorMessage.isEmpty
               ? !isReady
                   ? Center(
-                      child: CircularProgressIndicator(),
+                      child: PlatformCircularProgressIndicator(),
                     )
                   : Container()
               : Center(
