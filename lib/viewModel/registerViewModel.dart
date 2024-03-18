@@ -1,6 +1,7 @@
 import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_login/model/registerModel.dart';
+import 'package:firebase_login/service/alarmService.dart';
 
 class RegisterViewModel extends ChangeNotifier {
   final RegisterModel _model;
@@ -71,6 +72,12 @@ class RegisterViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Auth Key Confirmation Setter
+  void setphoneNumber(String number) {
+    _model.phone = number;
+    notifyListeners();
+  }
+
   Future<bool> isValidDomain(String domain) async {
     final api = FirebaseAPI();
 
@@ -106,12 +113,54 @@ class RegisterViewModel extends ChangeNotifier {
     }
   }
 
-  Future<bool> registerUser() async {
+  Future<void> PhoneCodeSendButtonPressed() async {
+    _model.verificationId = "";
+    final api = FirebaseAPI();
+    await api.verifyPhoneNumber(
+      _model.phone.toString(),
+      (p0, p1) {
+        _model.verificationId = p0.toString();
+      },
+    );
+  }
+
+  Future<bool> signInWithSMSCode(String sms) async {
     final api = FirebaseAPI();
 
-    final result = await api.registerUserOnCallFunction(
-        _model.email, _model.password, _model.authCode, _model.university);
-    return result;
+    final result =
+        await api.checkSMSCode(_model.verificationId, sms.toString());
+    if (result != null) {
+      _model.uid = result.user!.uid;
+      print(result.user!.uid);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<RegistrationStatus> registerUser() async {
+    final api = FirebaseAPI();
+    final alarm = AlarmService.instance;
+
+    // 현재 로그인 된 Auth Logout
+    await api.logout();
+    // 계정 생성 후 삭제
+      final result = await api.registerUserWithPhone(
+          _model.uid, _model.phone, alarm.fcmToken.toString());
+    if (result) {
+      final delete = await api.deleteUserFromPhnoeAuth(_model.uid, _model.phone);
+      if (delete)
+      {
+        print("계정 생성 성공!");
+        return RegistrationStatus.success;
+      }else{
+        print("계정 삭제 실패!");
+        return RegistrationStatus.deleted;
+      }
+    } else {
+      print("계정 생성 실패!");
+        return RegistrationStatus.registered;
+    }
   }
 
   void clearModel() {

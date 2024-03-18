@@ -1,3 +1,9 @@
+enum RegistrationStatus {
+  registered, // user 생성 실패 
+  deleted, // Phone User 삭제 실패 
+  success,
+}
+
 class RegisterModel {
   String _university = "";
   String _domain = "";
@@ -5,7 +11,11 @@ class RegisterModel {
   String _password = "";
   String _passwordConfirm = "";
   String _authKey = "";
+  String _verificationId = "";
   String _authKeyConfirm = "";
+  String _phoneNumber = "";
+  String _uid = "";
+
   bool _authCode = false;
   List<Map<String, String>> _universityList = [];
 
@@ -44,6 +54,10 @@ class RegisterModel {
   set passwordConfirm(String value) {
     _passwordConfirm = value;
   }
+  String get verificationId => _verificationId;
+  set verificationId(String value) {
+    _verificationId = value;
+  }
 
   // Auth Key
   String get authKey => _authKey;
@@ -63,15 +77,29 @@ class RegisterModel {
     _authCode = value;
   }
 
+  String get phone => _phoneNumber;
+  set phone(String value) {
+    _phoneNumber = value;
+  }
+
+  String get uid => _uid;
+  set uid(String value) {
+    _uid = value;
+  }
+
   void clearModel() {
     _university = "";
     _domain = "";
     _email = "";
     _password = "";
     _passwordConfirm = "";
+    _verificationId = "";
     _authKey = "";
     _authKeyConfirm = "";
     _authCode = false;
+    phone = "";
+    uid = "";
+
     _universityList = [];
   }
 }

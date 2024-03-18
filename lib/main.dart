@@ -1,9 +1,19 @@
+import 'package:firebase_login/app/thema/android_thema.dart';
+import 'package:firebase_login/app/thema/ios_thema.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
 // common
 import 'package:firebase_login/service/TrashPickupService.dart';
 import 'package:firebase_login/service/alarmService.dart';
 import 'package:firebase_login/service/contentService.dart';
 import 'package:firebase_login/service/matchService.dart';
 import 'package:firebase_login/view/chat/chatView.dart';
+import 'package:firebase_login/view/login2/loginView2.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
+import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,11 +44,13 @@ import 'view/register/registerView.dart';
 import 'view/password/passwordView.dart';
 import 'service/userService.dart';
 import 'service/itemService.dart';
+import 'view/register2/registerView2.dart';
 
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_login/application_options.dart';
-//import 'package:device_preview/device_preview.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_login/view/register2/importView.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomImageCache extends WidgetsFlutterBinding {
   @override
@@ -52,6 +64,10 @@ class CustomImageCache extends WidgetsFlutterBinding {
 }
 
 void main() async {
+  // Initialize Locale
+  await initializeDateFormatting();
+  Intl.defaultLocale = 'ko_KR';
+
   // 캐싱 작업
   CustomImageCache();
 
@@ -71,7 +87,7 @@ void main() async {
   bool initialized = await remote.initialize();
   if (initialized) {
     print("Complete");
-    runApp(MyApp());
+    runApp(MainApp());
   } else {
     print("Initialization failed");
   }
@@ -86,8 +102,8 @@ void main() async {
   );*/
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MainApp extends StatelessWidget {
+  MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -101,76 +117,91 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<StartViewModel>(
-          create: (_) =>
-              StartViewModel.initialize(), // StartViewModel을 초기화하여 생성
+          create: (_) => StartViewModel.initialize(),
           child: const StartView(),
         ),
         ChangeNotifierProvider<LoginViewModel>(
-          create: (_) => LoginViewModel.initialize(
-              userService), // StartViewModel을 초기화하여 생성
-          child: const LoginView(),
+          create: (_) => LoginViewModel.initialize(userService),
+          child: const LoginView2(),
         ),
         ChangeNotifierProvider<HomeViewModel>(
-          create: (_) => HomeViewModel.initialize(userService, itemService,
-              alarmService), // StartViewModel을 초기화하여 생성
+          create: (_) => HomeViewModel.initialize(
+            userService,
+            itemService,
+            alarmService,
+          ),
           child: const HomeView(),
         ),
         ChangeNotifierProvider<MypageViewModel>(
-          create: (_) => MypageViewModel.initialize(userService, itemService,
-              contentService, pickupService), // StartViewModel을 초기화하여 생성
+          create: (_) => MypageViewModel.initialize(
+            userService,
+            itemService,
+            contentService,
+            pickupService,
+          ),
           child: const MypageView(),
         ),
         ChangeNotifierProvider<WorldViewModel>(
-          create: (_) => WorldViewModel.initialize(
-              userService), // StartViewModel을 초기화하여 생성
+          create: (_) => WorldViewModel.initialize(userService),
           child: WorldView(),
         ),
         ChangeNotifierProvider<SellViewModel>(
-          create: (_) =>
-              SellViewModel.initialize(userService), // StartViewModel을 초기화하여 생성
+          create: (_) => SellViewModel.initialize(userService),
           child: const SellView(),
         ),
         ChangeNotifierProvider<ChatViewModel>(
           create: (_) => ChatViewModel.initialize(
-              userService, matchService), // StartViewModel을 초기화하여 생성
+            userService,
+            matchService,
+          ),
           child: const ChatView(),
         ),
         ChangeNotifierProvider<RegisterViewModel>(
-          create: (_) =>
-              RegisterViewModel.initialize(), // StartViewModel을 초기화하여 생성
-          child: const RegisterView(),
+          create: (_) => RegisterViewModel.initialize(),
+          child: const RegisterView2(),
         ),
         ChangeNotifierProvider<PasswordViewModel>(
-          create: (_) =>
-              PasswordViewModel.initialize(), // StartViewModel을 초기화하여 생성
+          create: (_) => PasswordViewModel.initialize(),
           child: const PasswordView(),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'EarthWap',
-        routes: {
-          '/splash': (context) => const SplashView(),
-          '/start': (context) => const StartView(),
-          '/registerAuth': (context) => const RegisterView(),
-          '/login': (context) => const LoginView(),
-          '/main': (context) => const MainScreens(),
-          '/mypage': (context) => const MypageView(),
-          '/password': (context) => const PasswordView(),
+      child: ScreenUtilInit(
+        designSize: const Size(390, 844),
+        minTextAdapt: true, // 텍스트 크기를 자동으로 조절하여 화면에 맞추는 기능을 활성화
+        useInheritedMediaQuery: true, // 분활 화면 모드를 활성화
+        builder: (_, child) {
+          return PlatformTheme(
+            themeMode: ThemeMode.light,
+            materialLightTheme: AndroidAppThema().themeData(),
+            materialDarkTheme: AndroidAppThema().themeData(),
+            cupertinoLightTheme: IosAppThema().themeData(),
+            cupertinoDarkTheme: IosAppThema().themeData(),
+            matchCupertinoSystemChromeBrightness: true,
+            builder: (context) => PlatformApp(
+              debugShowCheckedModeBanner: false,
+              localizationsDelegates: <LocalizationsDelegate<dynamic>>[
+                DefaultMaterialLocalizations.delegate,
+                DefaultWidgetsLocalizations.delegate,
+                DefaultCupertinoLocalizations.delegate,
+              ],
+              title: 'EarthWap',
+              routes: {
+                '/': (BuildContext context) {
+                  return SplashView();
+                },
+                '/splash': (context) => const SplashView(),
+                '/start': (context) => const StartView(),
+                '/registerAuth': (context) => const RegisterView2(),
+                '/login': (context) => const LoginView2(),
+                '/main': (context) => const MainScreens(),
+                '/mypage': (context) => const MypageView(),
+                '/password': (context) => const PasswordView(),
+                '/auth': (context) => Certification(),
+              },
+              initialRoute: '/splash',
+            ),
+          );
         },
-        theme: ThemeData(
-          // Define the default font family.
-          fontFamily: 'SUIT',
-          colorScheme:
-              const ColorScheme.highContrastDark(primary: ColorStyles.primary),
-          textTheme: const TextTheme(
-            displayLarge: TextStyle(fontSize: 24.0, fontFamily: "SUIT"),
-            titleLarge: TextStyle(fontSize: 14.0, fontFamily: "SUIT"),
-            bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Syncopate'),
-            labelLarge: TextStyle(fontSize: 14.0, fontFamily: "SUIT"),
-          ),
-        ),
-        initialRoute: '/splash',
       ),
     );
   }

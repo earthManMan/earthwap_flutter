@@ -70,9 +70,9 @@ class _MypageViewState extends State<MypageView>
 
     return Consumer<MypageViewModel>(
         builder: (context, mypageViewModel, child) {
-      if (initMyPage == false && userService.nickname!.isEmpty) {
+      /*if (initMyPage == false && userService.nickname!.isEmpty) {
         return const Center(child: CircularProgressIndicator());
-      }
+      }*/
 
       fllowListen();
 

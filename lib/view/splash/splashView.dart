@@ -24,7 +24,7 @@ class _SplashViewState extends State<SplashView> {
 
       Timer(const Duration(milliseconds: 3000), () {
         // Start View로 이동
-        Navigator.of(context).pushNamed('/start');
+        Navigator.of(context).pushNamed("/start");
       });
     }
   }
