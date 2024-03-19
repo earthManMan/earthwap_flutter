@@ -22,7 +22,7 @@ import 'app/config/firebase_options.dart';
 import 'package:firebase_login/presentation/components/theme.dart';
 
 // view model
-import 'package:firebase_login/presentation/start/startViewModel.dart';
+
 import 'package:firebase_login/presentation/home/homeViewModel.dart';
 import 'package:firebase_login/presentation/login/loginViewModel.dart';
 import 'package:firebase_login/presentation/mypage/mypageViewModel.dart';

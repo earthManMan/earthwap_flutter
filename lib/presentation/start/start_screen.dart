@@ -5,6 +5,7 @@ import 'package:firebase_login/presentation/components/common_components.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_login/app/style/app_color.dart';
 import 'package:firebase_login/app/config/remote_options.dart';
+import 'package:firebase_login/presentation/common/login_button.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
@@ -69,7 +70,7 @@ class _StartScreenState extends State<StartScreen> {
                   children: <Widget>[
                     _buildPages(),
                     _registerbutton(),
-                    _loginbutton(),
+                    const LoginButton(),
                   ],
                 ),
               ),
@@ -172,32 +173,5 @@ class _StartScreenState extends State<StartScreen> {
             Navigator.of(context).pushNamed('/registerAuth');
           },
         ));
-  }
-
-  Widget _loginbutton() {
-    return Padding(
-        padding: EdgeInsets.only(top: 10, bottom: 10),
-        child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text('이미 계정이 있으신가요? 바로',
-                      style: TextStyle(color: AppColor.text)),
-                  Container(
-                    alignment: Alignment.centerRight,
-                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: TextButton(
-                        onPressed: () {
-                          // Login Page로 이동
-                          Navigator.of(context).pushNamed('/login');
-                        },
-                        child: const Text('로그인하세요',
-                            style: TextStyle(
-                                fontFamily: "SUIT",
-                                fontWeight: FontWeight.bold,
-                                color: AppColor.primary))),
-                  )
-                ])));
   }
 }
