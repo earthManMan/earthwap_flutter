@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:firebase_login/viewModel/sellViewModel.dart';
+import 'package:firebase_login/presentation/sell/sellViewModel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';

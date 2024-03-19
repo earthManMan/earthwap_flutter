@@ -1,12 +1,10 @@
 import 'dart:io';
-
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:firebase_login/app/config/app_const.dart';
 
 class EmailUtil {
-  final List<String> _recipients = [AppConst.ticatsEmail];
+  final List<String> _recipients = ["earthswap2023@gmail.com"];
 
   Future<void> sendInqueryEmail() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
