@@ -26,19 +26,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isLoading = false;
   bool _isvalid = false;
 
-  void _checkPhoneValidity(String value, RegisterViewModel registerViewModel) {
-    setState(() {
-      _isvalid = isPhoneValid(value);
-      registerViewModel.model.phone = '+82' + value.substring(1);
-    });
+  String _phonenumber = "";
+  String _authcode = "";
+
+  void _checkPhoneValidity(String value) {
+    if (value.isNotEmpty) {
+      setState(() {
+        _isvalid = isPhoneValid(value);
+        _phonenumber = '+82' + value.substring(1);
+      });
+    }
   }
 
-  void _checkPasswordValidity(
-      String value, RegisterViewModel registerViewModel) {
-    setState(() {
-      _isvalid = value.length >= 6;
-      registerViewModel.model.password = value;
-    });
+  Widget _buildTitle() {
+    return Padding(
+      padding: EdgeInsets.only(top: 40),
+      child: Center(
+        child: Text(
+          _isphoneInput
+              ? "휴대폰 번호로 가입해주세요."
+              : _isAuthCodeInput
+                  ? "인증코드를 입력 해주세요."
+                  : "",
+          style: TextStyle(
+            fontSize: 20,
+            color: AppColor.grayF9,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -55,7 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: PlatformScaffold(
         appBar: PlatformAppBar(
           backgroundColor: Colors.transparent,
-          leading: IconButton(
+          leading: PlatformIconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.of(context).pop();
@@ -64,8 +80,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           material: (context, platform) {
             return MaterialAppBarData(
                 iconTheme: const IconThemeData(
-              color: Color.fromARGB(255, 240, 244, 248),
+              color: AppColor.grayF9,
             ));
+          },
+          cupertino: (context, platform) {
+            return CupertinoNavigationBarData(
+              backgroundColor: AppColor.grayF9,
+            );
           },
         ),
         backgroundColor: Colors.transparent,
@@ -73,163 +94,142 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Padding(
-                padding: EdgeInsets.only(top: 40),
-                child: Center(
-                  child: Text(
-                    _isphoneInput
-                        ? "휴대폰 번호로 가입해주세요."
-                        : _isAuthCodeInput
-                            ? "인증코드를 입력 해주세요."
-                            : "",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: AppColor.grayF9,
-                    ),
-                  ),
-                ),
-              ),
-              if (_isphoneInput)
-                Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: PlatformTextField(
-                    keyboardType: TextInputType.number,
-                    keyboardAppearance: Brightness.dark, // Add this line
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly,
-                      // You can add more formatters if needed
-                    ],
-                    onChanged: _isphoneInput
-                        ? (value) => _checkPhoneValidity(value, viewmodel)
-                        : null,
-                    enableInteractiveSelection: _isphoneInput,
-                    controller: _phoneController,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: AppColor.grayF9,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    hintText: "휴대폰 번호(- 없이 숫자만 입력)",
-                    material: (context, platform) {
-                      return MaterialTextFieldData(
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(7.0)),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              if (_isAuthCodeInput)
-                Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: PlatformTextField(
-                    keyboardType: TextInputType.number,
-                    keyboardAppearance: Brightness.dark, // Add this line
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly,
-                      // You can add more formatters if needed
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        if (_authController.text.isNotEmpty)
-                          _isvalid = true;
-                        else {
-                          _isvalid = false;
-                        }
-                      });
-                    },
-                    enableInteractiveSelection: _isAuthCodeInput,
-                    controller: _authController,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: AppColor.grayF9,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    hintText: "인증코드",
-                    material: (context, platform) {
-                      return MaterialTextFieldData(
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(7.0)),
-                          ),
-                          errorText: _isvalid ? null : '인증번호가 일치하지 않습니다.',
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              Padding(
-                padding: const EdgeInsets.only(top: 40, bottom: 10),
-                child: _isLoading
-                    ? PlatformCircularProgressIndicator()
-                    : TextRoundButton(
-                        text: _isAuthCodeInput ? "인증 코드 확인" : "인증 문자 받기",
-                        enable: _isvalid,
-                        call: () async {
-                          if (_isphoneInput) {
-                            setState(() {
-                              _isLoading = true;
-                            });
-
-                            try {
-                              await viewmodel.PhoneCodeSendButtonPressed();
-
-                              setState(() {
-                                _isphoneInput = false;
-                                _isLoading = false;
-                                _isvalid = false;
-                                _isAuthCodeInput = true;
-                              });
-                            } catch (error) {
-                              setState(() {
-                                _isLoading = false;
-                                _isAuthCodeInput = false;
-                                _isvalid = false;
-                                print(
-                                    "sendEmailVerification failed with error: $error");
-                              });
-                            }
-                          } else if (_isAuthCodeInput) {
-                            setState(() {
-                              _isLoading = true;
-                            });
-                            final check = await viewmodel.signInWithSMSCode(
-                                _authController.text.toString());
-                            if (check) {
-                              final register = await viewmodel.registerUser();
-                              if (register == RegistrationStatus.success) {
-                                Navigator.pushReplacementNamed(
-                                    context, '/login');
-                              } else if (register ==
-                                  RegistrationStatus.deleted) {
-                                Navigator.pushReplacementNamed(
-                                    context, '/login');
-                              } else if (register ==
-                                  RegistrationStatus.registered) {
-                                setState(() {
-                                  _isLoading = false;
-                                });
-                                showSnackbar(context, "계정 생성 실패 했습니다.");
-                              }
-                            } else {
-                              setState(() {
-                                _isLoading = false;
-                              });
-                              showSnackbar(context, "인증 코드를 다시 확인해주세요.");
-                            }
-                          }
-                        },
-                      ),
-              ),
+              _buildTitle(),
+              if (_isphoneInput) _buildPhoneInput(),
+              if (_isAuthCodeInput) _buildAuthCodeInput(),
+              _buildRegisterButton(viewmodel),
               const LoginButton(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildPhoneInput() {
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: TextField(
+        keyboardType: TextInputType.number,
+        keyboardAppearance: Brightness.dark, // Add this line
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly,
+          // You can add more formatters if needed
+        ],
+        onChanged: _isphoneInput ? (value) => _checkPhoneValidity(value) : null,
+        enableInteractiveSelection: _isphoneInput,
+        controller: _phoneController,
+        style: const TextStyle(
+          fontSize: 16,
+          color: AppColor.grayF9,
+          fontWeight: FontWeight.bold,
+        ),
+        decoration: InputDecoration(
+          hintText: "휴대폰 번호(- 없이 숫자만 입력)",
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(7.0)),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAuthCodeInput() {
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: TextField(
+        keyboardType: TextInputType.number,
+        keyboardAppearance: Brightness.dark, // Add this line
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly,
+          // You can add more formatters if needed
+        ],
+        onChanged: (value) {
+          setState(() {
+            if (_authController.text.isNotEmpty) {
+              _isvalid = true;
+              _authcode = _authController.text.toString();
+            } else {
+              _isvalid = false;
+              _authcode = "";
+            }
+          });
+        },
+        enableInteractiveSelection: _isAuthCodeInput,
+        controller: _authController,
+        style: const TextStyle(
+          fontSize: 16,
+          color: AppColor.grayF9,
+          fontWeight: FontWeight.bold,
+        ),
+        decoration: InputDecoration(
+          hintText: "인증코드",
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(7.0)),
+          ),
+          errorText: _isvalid ? null : '인증번호가 일치하지 않습니다.',
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRegisterButton(RegisterViewModel viewmodel) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 40, bottom: 10),
+      child: _isLoading
+          ? PlatformCircularProgressIndicator()
+          : TextRoundButton(
+              text: _isAuthCodeInput ? "인증 코드 확인" : "인증 문자 받기",
+              enable: _isvalid,
+              call: () async {
+                if (_isphoneInput) {
+                  setState(() {
+                    _isLoading = true;
+                  });
+
+                  try {
+                    await viewmodel.PhoneCodeSendButtonPressed(_phonenumber);
+
+                    setState(() {
+                      _isphoneInput = false;
+                      _isLoading = false;
+                      _isvalid = false;
+                      _isAuthCodeInput = true;
+                    });
+                  } catch (error) {
+                    setState(() {
+                      _isLoading = false;
+                      _isAuthCodeInput = false;
+                      _isvalid = false;
+                      print("sendEmailVerification failed with error: $error");
+                    });
+                  }
+                } else if (_isAuthCodeInput) {
+                  setState(() {
+                    _isLoading = true;
+                  });
+                  final check = await viewmodel.signInWithSMSCode(_authcode);
+                  if (check) {
+                    final register = await viewmodel.registerUser(_phonenumber);
+                    if (register == RegistrationStatus.success) {
+                      Navigator.pushReplacementNamed(context, '/login');
+                    } else if (register == RegistrationStatus.deleted) {
+                      Navigator.pushReplacementNamed(context, '/login');
+                    } else if (register == RegistrationStatus.registered) {
+                      setState(() {
+                        _isLoading = false;
+                      });
+                      showSnackbar(context, "계정 생성 실패 했습니다.");
+                    }
+                  } else {
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    showSnackbar(context, "인증 코드를 다시 확인해주세요.");
+                  }
+                }
+              },
+            ),
     );
   }
 }

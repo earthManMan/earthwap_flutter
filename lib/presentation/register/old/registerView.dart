@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_login/presentation/components/theme.dart';
 import 'package:firebase_login/presentation/register/registerViewModel.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_login/presentation/register/components/register_detail.dart';
+import 'package:firebase_login/presentation/register/old/register_detail.dart';
 import 'package:firebase_login/presentation/components/common_components.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 

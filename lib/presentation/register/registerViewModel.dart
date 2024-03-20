@@ -113,11 +113,11 @@ class RegisterViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> PhoneCodeSendButtonPressed() async {
+  Future<void> PhoneCodeSendButtonPressed(String number) async {
     _model.verificationId = "";
     final api = FirebaseAPI();
     await api.verifyPhoneNumber(
-      _model.phone.toString(),
+      number,
       (p0, p1) {
         _model.verificationId = p0.toString();
       },
@@ -138,28 +138,32 @@ class RegisterViewModel extends ChangeNotifier {
     }
   }
 
-  Future<RegistrationStatus> registerUser() async {
+  Future<RegistrationStatus> registerUser(String number) async {
     final api = FirebaseAPI();
     final alarm = AlarmService.instance;
 
     // 현재 로그인 된 Auth Logout
     await api.logout();
     // 계정 생성 후 삭제
-      final result = await api.registerUserWithPhone(
-          _model.uid, _model.phone, alarm.fcmToken.toString());
+    final result = await api.registerUserWithPhone(
+        _model.uid, number, alarm.fcmToken.toString());
     if (result) {
-      final delete = await api.deleteUserFromPhnoeAuth(_model.uid, _model.phone);
-      if (delete)
-      {
+      final delete = await api.deleteUserFromPhnoeAuth(_model.uid, number);
+      if (delete) {
         print("계정 생성 성공!");
         return RegistrationStatus.success;
-      }else{
+      } else {
         print("계정 삭제 실패!");
         return RegistrationStatus.deleted;
       }
     } else {
+      final delete = await api.deleteUserFromPhnoeAuth(_model.uid, number);
+      if (!delete) {
+        print("계정 삭제 실패!");
+        return RegistrationStatus.deleted;
+      }
       print("계정 생성 실패!");
-        return RegistrationStatus.registered;
+      return RegistrationStatus.registered;
     }
   }
 

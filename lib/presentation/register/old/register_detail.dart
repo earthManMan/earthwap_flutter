@@ -563,7 +563,7 @@ class RegisterButton extends StatelessWidget {
         onPressed: !isEnabled
             ? null
             : () async {
-                await _viewmodel.registerUser().then((Status) {
+                await _viewmodel.registerUser("").then((Status) {
                   if (Status == true) {
                     Navigator.pushReplacementNamed(context, '/login');
                   } else {}
