@@ -95,8 +95,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _buildTitle(),
-              if (_isphoneInput) _buildPhoneInput(),
-              if (_isAuthCodeInput) _buildAuthCodeInput(),
+              _buildInputWidget(_isphoneInput),
               _buildRegisterButton(viewmodel),
               const LoginButton(),
             ],
@@ -106,68 +105,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildPhoneInput() {
+  Widget _buildInputWidget(bool isPhoneInput) {
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: TextField(
         keyboardType: TextInputType.number,
-        keyboardAppearance: Brightness.dark, // Add this line
+        keyboardAppearance: Brightness.dark,
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.digitsOnly,
-          // You can add more formatters if needed
         ],
-        onChanged: _isphoneInput ? (value) => _checkPhoneValidity(value) : null,
-        enableInteractiveSelection: _isphoneInput,
-        controller: _phoneController,
+        onChanged: isPhoneInput
+            ? (value) => _checkPhoneValidity(value)
+            : (value) {
+                setState(() {
+                  if (_authController.text.isNotEmpty) {
+                    _isvalid = true;
+                    _authcode = _authController.text.toString();
+                  } else {
+                    _isvalid = false;
+                    _authcode = "";
+                  }
+                });
+              },
+        enableInteractiveSelection:
+            isPhoneInput ? _isphoneInput : _isAuthCodeInput,
+        controller: isPhoneInput ? _phoneController : _authController,
         style: const TextStyle(
           fontSize: 16,
           color: AppColor.grayF9,
           fontWeight: FontWeight.bold,
         ),
         decoration: InputDecoration(
-          hintText: "휴대폰 번호(- 없이 숫자만 입력)",
+          hintText: isPhoneInput ? "휴대폰 번호(- 없이 숫자만 입력)" : "인증코드",
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(7.0)),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAuthCodeInput() {
-    return Padding(
-      padding: const EdgeInsets.all(30.0),
-      child: TextField(
-        keyboardType: TextInputType.number,
-        keyboardAppearance: Brightness.dark, // Add this line
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly,
-          // You can add more formatters if needed
-        ],
-        onChanged: (value) {
-          setState(() {
-            if (_authController.text.isNotEmpty) {
-              _isvalid = true;
-              _authcode = _authController.text.toString();
-            } else {
-              _isvalid = false;
-              _authcode = "";
-            }
-          });
-        },
-        enableInteractiveSelection: _isAuthCodeInput,
-        controller: _authController,
-        style: const TextStyle(
-          fontSize: 16,
-          color: AppColor.grayF9,
-          fontWeight: FontWeight.bold,
-        ),
-        decoration: InputDecoration(
-          hintText: "인증코드",
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(7.0)),
-          ),
-          errorText: _isvalid ? null : '인증번호가 일치하지 않습니다.',
+          errorText:
+              isPhoneInput ? null : (_isvalid ? null : '인증번호가 일치하지 않습니다.'),
         ),
       ),
     );
