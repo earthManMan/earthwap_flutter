@@ -369,7 +369,8 @@ class _MypageViewState extends State<MypageView>
                               if (value == true) {
                                 // 삭제 성공 시 Navigator를 통해 뒤로 이동
                                 setState(() {
-                                  showSnackbar(context, '해당 item을 삭제하였습니다.');
+                                  showtoastMessage(
+                                      '해당 item을 삭제하였습니다.', toastStatus.info);
                                   Navigator.of(context, rootNavigator: true)
                                       .pop(true);
                                 });

@@ -49,12 +49,11 @@ class _LoginScreenState extends State<LoginScreen> {
       if (loggedIn == LoginStatus.success) {
         // 자동 로그인 성공 시 메인 페이지로 이동
         Navigator.pushReplacementNamed(context, '/main');
-      }else{
-        showSnackbar(context,"로그인에 실패 했습니다. 다시 로그인 해주세요.");
+      } else {
+        showtoastMessage("로그인에 실패 했습니다. 다시 로그인 해주세요.", toastStatus.error);
         setState(() {
-          _isAutoLogin = false;  
+          _isAutoLogin = false;
         });
-        
       }
     }
   }
@@ -85,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // LoginViewModel을 업데이트하여 설정 값을 반영합니다.
     await context.read<LoginViewModel>().getLoginToken();
-   // _checkAutoLogin(); // 자동 로그인 설정 확인
+    // _checkAutoLogin(); // 자동 로그인 설정 확인
   }
 
   // 사용자 설정을 저장하는 메서드
@@ -299,8 +298,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                               context, '/main');
                                         }
                                       } else {
-                                        showSnackbar(
-                                            context, "인증 코드를 다시 확인해주세요.");
+                                        showtoastMessage("인증 코드를 다시 확인해주세요.",
+                                            toastStatus.error);
                                         setState(() {
                                           _isLoading = false;
                                         });

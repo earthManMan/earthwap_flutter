@@ -202,7 +202,8 @@ class _SellViewState extends State<SellView> {
 
                           sellViewModel.registerItem().then((result) {
                             if (result.isEmpty) {
-                              showSnackbar(context, '물건 등록을 실패 했습니다.');
+                              showtoastMessage(
+                                  '물건 등록을 실패 했습니다.', toastStatus.error);
                             } else {
                               sellViewModel
                                   .getRegisterItem(result)

@@ -161,7 +161,7 @@ class _ReCyclePageState extends State<ReCyclePage> {
                     ),
                   ),
                 ),
-                placeholder: (context, url) =>  Center(
+                placeholder: (context, url) => Center(
                   child: PlatformCircularProgressIndicator(),
                 ),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -180,7 +180,7 @@ class _ReCyclePageState extends State<ReCyclePage> {
                   ),
                 ),
               ),
-              placeholder: (context, url) =>  Center(
+              placeholder: (context, url) => Center(
                 child: PlatformCircularProgressIndicator(),
               ),
               errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -305,7 +305,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
 
                     if (_titleController.text.isEmpty ||
                         _contentController.text.isEmpty) {
-                      showSnackbar(context, "게시글을 작성 해주세요.");
+                      showtoastMessage("게시글을 작성 해주세요.", toastStatus.info);
                     } else {
                       setState(() {
                         isRegisteringPost = true;
@@ -810,9 +810,11 @@ class _TrashRequestFormState extends State<TrashRequestForm> {
                               if (isAddressComplete == false) {
                                 if (_AddressController.text.isEmpty ||
                                     _Address_detailController.text.isEmpty) {
-                                  showSnackbar(context, '주소를 입력해주세요.');
+                                  showtoastMessage(
+                                      '주소를 입력해주세요.', toastStatus.info);
                                 } else if (_phoneController.text.isEmpty) {
-                                  showSnackbar(context, '연락처를 입력해주세요.');
+                                  showtoastMessage(
+                                      '연락처를 입력해주세요.', toastStatus.info);
                                 } else {
                                   widget.viewmodel.model.address =
                                       _AddressController.text;
@@ -830,7 +832,8 @@ class _TrashRequestFormState extends State<TrashRequestForm> {
                               } else if (isAddressComplete == true &&
                                   isCalendarComplete == false) {
                                 if (widget.viewmodel.model.day.isEmpty) {
-                                  showSnackbar(context, '날짜를 선택 해주세요.');
+                                  showtoastMessage(
+                                      '날짜를 선택 해주세요.', toastStatus.info);
                                 } else {
                                   isCalendarComplete = true;
                                 }

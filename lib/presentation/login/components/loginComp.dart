@@ -119,7 +119,8 @@ class _LoginButtonState extends State<LoginButton> {
                   if (loginSuccess) {
                     Navigator.pushReplacementNamed(context, '/main');
                   } else {
-                    showSnackbar(context, '로그인에 실패했습니다. 다시 시도해주세요.');
+                    showtoastMessage(
+                        '로그인에 실패했습니다. 다시 시도해주세요.', toastStatus.error);
                   }
                   setState(() {
                     _isLoading = false;

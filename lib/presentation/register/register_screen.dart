@@ -93,8 +93,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
+          padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top + kToolbarHeight),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               _buildTitle(),
               _buildInputWidget(_isphoneInput),
@@ -193,7 +195,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Padding(
       padding: const EdgeInsets.only(top: 40, bottom: 10),
       child: _isLoading
-          ? PlatformCircularProgressIndicator()
+          ? PlatformCircularProgressIndicator(
+              cupertino: (context, platform) {
+                return CupertinoProgressIndicatorData(
+                  color: AppColor.primary,
+                );
+              },
+            )
           : TextRoundButton(
               text: _isAuthCodeInput ? "인증 코드 확인" : "인증 문자 받기",
               enable: _isvalid,
@@ -235,13 +243,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       setState(() {
                         _isLoading = false;
                       });
-                      showSnackbar(context, "계정 생성 실패 했습니다.");
+                      showtoastMessage("계정 생성 실패 했습니다.", toastStatus.error);
                     }
                   } else {
                     setState(() {
                       _isLoading = false;
                     });
-                    showSnackbar(context, "인증 코드를 다시 확인해주세요.");
+                    showtoastMessage("인증 코드를 다시 확인해주세요.", toastStatus.error);
                   }
                 }
               },

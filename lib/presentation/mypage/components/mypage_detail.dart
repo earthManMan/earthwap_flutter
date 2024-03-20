@@ -606,12 +606,12 @@ class _TrashDetailPageState extends State<TrashDetailPage> {
                         bool cancle = await api.cancelPaymentOnCallFunction(
                             user.uid!, widget.collection.order_id, "");
                         if (cancle) {
-                          showSnackbar(
-                              context, '해당 주문취소를 완료 하였습니다. 계좌를 확인 해 주세요!');
+                          showtoastMessage('해당 주문취소를 완료 하였습니다. 계좌를 확인 해 주세요!',
+                              toastStatus.success);
                           widget.onReturnTrashCollection(widget.collection);
                         } else {
-                          showSnackbar(
-                              context, '해당 주문취소를 실패 하였습니다. 고객센터에 문의 바랍니다!');
+                          showtoastMessage('해당 주문취소를 실패 하였습니다. 고객센터에 문의 바랍니다!',
+                              toastStatus.error);
                         }
                         setState(() {
                           _isLoading = false;

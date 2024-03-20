@@ -199,7 +199,7 @@ class _UserProfileState extends State<UserProfile>
                       fontSize: 20,
                       fontWeight: FontWeight.bold)),
             ),
-            body:  Center(
+            body: Center(
               child: PlatformCircularProgressIndicator(),
             ),
           );
@@ -309,13 +309,13 @@ class _UserProfileState extends State<UserProfile>
                                     listen: false);
                                 if (isSubscribed) {
                                   mypage.follow(widget.uid).then((value) => {
-                                        showSnackbar(
-                                            context, '해당 사용자를 팔로우 했습니다.')
+                                        showtoastMessage('해당 사용자를 팔로우 했습니다.',
+                                            toastStatus.success)
                                       });
                                 } else {
                                   mypage.unfollow(widget.uid).then((value) => {
-                                        showSnackbar(
-                                            context, '해당 사용자를 언팔로우 했습니다.')
+                                        showtoastMessage('해당 사용자를 언팔로우 했습니다.',
+                                            toastStatus.success)
                                       });
                                 }
                               });

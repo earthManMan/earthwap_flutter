@@ -457,13 +457,13 @@ class _BackCardState extends State<BackCard> {
               widget.isSubscribed = !widget.isSubscribed;
               widget._viewModel.unfollow(widget._itemInfo.item_owner_id);
               setState(() {
-                showSnackbar(context, '해당 사용자를 언팔로우 했습니다.');
+                showtoastMessage('해당 사용자를 언팔로우 했습니다.', toastStatus.success);
               });
             } else {
               widget.isSubscribed = !widget.isSubscribed;
               widget._viewModel.follow(widget._itemInfo.item_owner_id);
               setState(() {
-                showSnackbar(context, '해당 사용자를 팔로우 했습니다.');
+                showtoastMessage('해당 사용자를 팔로우 했습니다.', toastStatus.success);
               });
             }
           },
@@ -644,8 +644,9 @@ class FrontCard extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    placeholder: (context, url) =>  Center(
-                                      child: PlatformCircularProgressIndicator(),
+                                    placeholder: (context, url) => Center(
+                                      child:
+                                          PlatformCircularProgressIndicator(),
                                     ),
                                     errorWidget: (context, url, error) =>
                                         const Icon(Icons.error),
@@ -682,9 +683,9 @@ class FrontCard extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        placeholder: (context, url) =>
-                                             Center(
-                                          child: PlatformCircularProgressIndicator(),
+                                        placeholder: (context, url) => Center(
+                                          child:
+                                              PlatformCircularProgressIndicator(),
                                         ),
                                         errorWidget: (context, url, error) =>
                                             const Icon(Icons.error),

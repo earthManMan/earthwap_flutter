@@ -193,7 +193,7 @@ class SettingItem extends StatelessWidget {
             api.deregisterUserOnCallFunction(user.uid!);
             Navigator.pushReplacementNamed(context, '/start');
             // 메인 화면으로 이동
-            showSnackbar(context, '계정을 탈퇴 했습니다. ');
+            showtoastMessage('계정을 탈퇴 했습니다. ', toastStatus.success);
           });
         } else if (title == '로그아웃') {
           showLogoutConfirmationDialog(context, () {
@@ -228,7 +228,7 @@ class SettingItem extends StatelessWidget {
               (route) => false,
             ); // 메인 화면으로 이동
 
-            showSnackbar(context, '로그아웃 했습니다. ');
+            showtoastMessage('로그아웃 했습니다. ', toastStatus.success);
           });
         }
       },

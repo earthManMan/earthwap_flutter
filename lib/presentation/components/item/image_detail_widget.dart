@@ -128,7 +128,8 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
                         if (value == true)
                           {
                             Navigator.of(context).pop(),
-                            showSnackbar(context, '해당 item을 신고하였습니다.'),
+                            showtoastMessage(
+                                '해당 item을 신고하였습니다.', toastStatus.success),
                           }
                       });
             },

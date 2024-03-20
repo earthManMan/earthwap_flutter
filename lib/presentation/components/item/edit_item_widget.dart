@@ -205,7 +205,8 @@ class _EditItemPageState extends State<EditItemPage> {
                     SubKeyword: widget.itemInfo.sub_Keyword,
                     onPressed: () {
                       if (widget.itemInfo.item_cover_img.isEmpty) {
-                        showSnackbar(context, 'Cover Image를 등록 해 주세요!!');
+                        showtoastMessage(
+                            'Cover Image를 등록 해 주세요!!', toastStatus.error);
                         return;
                       }
                       Navigator.push(
@@ -533,7 +534,7 @@ Widget getImageWidget(String imagePath) {
           ),
         ),
       ),
-      placeholder: (context, url) =>  Center(
+      placeholder: (context, url) => Center(
         child: PlatformCircularProgressIndicator(),
       ),
       errorWidget: (context, url, error) => const Icon(Icons.error),

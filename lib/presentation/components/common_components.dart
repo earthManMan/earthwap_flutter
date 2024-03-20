@@ -1,3 +1,4 @@
+import 'package:firebase_login/app/style/app_color.dart';
 import 'package:firebase_login/presentation/components/popup_widget.dart';
 import 'package:firebase_login/presentation/mypage/mypageViewModel.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +8,28 @@ import 'package:flutter/services.dart';
 import 'package:firebase_login/app/config/remote_options.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+enum toastStatus {
+  info,
+  error,
+  success,
+}
 
 // 하단에 잠시 출력 되었다가 사라지는 Widget
-void showSnackbar(BuildContext context, String message) {
-  ScaffoldMessenger.of(context)
-    ..hideCurrentSnackBar()
-    ..showSnackBar(SnackBar(content: Text(message)));
+void showtoastMessage(String message, toastStatus status) {
+  Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: status == toastStatus.info
+          ? AppColor.gray8E
+          : status == toastStatus.error
+              ? AppColor.systemError
+              : AppColor.primary,
+      textColor: Colors.white,
+      fontSize: 18.0);
 }
 
 // Bottom에서 올라오는 Widget
@@ -297,7 +314,7 @@ class _BottomInputFieldState extends State<BottomInputField> {
                       ),
                     ),
                   ),
-                  placeholder: (context, url) =>  Center(
+                  placeholder: (context, url) => Center(
                     child: PlatformCircularProgressIndicator(),
                   ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),

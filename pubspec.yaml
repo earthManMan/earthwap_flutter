@@ -87,6 +87,7 @@ dependencies:
   flutter_screenutil: ^5.9.0
   firebase_app_check: ^0.2.1+18
   flutter_platform_widgets: ^6.1.0
+  fluttertoast: ^8.2.4
 
 dev_dependencies:
   flutter_test:
