@@ -10,6 +10,8 @@ import 'package:firebase_login/app/util/validateText_util.dart';
 import 'package:firebase_login/presentation/common/login_button.dart';
 import 'package:firebase_login/app/style/app_color.dart';
 
+import 'package:flutter/cupertino.dart';
+
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
@@ -108,7 +110,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildInputWidget(bool isPhoneInput) {
     return Padding(
       padding: const EdgeInsets.all(30.0),
-      child: TextField(
+      child: PlatformTextField(
         keyboardType: TextInputType.number,
         keyboardAppearance: Brightness.dark,
         inputFormatters: <TextInputFormatter>[
@@ -127,22 +129,62 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   }
                 });
               },
-        enableInteractiveSelection:
-            isPhoneInput ? _isphoneInput : _isAuthCodeInput,
+        enabled: isPhoneInput ? _isphoneInput : _isAuthCodeInput,
         controller: isPhoneInput ? _phoneController : _authController,
         style: const TextStyle(
           fontSize: 16,
           color: AppColor.grayF9,
           fontWeight: FontWeight.bold,
         ),
-        decoration: InputDecoration(
-          hintText: isPhoneInput ? "휴대폰 번호(- 없이 숫자만 입력)" : "인증코드",
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(7.0)),
-          ),
-          errorText:
-              isPhoneInput ? null : (_isvalid ? null : '인증번호가 일치하지 않습니다.'),
-        ),
+        hintText: isPhoneInput ? "휴대폰 번호(- 없이 숫자만 입력)" : "인증코드",
+        material: (context, platform) {
+          return MaterialTextFieldData(
+            decoration: InputDecoration(
+              suffixIcon: _buildClearButton(isPhoneInput),
+              errorText:
+                  isPhoneInput ? null : (_isvalid ? null : '인증번호가 일치하지 않습니다.'),
+            ),
+          );
+        },
+        cupertino: (context, platform) {
+          return CupertinoTextFieldData(
+            suffix: _buildClearButton(isPhoneInput),
+            placeholder:
+                isPhoneInput ? null : (_isvalid ? null : '인증번호가 일치하지 않습니다.'),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: AppColor.grayF9,
+                  width: 0.5, // Adjust the width as needed
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildClearButton(bool isPhoneInput) {
+    return GestureDetector(
+      onTap: () {
+        if (isPhoneInput) {
+          setState(() {
+            _isvalid = false;
+            _phonenumber = "";
+            _phoneController.clear();
+          });
+        } else {
+          setState(() {
+            _isvalid = false;
+            _authcode = "";
+            _authController.clear();
+          });
+        }
+      },
+      child: Icon(
+        CupertinoIcons.clear_thick_circled,
+        color: CupertinoColors.systemGrey,
       ),
     );
   }
