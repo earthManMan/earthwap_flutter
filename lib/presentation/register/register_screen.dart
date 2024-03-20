@@ -74,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         appBar: PlatformAppBar(
           backgroundColor: Colors.transparent,
           leading: PlatformIconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back,color: AppColor.grayF9,),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -87,7 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           },
           cupertino: (context, platform) {
             return CupertinoNavigationBarData(
-              backgroundColor: AppColor.grayF9,
+              backgroundColor: Colors.transparent,
             );
           },
         ),
