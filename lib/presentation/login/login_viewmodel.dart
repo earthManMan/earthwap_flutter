@@ -35,9 +35,10 @@ class LoginViewModel extends ChangeNotifier {
     final auto = await _storage.getitem(KEY_AUTOLOGIN);
     if (auto.toString() == "true") {
       final token = await _storage.getitem(KEY_TOKEN);
-      if (token.toString().isNotEmpty)
+      if (token.toString().isNotEmpty) {
+        _authService.authModel.token = token.toString();
         return true;
-      else
+      } else
         return false;
     } else
       return false;

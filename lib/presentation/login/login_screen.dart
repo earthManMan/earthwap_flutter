@@ -251,7 +251,10 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Checkbox(
+          const Text('자동 로그인', style: TextStyle(color: AppColor.grayF9)),
+          Padding(padding: EdgeInsets.all(5)),
+          PlatformSwitch(
+            activeColor: AppColor.primary,
             value: _checkbox,
             onChanged: (value) {
               setState(() {
@@ -260,7 +263,6 @@ class _LoginScreenState extends State<LoginScreen> {
               });
             },
           ),
-          const Text('자동 로그인', style: TextStyle(color: AppColor.grayF9)),
         ],
       ),
     );
