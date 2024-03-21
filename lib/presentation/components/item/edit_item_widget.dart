@@ -1,5 +1,4 @@
 import 'package:firebase_login/domain/home/home_model.dart';
-import 'package:firebase_login/domain/sell/sell_model.dart';
 import 'package:firebase_login/domain/login/userService.dart';
 import 'package:firebase_login/presentation/sell/sellViewModel.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +12,13 @@ import 'dart:io';
 import 'package:firebase_login/presentation/components/item/keyword_input_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_login/presentation/components/popup_widget.dart';
-import 'package:firebase_login/presentation/components/common_components.dart';
+
 import 'package:firebase_login/presentation/components/item/value_select_widget.dart';
 import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:firebase_login/presentation/common/widgets/toastwidget.dart';
+import 'package:firebase_login/app/style/app_color.dart';
+import 'package:firebase_login/app/config/constant.dart';
 
 class EditItemPage extends StatefulWidget {
   ItemInfo itemInfo;
@@ -535,7 +537,13 @@ Widget getImageWidget(String imagePath) {
         ),
       ),
       placeholder: (context, url) => Center(
-        child: PlatformCircularProgressIndicator(),
+        child: PlatformCircularProgressIndicator(
+          cupertino: (context, platform) {
+            return CupertinoProgressIndicatorData(
+              color: AppColor.primary,
+            );
+          },
+        ),
       ),
       errorWidget: (context, url, error) => const Icon(Icons.error),
     );

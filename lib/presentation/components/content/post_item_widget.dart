@@ -5,6 +5,7 @@ import 'package:firebase_login/domain/postitem/postItem_model.dart';
 import 'package:firebase_login/presentation/world/worldViewModel.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:firebase_login/app/style/app_color.dart';
 
 String getCurrentTime(String seconds) {
   int unixSeconds = int.parse(seconds);
@@ -108,8 +109,14 @@ class _PostItemWidgetState extends State<PostItemWidget> {
                             ),
                           ),
                         ),
-                        placeholder: (context, url) =>  Center(
-                          child: PlatformCircularProgressIndicator(),
+                        placeholder: (context, url) => Center(
+                          child: PlatformCircularProgressIndicator(
+                            cupertino: (context, platform) {
+                              return CupertinoProgressIndicatorData(
+                                color: AppColor.primary,
+                              );
+                            },
+                          ),
                         ),
                         errorWidget: (context, url, error) =>
                             const Icon(Icons.error),

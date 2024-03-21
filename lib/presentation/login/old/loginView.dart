@@ -1,9 +1,10 @@
-import 'package:firebase_login/presentation/login/loginViewModel.dart';
+import 'package:firebase_login/presentation/login/login_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_login/presentation/login/components/loginComp.dart';
+import 'package:firebase_login/presentation/login/old/loginComp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/*
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
@@ -136,3 +137,4 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 }
+*/

@@ -5,11 +5,8 @@ import 'package:firebase_login/domain/chat/chatService.dart';
 import 'package:firebase_login/domain/login/userService.dart';
 import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:firebase_login/presentation/components/Encryptoring.dart';
+import 'package:firebase_login/app/config/constant.dart';
 
-enum ChatMessageType {
-  sent,
-  received,
-}
 
 class ChatMessage {
   late String msg_id;

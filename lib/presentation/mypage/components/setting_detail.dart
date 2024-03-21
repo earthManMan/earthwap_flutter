@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'dart:async';
 import 'package:firebase_login/app/config/remote_options.dart';
-
+import 'package:firebase_login/app/config/constant.dart';
 // view model
 import 'package:firebase_login/presentation/home/homeViewModel.dart';
 import 'package:firebase_login/presentation/mypage/mypageViewModel.dart';
@@ -20,6 +20,8 @@ import 'package:firebase_login/domain/alarm/alarmService.dart';
 import 'package:firebase_login/presentation/components/popup_widget.dart';
 import 'package:firebase_login/presentation/mypage/components/mypage_webview.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:firebase_login/presentation/common/widgets/toastwidget.dart';
+import 'package:firebase_login/app/style/app_color.dart';
 
 class settingLayout extends StatefulWidget {
   const settingLayout({super.key});
@@ -219,7 +221,7 @@ class SettingItem extends StatelessWidget {
             alaram.stopListeningToMessages();
             alaram.stopListeningToNotifications();
 
-            //api.logout();
+            api.logout();
 
             // 모든 화면을 dispose하고 StartView로 이동
             Navigator.pushAndRemoveUntil(
@@ -514,7 +516,13 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
           errorMessage.isEmpty
               ? !isReady
                   ? Center(
-                      child: PlatformCircularProgressIndicator(),
+                      child: PlatformCircularProgressIndicator(
+                        cupertino: (context, platform) {
+                          return CupertinoProgressIndicatorData(
+                            color: AppColor.primary,
+                          );
+                        },
+                      ),
                     )
                   : Container()
               : Center(

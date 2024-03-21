@@ -1,9 +1,3 @@
-enum RegistrationStatus {
-  registered, // user 생성 실패 
-  deleted, // Phone User 삭제 실패 
-  success,
-}
-
 class RegisterModel {
   String _university = "";
   String _domain = "";
@@ -54,6 +48,7 @@ class RegisterModel {
   set passwordConfirm(String value) {
     _passwordConfirm = value;
   }
+
   String get verificationId => _verificationId;
   set verificationId(String value) {
     _verificationId = value;

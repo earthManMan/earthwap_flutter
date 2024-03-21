@@ -13,6 +13,7 @@ import 'package:firebase_login/presentation/components/content/post_comment_widg
 import 'package:firebase_login/presentation/components/content/edit_post_widget.dart';
 import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:firebase_login/app/style/app_color.dart';
 
 String getCurrentTime(String seconds) {
   int unixSeconds = int.parse(seconds);
@@ -313,8 +314,14 @@ class _PostDetailPageState extends State<PostDetailPage> {
                       ),
                     ),
                   ),
-                  placeholder: (context, url) =>  Center(
-                    child: PlatformCircularProgressIndicator(),
+                  placeholder: (context, url) => Center(
+                    child: PlatformCircularProgressIndicator(
+                      cupertino: (context, platform) {
+                        return CupertinoProgressIndicatorData(
+                          color: AppColor.primary,
+                        );
+                      },
+                    ),
                   ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),

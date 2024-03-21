@@ -24,12 +24,12 @@ import 'package:firebase_login/presentation/components/theme.dart';
 // view model
 
 import 'package:firebase_login/presentation/home/homeViewModel.dart';
-import 'package:firebase_login/presentation/login/loginViewModel.dart';
+import 'package:firebase_login/presentation/login/login_viewmodel.dart';
 import 'package:firebase_login/presentation/mypage/mypageViewModel.dart';
 import 'package:firebase_login/presentation/sell/sellViewModel.dart';
 import 'package:firebase_login/presentation/world/worldViewModel.dart';
 import 'package:firebase_login/presentation/chat/chatViewModel.dart';
-import 'package:firebase_login/presentation/register/registerViewModel.dart';
+import 'package:firebase_login/presentation/register/old/registerViewModel.dart';
 import 'package:firebase_login/presentation/password/passwordViewModel.dart';
 
 // View

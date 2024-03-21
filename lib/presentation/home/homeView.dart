@@ -10,6 +10,7 @@ import 'package:firebase_login/presentation/components/common_components.dart';
 import 'package:firebase_login/app/config/remote_options.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:firebase_login/app/style/app_color.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -113,8 +114,14 @@ class _homeViewState extends State<HomeView> {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) =>  Center(
-                        child: PlatformCircularProgressIndicator(),
+                      placeholder: (context, url) => Center(
+                        child: PlatformCircularProgressIndicator(
+                          cupertino: (context, platform) {
+                            return CupertinoProgressIndicatorData(
+                              color: AppColor.primary,
+                            );
+                          },
+                        ),
                       ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
@@ -159,8 +166,14 @@ class _homeViewState extends State<HomeView> {
                                     ),
                                   ),
                                 ),
-                      placeholder: (context, url) =>  Center(
-                        child: PlatformCircularProgressIndicator(),
+                      placeholder: (context, url) => Center(
+                        child: PlatformCircularProgressIndicator(
+                          cupertino: (context, platform) {
+                            return CupertinoProgressIndicatorData(
+                              color: AppColor.primary,
+                            );
+                          },
+                        ),
                       ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),

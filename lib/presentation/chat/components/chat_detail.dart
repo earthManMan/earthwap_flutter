@@ -17,6 +17,8 @@ import 'package:firebase_login/presentation/components/theme.dart';
 
 import 'package:firebase_login/app/config/remote_options.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:firebase_login/app/style/app_color.dart';
+import 'package:firebase_login/app/config/constant.dart';
 
 class ChatRoomListView extends StatefulWidget {
   final Function(ChatRoom) updateChatRoom;
@@ -213,8 +215,14 @@ class _CustomListItemState extends State<CustomListItem> {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) =>  Center(
-                        child: PlatformCircularProgressIndicator(),
+                      placeholder: (context, url) => Center(
+                        child: PlatformCircularProgressIndicator(
+                          cupertino: (context, platform) {
+                            return CupertinoProgressIndicatorData(
+                              color: AppColor.primary,
+                            );
+                          },
+                        ),
                       ),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
@@ -423,8 +431,14 @@ class _NotificationMessageState extends State<NotificationMessage> {
                                       ),
                                     ),
                                   ),
-                                  placeholder: (context, url) =>  Center(
-                                    child: PlatformCircularProgressIndicator(),
+                                  placeholder: (context, url) => Center(
+                                    child: PlatformCircularProgressIndicator(
+                                      cupertino: (context, platform) {
+                                        return CupertinoProgressIndicatorData(
+                                          color: AppColor.primary,
+                                        );
+                                      },
+                                    ),
                                   ),
                                   errorWidget: (context, url, error) =>
                                       const Icon(Icons.error),
@@ -467,8 +481,14 @@ class _NotificationMessageState extends State<NotificationMessage> {
                                         ),
                                       ),
                                     ),
-                                    placeholder: (context, url) =>  Center(
-                                      child: PlatformCircularProgressIndicator(),
+                                    placeholder: (context, url) => Center(
+                                      child: PlatformCircularProgressIndicator(
+                                        cupertino: (context, platform) {
+                                          return CupertinoProgressIndicatorData(
+                                            color: AppColor.primary,
+                                          );
+                                        },
+                                      ),
                                     ),
                                     errorWidget: (context, url, error) =>
                                         const Icon(Icons.error),
@@ -762,8 +782,14 @@ class _BottomInputFieldState extends State<BottomInputField> {
                       ),
                     ),
                   ),
-                  placeholder: (context, url) =>  Center(
-                    child: PlatformCircularProgressIndicator(),
+                  placeholder: (context, url) => Center(
+                    child: PlatformCircularProgressIndicator(
+                      cupertino: (context, platform) {
+                        return CupertinoProgressIndicatorData(
+                          color: AppColor.primary,
+                        );
+                      },
+                    ),
                   ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),

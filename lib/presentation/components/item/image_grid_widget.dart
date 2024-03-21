@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:firebase_login/presentation/components/item/image_detail_widget.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:firebase_login/app/style/app_color.dart';
 
 class ImageGridView extends StatefulWidget {
   List<ItemInfo> itemInfo;
@@ -82,7 +83,13 @@ class _ImageGridViewState extends State<ImageGridView> {
                     ),
                   ),
                   placeholder: (context, url) => Center(
-                    child: PlatformCircularProgressIndicator(),
+                    child: PlatformCircularProgressIndicator(
+                      cupertino: (context, platform) {
+                        return CupertinoProgressIndicatorData(
+                          color: AppColor.primary,
+                        );
+                      },
+                    ),
                   ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),

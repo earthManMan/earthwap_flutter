@@ -7,6 +7,8 @@ import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:firebase_login/domain/login/userService.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:firebase_login/app/style/app_color.dart';
+import 'package:firebase_login/app/config/constant.dart';
 
 class EditPostPage extends StatefulWidget {
   final PostItemModel post; // Assuming you have a Post model class
@@ -218,8 +220,14 @@ class _EditPostPageState extends State<EditPostPage> {
             ),
           ),
         ),
-        placeholder: (context, url) =>  Center(
-          child: PlatformCircularProgressIndicator(),
+        placeholder: (context, url) => Center(
+          child: PlatformCircularProgressIndicator(
+            cupertino: (context, platform) {
+              return CupertinoProgressIndicatorData(
+                color: AppColor.primary,
+              );
+            },
+          ),
         ),
         errorWidget: (context, url, error) => const Icon(Icons.error),
       );

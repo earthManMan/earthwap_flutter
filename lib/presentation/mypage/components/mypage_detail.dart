@@ -12,6 +12,9 @@ import 'package:firebase_login/domain/mypage/mypage_model.dart';
 import 'package:firebase_login/presentation/components/user_profile_widget.dart';
 import 'package:firebase_login/presentation/components/common_components.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:firebase_login/presentation/common/widgets/toastwidget.dart';
+import 'package:firebase_login/app/style/app_color.dart';
+import 'package:firebase_login/app/config/constant.dart';
 
 class PremiumPage extends StatelessWidget {
   bool isPremium;
@@ -623,6 +626,11 @@ class _TrashDetailPageState extends State<TrashDetailPage> {
                           return MaterialProgressIndicatorData(
                             valueColor:
                                 AlwaysStoppedAnimation<Color>(Colors.white),
+                          );
+                        },
+                        cupertino: (context, platform) {
+                          return CupertinoProgressIndicatorData(
+                            color: AppColor.primary,
                           );
                         },
                       )

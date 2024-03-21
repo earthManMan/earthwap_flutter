@@ -2,6 +2,7 @@ import 'package:firebase_login/domain/login/userService.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_login/domain/mypage/mypage_model.dart';
 import 'package:firebase_login/domain/home/home_model.dart';
+import 'package:firebase_login/app/config/constant.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 // 추가된 import 문

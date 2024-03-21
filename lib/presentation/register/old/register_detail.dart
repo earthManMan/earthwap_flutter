@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_login/presentation/components/theme.dart';
-import 'package:firebase_login/presentation/register/registerViewModel.dart';
+import 'package:firebase_login/presentation/register/old/registerViewModel.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:firebase_login/app/style/app_color.dart';
 
 class AuthEmailLayout extends StatefulWidget {
-  final RegisterViewModel _viewModel;
+  final RegisterViewModel_old _viewModel;
 
-  const AuthEmailLayout({required RegisterViewModel viewmodel, super.key})
+  const AuthEmailLayout({required RegisterViewModel_old viewmodel, super.key})
       : _viewModel = viewmodel;
 
   @override
@@ -165,6 +166,11 @@ class _EmailSendButtonState extends State<EmailSendButton> {
                     ),
                   );
                 },
+                cupertino: (context, platform) {
+                  return CupertinoProgressIndicatorData(
+                    color: AppColor.primary,
+                  );
+                },
               )
             : const Text(
                 '인증 메일 받기',
@@ -194,11 +200,11 @@ class _EmailSendButtonState extends State<EmailSendButton> {
 }
 
 class EmailInput extends StatefulWidget {
-  late final RegisterViewModel _viewmodel;
+  late final RegisterViewModel_old _viewmodel;
   late TextEditingController textController;
 
   EmailInput(
-      {required RegisterViewModel viewmodel,
+      {required RegisterViewModel_old viewmodel,
       required TextEditingController text,
       super.key})
       : _viewmodel = viewmodel,
@@ -273,10 +279,10 @@ class _EmailInputState extends State<EmailInput> {
 
 class AuthKeyInput extends StatelessWidget {
   final TextEditingController _textcontroller;
-  final RegisterViewModel _viewmodel;
+  final RegisterViewModel_old _viewmodel;
 
   const AuthKeyInput(
-      {required RegisterViewModel viewmodel,
+      {required RegisterViewModel_old viewmodel,
       required TextEditingController text,
       super.key})
       : _viewmodel = viewmodel,
@@ -314,10 +320,10 @@ class AuthKeyInput extends StatelessWidget {
 
 class AuthButton extends StatelessWidget {
   final bool _isEnabled;
-  final RegisterViewModel _viewmodel;
+  final RegisterViewModel_old _viewmodel;
 
   const AuthButton(
-      {required RegisterViewModel viewmodel,
+      {required RegisterViewModel_old viewmodel,
       required bool isEnabled,
       super.key})
       : _viewmodel = viewmodel,
@@ -362,9 +368,9 @@ class AuthButton extends StatelessWidget {
 }
 
 class PassWordLayout extends StatefulWidget {
-  final RegisterViewModel _viewmodel;
+  final RegisterViewModel_old _viewmodel;
 
-  const PassWordLayout({required RegisterViewModel viewmodel, super.key})
+  const PassWordLayout({required RegisterViewModel_old viewmodel, super.key})
       : _viewmodel = viewmodel;
 
   @override
@@ -432,9 +438,9 @@ class _PassWordLayoutState extends State<PassWordLayout> {
 }
 
 class PasswordInput extends StatefulWidget {
-  final RegisterViewModel _viewmodel;
+  final RegisterViewModel_old _viewmodel;
 
-  const PasswordInput({required RegisterViewModel viewmodel, super.key})
+  const PasswordInput({required RegisterViewModel_old viewmodel, super.key})
       : _viewmodel = viewmodel;
   @override
   _PasswordInputState createState() => _PasswordInputState();
@@ -478,9 +484,10 @@ class _PasswordInputState extends State<PasswordInput> {
 }
 
 class PasswordConfirmInput extends StatefulWidget {
-  final RegisterViewModel _viewmodel;
+  final RegisterViewModel_old _viewmodel;
 
-  const PasswordConfirmInput({required RegisterViewModel viewmodel, super.key})
+  const PasswordConfirmInput(
+      {required RegisterViewModel_old viewmodel, super.key})
       : _viewmodel = viewmodel;
 
   @override
@@ -541,10 +548,10 @@ class _PasswordConfirmInputState extends State<PasswordConfirmInput> {
 
 class RegisterButton extends StatelessWidget {
   final bool isEnabled;
-  final RegisterViewModel _viewmodel;
+  final RegisterViewModel_old _viewmodel;
 
   const RegisterButton(
-      {required RegisterViewModel viewmodel, isEnabled, super.key})
+      {required RegisterViewModel_old viewmodel, isEnabled, super.key})
       : _viewmodel = viewmodel,
         isEnabled = isEnabled;
 

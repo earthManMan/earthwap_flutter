@@ -5,6 +5,7 @@ import 'package:firebase_login/presentation/components/theme.dart';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:firebase_login/app/style/app_color.dart';
 
 class KeyWordInputButton extends StatelessWidget {
   final String text;
@@ -237,7 +238,13 @@ class _KeywordWorkPageState extends State<KeywordWorkPage> {
           ),
         ),
         placeholder: (context, url) => Center(
-          child: PlatformCircularProgressIndicator(),
+          child: PlatformCircularProgressIndicator(
+            cupertino: (context, platform) {
+              return CupertinoProgressIndicatorData(
+                color: AppColor.primary,
+              );
+            },
+          ),
         ),
         errorWidget: (context, url, error) => const Icon(Icons.error),
       );

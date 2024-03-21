@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_login/app/config/remote_options.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:firebase_login/app/style/app_color.dart';
 
-
-// TODO : 자동 로그인 처리 필요 
-// 로컬에 저장 된 Login 정보 불러와 로그인 하도록 설정 
+// TODO : 자동 로그인 처리 필요
+// 로컬에 저장 된 Login 정보 불러와 로그인 하도록 설정
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -58,8 +58,14 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ),
             ),
-            placeholder: (context, url) =>  Center(
-              child: PlatformCircularProgressIndicator(),
+            placeholder: (context, url) => Center(
+              child: PlatformCircularProgressIndicator(
+                cupertino: (context, platform) {
+                  return CupertinoProgressIndicatorData(
+                    color: AppColor.primary,
+                  );
+                },
+              ),
             ),
             errorWidget: (context, url, error) => const Icon(Icons.error),
           ),

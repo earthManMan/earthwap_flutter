@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'dart:async';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:firebase_login/app/style/app_color.dart';
 
 class PostGridView extends StatefulWidget {
   List<PostItemModel> contents;
@@ -250,6 +251,7 @@ class _PostGridViewState extends State<PostGridView> {
                             SizedBox(
                                 width: 24.0, // Adjust the size as needed
                                 height: 24.0, // Adjust the size as needed
+
                                 child: PlatformCircularProgressIndicator(
                                   material: (context, platform) {
                                     return MaterialProgressIndicatorData(
@@ -257,6 +259,11 @@ class _PostGridViewState extends State<PostGridView> {
                                           2.0, // Adjust the strokeWidth as needed
                                       valueColor: AlwaysStoppedAnimation<Color>(
                                           Colors.black), // Inner circle color
+                                    );
+                                  },
+                                  cupertino: (context, platform) {
+                                    return CupertinoProgressIndicatorData(
+                                      color: AppColor.primary,
                                     );
                                   },
                                 )),

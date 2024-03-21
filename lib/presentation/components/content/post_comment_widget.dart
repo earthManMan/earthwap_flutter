@@ -10,6 +10,7 @@ import 'package:firebase_login/presentation/mypage/mypageViewModel.dart';
 import 'package:firebase_login/app/config/remote_options.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:firebase_login/app/style/app_color.dart';
 
 class CommentWidget extends StatefulWidget {
   final CommentModel comment;
@@ -219,8 +220,14 @@ class _CommentWidgetState extends State<CommentWidget> {
                         ),
                       ),
                     ),
-                    placeholder: (context, url) =>  Center(
-                      child: PlatformCircularProgressIndicator(),
+                    placeholder: (context, url) => Center(
+                      child: PlatformCircularProgressIndicator(
+                        cupertino: (context, platform) {
+                          return CupertinoProgressIndicatorData(
+                            color: AppColor.primary,
+                          );
+                        },
+                      ),
                     ),
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),

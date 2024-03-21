@@ -21,7 +21,9 @@ import 'package:firebase_login/presentation/components/user_profile_widget.dart'
 import 'package:firebase_login/domain/alarm/alarmService.dart';
 import 'dart:async';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-
+import 'package:firebase_login/presentation/common/widgets/toastwidget.dart';
+import 'package:firebase_login/app/style/app_color.dart';
+import 'package:firebase_login/app/config/constant.dart';
 class CombinedFlipAndSwipe extends StatefulWidget {
   List<ItemInfo> items = [];
 
@@ -645,8 +647,13 @@ class FrontCard extends StatelessWidget {
                                       ),
                                     ),
                                     placeholder: (context, url) => Center(
-                                      child:
-                                          PlatformCircularProgressIndicator(),
+                                      child: PlatformCircularProgressIndicator(
+                                        cupertino: (context, platform) {
+                                          return CupertinoProgressIndicatorData(
+                                            color: AppColor.primary,
+                                          );
+                                        },
+                                      ),
                                     ),
                                     errorWidget: (context, url, error) =>
                                         const Icon(Icons.error),
@@ -685,7 +692,13 @@ class FrontCard extends StatelessWidget {
                                         ),
                                         placeholder: (context, url) => Center(
                                           child:
-                                              PlatformCircularProgressIndicator(),
+                                              PlatformCircularProgressIndicator(
+                                            cupertino: (context, platform) {
+                                              return CupertinoProgressIndicatorData(
+                                                color: AppColor.primary,
+                                              );
+                                            },
+                                          ),
                                         ),
                                         errorWidget: (context, url, error) =>
                                             const Icon(Icons.error),

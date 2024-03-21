@@ -1,19 +1,19 @@
 import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_login/domain/register/register_model.dart';
+import 'package:firebase_login/presentation/register/old/register_model.dart';
 import 'package:firebase_login/domain/alarm/alarmService.dart';
 
-class RegisterViewModel extends ChangeNotifier {
+class RegisterViewModel_old extends ChangeNotifier {
   final RegisterModel _model;
 
-  RegisterViewModel(this._model);
+  RegisterViewModel_old(this._model);
 
   RegisterModel get model => _model;
 
-  factory RegisterViewModel.initialize() {
+  factory RegisterViewModel_old.initialize() {
     final registerModel = RegisterModel();
 
-    return RegisterViewModel(registerModel);
+    return RegisterViewModel_old(registerModel);
   }
 
   bool isValid_uni() {
@@ -113,61 +113,11 @@ class RegisterViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> PhoneCodeSendButtonPressed(String number) async {
-    _model.verificationId = "";
-    final api = FirebaseAPI();
-    await api.verifyPhoneNumber(
-      number,
-      (p0, p1) {
-        _model.verificationId = p0.toString();
-      },
-    );
-  }
-
-  Future<bool> signInWithSMSCode(String sms) async {
+  Future<bool> registerUser(String number) async {
     final api = FirebaseAPI();
 
-    final result =
-        await api.checkSMSCode(_model.verificationId, sms.toString());
-    if (result != null) {
-      _model.uid = result.user!.uid;
-      print(result.user!.uid);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  Future<RegistrationStatus> registerUser(String number) async {
-    final api = FirebaseAPI();
-    final alarm = AlarmService.instance;
-
-    // 현재 로그인 된 Auth Logout
-    await api.logout();
-    // 계정 생성 후 삭제
-    final result = await api.registerUserWithPhone(
-        _model.uid, number, alarm.fcmToken.toString());
-    if (result) {
-      final delete = await api.deleteUserFromPhnoeAuth(_model.uid, number);
-      if (delete) {
-        print("계정 생성 성공!");
-        return RegistrationStatus.success;
-      } else {
-        print("계정 삭제 실패!");
-        return RegistrationStatus.deleted;
-      }
-    } else {
-      final delete = await api.deleteUserFromPhnoeAuth(_model.uid, number);
-      if (!delete) {
-        print("계정 삭제 실패!");
-        return RegistrationStatus.deleted;
-      }
-      print("계정 생성 실패!");
-      return RegistrationStatus.registered;
-    }
-  }
-
-  void clearModel() {
-    model.clearModel();
+    final result = api.registerUserOnCallFunction(
+        _model.email, _model.password, _model.authCode, _model.university);
+    return result;
   }
 }

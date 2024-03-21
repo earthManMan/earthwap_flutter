@@ -9,7 +9,9 @@ import 'package:firebase_login/presentation/components/item/edit_item_widget.dar
 import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:firebase_login/domain/login/userService.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-
+import 'package:firebase_login/presentation/common/widgets/toastwidget.dart';
+import 'package:firebase_login/app/style/app_color.dart';
+import 'package:firebase_login/app/config/constant.dart';
 class ImageDetailPage extends StatefulWidget {
   ItemInfo info;
   final Function(String item_id) onItemRemoveCallback;
@@ -162,7 +164,13 @@ class _ImageDetailPageState extends State<ImageDetailPage> {
             ),
           ),
           placeholder: (context, url) => Center(
-            child: PlatformCircularProgressIndicator(),
+            child: PlatformCircularProgressIndicator(
+              cupertino: (context, platform) {
+                return CupertinoProgressIndicatorData(
+                  color: AppColor.primary,
+                );
+              },
+            ),
           ),
           errorWidget: (context, url, error) => Icon(Icons.error),
         ),

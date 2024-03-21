@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_login/presentation/components/theme.dart';
-import 'package:firebase_login/presentation/register/registerViewModel.dart';
+import 'package:firebase_login/presentation/register/old/registerViewModel.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_login/presentation/register/old/register_detail.dart';
 import 'package:firebase_login/presentation/components/common_components.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:firebase_login/app/style/app_color.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -25,7 +26,8 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   Future<void> fetchData() async {
-    final ViewModel = Provider.of<RegisterViewModel>(context, listen: false);
+    final ViewModel =
+        Provider.of<RegisterViewModel_old>(context, listen: false);
     if (ViewModel.model.universityList.isEmpty) {
       final re = await ViewModel.getUniversityList();
       if (re == true) {
@@ -61,7 +63,15 @@ class _RegisterViewState extends State<RegisterView> {
                 image: AssetImage('assets/components/background.png'),
               ),
             ),
-            child: Center(child: PlatformCircularProgressIndicator()),
+            child: Center(
+              child: PlatformCircularProgressIndicator(
+                cupertino: (context, platform) {
+                  return CupertinoProgressIndicatorData(
+                    color: AppColor.primary,
+                  );
+                },
+              ),
+            ),
           );
         }
       },
@@ -69,7 +79,7 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   Widget buildUI() {
-    return Consumer<RegisterViewModel>(
+    return Consumer<RegisterViewModel_old>(
       builder: (context, registerViewModel, child) {
         return Container(
           decoration: const BoxDecoration(
@@ -179,9 +189,9 @@ class LoginButton extends StatelessWidget {
 }
 
 class CustomTextInput extends StatefulWidget {
-  final RegisterViewModel _viewmodel;
+  final RegisterViewModel_old _viewmodel;
 
-  const CustomTextInput({required RegisterViewModel viewmodel, super.key})
+  const CustomTextInput({required RegisterViewModel_old viewmodel, super.key})
       : _viewmodel = viewmodel;
 
   @override
@@ -270,7 +280,8 @@ class _UniInputState extends State<UniInput> {
 
   @override
   Widget build(BuildContext context) {
-    final ViewModel = Provider.of<RegisterViewModel>(context, listen: false);
+    final ViewModel =
+        Provider.of<RegisterViewModel_old>(context, listen: false);
 
     return Column(
       children: [

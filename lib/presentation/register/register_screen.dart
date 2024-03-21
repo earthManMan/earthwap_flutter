@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_login/domain/register/register_model.dart';
+import 'package:firebase_login/presentation/register/old/register_model.dart';
 
-import 'package:firebase_login/presentation/register/registerViewModel.dart';
+import 'package:firebase_login/presentation/register/old/registerViewModel.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_login/presentation/components/common_components.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_login/app/util/validateText_util.dart';
-import 'package:firebase_login/presentation/common/login_button.dart';
+import 'package:firebase_login/presentation/common/widgets/loginwidget.dart';
 import 'package:firebase_login/app/style/app_color.dart';
-
+import 'package:firebase_login/presentation/common/widgets/toastwidget.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:firebase_login/presentation/register/register_viewmodel.dart';
+import 'package:firebase_login/app/config/constant.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -40,25 +42,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
-  Widget _buildTitle() {
-    return Padding(
-      padding: EdgeInsets.only(top: 40),
-      child: Center(
-        child: Text(
-          _isphoneInput
-              ? "휴대폰 번호로 가입해주세요."
-              : _isAuthCodeInput
-                  ? "인증코드를 입력 해주세요."
-                  : "",
-          style: TextStyle(
-            fontSize: 20,
-            color: AppColor.grayF9,
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final viewmodel = Provider.of<RegisterViewModel>(context, listen: false);
@@ -74,7 +57,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         appBar: PlatformAppBar(
           backgroundColor: Colors.transparent,
           leading: PlatformIconButton(
-            icon: const Icon(Icons.arrow_back,color: AppColor.grayF9,),
+            icon: const Icon(
+              Icons.arrow_back,
+              color: AppColor.grayF9,
+            ),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -103,6 +89,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
               _buildRegisterButton(viewmodel),
               const LoginButton(),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTitle() {
+    return Padding(
+      padding: EdgeInsets.only(top: 40),
+      child: Center(
+        child: Text(
+          _isphoneInput
+              ? "휴대폰 번호로 가입해주세요."
+              : _isAuthCodeInput
+                  ? "인증코드를 입력 해주세요."
+                  : "",
+          style: TextStyle(
+            fontSize: 20,
+            color: AppColor.grayF9,
           ),
         ),
       ),
@@ -212,14 +217,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   });
 
                   try {
-                    await viewmodel.PhoneCodeSendButtonPressed(_phonenumber);
+                    final result = await viewmodel.sendPhoneCode(_phonenumber);
 
-                    setState(() {
-                      _isphoneInput = false;
-                      _isLoading = false;
-                      _isvalid = false;
-                      _isAuthCodeInput = true;
-                    });
+                    if (result)
+                      setState(() {
+                        _isphoneInput = false;
+                        _isLoading = false;
+                        _isvalid = false;
+                        _isAuthCodeInput = true;
+                      });
                   } catch (error) {
                     setState(() {
                       _isLoading = false;
@@ -232,10 +238,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   setState(() {
                     _isLoading = true;
                   });
-                  final check = await viewmodel.signInWithSMSCode(_authcode);
+                  final check = await viewmodel.verifySMSCode(_authcode);
                   if (check) {
-                    final register = await viewmodel.registerUser(_phonenumber);
+                    final register = await viewmodel.registerUser();
                     if (register == RegistrationStatus.success) {
+                      showtoastMessage("핸드폰 번호로 로그인 해주세요.", toastStatus.error);
                       Navigator.pushReplacementNamed(context, '/login');
                     } else if (register == RegistrationStatus.deleted) {
                       Navigator.pushReplacementNamed(context, '/login');

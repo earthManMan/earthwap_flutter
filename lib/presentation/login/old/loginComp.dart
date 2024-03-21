@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_login/presentation/components/theme.dart';
-import 'package:firebase_login/presentation/components/common_components.dart';
-import 'package:firebase_login/presentation/login/loginViewModel.dart';
+import 'package:firebase_login/presentation/login/login_viewmodel.dart';
 import 'package:firebase_login/presentation/components/popup_widget.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-
+import 'package:firebase_login/presentation/common/widgets/toastwidget.dart';
+import 'package:firebase_login/app/style/app_color.dart';
+/*
 class EmailInput extends StatelessWidget {
   final LoginViewModel _viewmodel;
   final TextEditingController _emailController;
@@ -134,6 +135,11 @@ class _LoginButtonState extends State<LoginButton> {
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   );
                 },
+                cupertino: (context, platform) {
+                  return CupertinoProgressIndicatorData(
+                    color: AppColor.primary,
+                  );
+                },
               )
             : const Text(
                 '로그인',
@@ -193,3 +199,4 @@ class RegisterButton extends StatelessWidget {
     );
   }
 }
+*/

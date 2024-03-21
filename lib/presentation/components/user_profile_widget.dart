@@ -10,9 +10,10 @@ import 'package:firebase_login/presentation/components/content/post_grid_widget.
 import 'package:firebase_login/presentation/components/profile_image_widget.dart';
 import 'package:firebase_login/domain/postitem/postItem_model.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_login/presentation/components/common_components.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-
+import 'package:firebase_login/presentation/common/widgets/toastwidget.dart';
+import 'package:firebase_login/app/style/app_color.dart';
+import 'package:firebase_login/app/config/constant.dart';
 class UserProfile extends StatefulWidget {
   final String uid;
 
@@ -200,7 +201,13 @@ class _UserProfileState extends State<UserProfile>
                       fontWeight: FontWeight.bold)),
             ),
             body: Center(
-              child: PlatformCircularProgressIndicator(),
+              child: PlatformCircularProgressIndicator(
+                cupertino: (context, platform) {
+                  return CupertinoProgressIndicatorData(
+                    color: AppColor.primary,
+                  );
+                },
+              ),
             ),
           );
         }

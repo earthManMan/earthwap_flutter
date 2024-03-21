@@ -21,17 +21,6 @@ class HomeViewModel extends ChangeNotifier {
   // ViewModel의 초기화를 위한 팩토리 메서드
   factory HomeViewModel.initialize(
       UserService user, ItemService item, AlarmService alram) {
-    /*
-    final config = RemoteConfigService.instance;
-    List<String> titles = [];
-    List<String> subtitles = [];
-
-    final valueList = config.getStartModelJsonMap();
-    for (final value in valueList) {
-      titles.add(value["infoTitle"].toString());
-      subtitles.add(value["infoSubTitle"].toString());
-    }
-*/
     final homeModel = HomeModel(); // 필요한 초기화 로직을 수행하도록 변경
     return HomeViewModel(
       homeModel,

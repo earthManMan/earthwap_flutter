@@ -7,6 +7,7 @@ import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_login/domain/category/category_model.dart';
 import 'package:firebase_login/app/config/remote_options.dart';
+import 'package:firebase_login/app/config/constant.dart';
 
 class SellViewModel extends ChangeNotifier {
   SellModel _model;
