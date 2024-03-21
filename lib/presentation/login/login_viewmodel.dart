@@ -24,17 +24,17 @@ class LoginViewModel extends ChangeNotifier {
   );
 
   Future<void> saveAutoLogin(bool state) async {
-    await _storage.saveitem("autologin", state.toString());
+    await _storage.saveitem(KEY_AUTOLOGIN, state.toString());
   }
 
   Future<void> saveLoginToken(String token) async {
-    await _storage.saveitem("token", token);
+    await _storage.saveitem(KEY_TOKEN, token);
   }
 
   Future<bool> checkAutoLogin() async {
-    final auto = await _storage.getitem("autologin");
+    final auto = await _storage.getitem(KEY_AUTOLOGIN);
     if (auto.toString() == "true") {
-      final token = await _storage.getitem("token");
+      final token = await _storage.getitem(KEY_TOKEN);
       if (token.toString().isNotEmpty)
         return true;
       else
@@ -74,7 +74,7 @@ class LoginViewModel extends ChangeNotifier {
   Future<LoginStatus> AutoPhonelogin(BuildContext context) async {
     final alarm = AlarmService.instance;
     final api = FirebaseAPI();
-    final token = await _storage.getitem("token");
+    final token = await _storage.getitem(KEY_TOKEN);
 
     if (token.toString().isNotEmpty) {
       _authService.authModel.token = token.toString();
@@ -84,7 +84,7 @@ class LoginViewModel extends ChangeNotifier {
       final userinfo = await _authService.login();
       if (userinfo!.user!.uid.isEmpty) {
         _authService.authModel.token = "";
-        await _storage.deleteitem("token");
+        await _storage.deleteitem(KEY_TOKEN);
         return LoginStatus.logined;
       }
 
@@ -124,7 +124,7 @@ class LoginViewModel extends ChangeNotifier {
 
       return LoginStatus.success;
     } else {
-      await _storage.deleteitem("token");
+      await _storage.deleteitem(KEY_TOKEN);
       return LoginStatus.logined;
     }
   }

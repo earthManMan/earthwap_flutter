@@ -22,6 +22,7 @@ import 'package:firebase_login/presentation/mypage/components/mypage_webview.dar
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_login/presentation/common/widgets/toastwidget.dart';
 import 'package:firebase_login/app/style/app_color.dart';
+import 'package:firebase_login/app/util/localStorage_util.dart';
 
 class settingLayout extends StatefulWidget {
   const settingLayout({super.key});
@@ -221,6 +222,11 @@ class SettingItem extends StatelessWidget {
             alaram.stopListeningToMessages();
             alaram.stopListeningToNotifications();
 
+            // 로그 아웃 시 local에 저장된 token 및 자동 로그인 제거
+            // Firebase Auth logout 처리
+            final _storage = LocalStorage();
+            _storage.deleteitem(KEY_AUTOLOGIN);
+            _storage.deleteitem(KEY_TOKEN);
             api.logout();
 
             // 모든 화면을 dispose하고 StartView로 이동

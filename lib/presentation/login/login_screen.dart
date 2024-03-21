@@ -1,20 +1,15 @@
-import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:firebase_login/presentation/components/common_components.dart';
 import 'package:firebase_login/presentation/login/login_viewmodel.dart';
-import 'package:firebase_login/presentation/login/old/loginView.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_login/presentation/login/old/loginComp.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_login/presentation/register/old/registerViewModel.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_login/presentation/common/widgets/toastwidget.dart';
-import 'package:firebase_login/app/util/localStorage_util.dart';
 import 'package:firebase_login/app/util/validateText_util.dart';
 import 'package:firebase_login/app/style/app_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_login/app/config/constant.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
