@@ -1,11 +1,16 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+
+
+
+
+
+
 const COLLECTION_USERS = 'Users';
 const COLLECTION_POSTS = 'Posts';
 const COLLECTION_COMMENTS = 'Comments';
 
-const KEY_TOKEN = 'token';
-const KEY_AUTOLOGIN = 'autologin';
+
 const KEY_EMAIL = 'email';
 const KEY_LIKEDPOSTS = 'liked_posts';
 const KEY_FOLLOWERS = 'followers';

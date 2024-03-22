@@ -5,7 +5,7 @@ import 'package:firebase_login/presentation/components/common_components.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_login/app/style/app_color.dart';
 import 'package:firebase_login/app/config/remote_options.dart';
-import 'package:firebase_login/presentation/common/widgets/loginwidget.dart';
+import 'package:firebase_login/presentation/common/widgets/login_widget.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});

@@ -1,3 +1,4 @@
+import 'package:firebase_login/presentation/sell/sell_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_login/app/config/remote_options.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -5,7 +6,6 @@ import 'package:firebase_login/presentation/home/homeView.dart';
 import 'package:firebase_login/presentation/chat/chatView.dart';
 import 'package:firebase_login/presentation/mypage/mypageView.dart';
 import 'package:firebase_login/presentation/world/worldView.dart';
-import 'package:firebase_login/presentation/sell/sellView.dart';
 import 'package:firebase_login/presentation/components/theme.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_login/app/style/app_color.dart';
@@ -58,7 +58,7 @@ class _MainScreensState extends State<MainScreens> {
           children: [
             const HomeView(),
             const ChatView(),
-            const SellView(),
+            const SellScreen(),
             const WorldView(),
             const MypageView(),
             //ValueView(),

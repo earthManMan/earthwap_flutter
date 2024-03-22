@@ -126,7 +126,13 @@ class CustomAlertDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return PlatformAlertDialog(
       actions: _buildActions(context),
-      title: Text(message),
+      title: Text(
+        message,
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 
@@ -144,7 +150,7 @@ class CustomAlertDialog extends StatelessWidget {
           child: Text(
             '확인',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -163,7 +169,7 @@ class CustomAlertDialog extends StatelessWidget {
           child: Text(
             '취소',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),

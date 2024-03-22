@@ -8,7 +8,7 @@ import 'package:firebase_login/presentation/components/profile_image_widget.dart
 import 'package:firebase_login/domain/login/userService.dart';
 import 'package:firebase_login/presentation/mypage/components/mypage_detail.dart';
 import 'package:firebase_login/presentation/mypage/mypageViewModel.dart';
-import 'package:firebase_login/presentation/common/widgets/toastwidget.dart';
+import 'package:firebase_login/presentation/common/widgets/toast_widget.dart';
 import 'package:firebase_login/app/config/constant.dart';
 class MypageView extends StatefulWidget {
   final bool isMyPage; // isMyPage 속성 추가

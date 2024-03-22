@@ -46,23 +46,20 @@ class UserService with ChangeNotifier {
           List<dynamic> matitems = userData["matches"] ?? [];
           List<dynamic> picks = userData["pickups"] ?? [];
 
-          final commuID =
-              await api.getUniversityInfoOnCallFunction(userData['university']);
+          //final commuID =
+          //    await api.getUniversityInfoOnCallFunction(userData['university']);
 
-          if (commuID.isNotEmpty) {
-            setUserData(
-              uid: uid,
-              isPremium: userData['access_grant']?.toString() == 'basic'
-                  ? false
-                  : true,
-              email: userData['email'] ?? "",
-              university: userData['university'] ?? "",
-              profileImage: userData['profile_picture_url'] ?? "",
-              description: userData['description'] ?? "",
-              nickname: userData['nickname'] ?? "",
-              communityID: commuID,
-            );
-          }
+          setUserData(
+            uid: uid,
+            isPremium:
+                userData['access_grant']?.toString() == 'basic' ? false : true,
+            email: userData['email'] ?? "",
+            university: userData['university'] ?? "",
+            profileImage: userData['profile_picture_url'] ?? "",
+            description: userData['description'] ?? "",
+            nickname: userData['nickname'] ?? "",
+            communityID: "google",
+          );
           notifyListeners(); // _itemList 변경 알림
 
           itemService.ClearItems();

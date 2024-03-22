@@ -9,7 +9,7 @@ import 'package:firebase_login/presentation/components/item/edit_item_widget.dar
 import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:firebase_login/domain/login/userService.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:firebase_login/presentation/common/widgets/toastwidget.dart';
+import 'package:firebase_login/presentation/common/widgets/toast_widget.dart';
 import 'package:firebase_login/app/style/app_color.dart';
 import 'package:firebase_login/app/config/constant.dart';
 class ImageDetailPage extends StatefulWidget {

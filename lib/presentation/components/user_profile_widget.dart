@@ -11,7 +11,7 @@ import 'package:firebase_login/presentation/components/profile_image_widget.dart
 import 'package:firebase_login/domain/postitem/postItem_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:firebase_login/presentation/common/widgets/toastwidget.dart';
+import 'package:firebase_login/presentation/common/widgets/toast_widget.dart';
 import 'package:firebase_login/app/style/app_color.dart';
 import 'package:firebase_login/app/config/constant.dart';
 class UserProfile extends StatefulWidget {

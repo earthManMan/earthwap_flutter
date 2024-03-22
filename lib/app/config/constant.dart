@@ -30,3 +30,6 @@ enum ChatMessageType {
   received,
 }
 
+
+const KEY_TOKEN = 'token';
+const KEY_AUTOLOGIN = 'autologin';

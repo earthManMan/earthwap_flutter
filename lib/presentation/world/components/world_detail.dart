@@ -22,7 +22,7 @@ import 'package:bootpay/model/user.dart';
 import 'package:firebase_login/app/config/remote_options.dart';
 import 'package:firebase_login/presentation/components/content/post_grid_widget.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:firebase_login/presentation/common/widgets/toastwidget.dart';
+import 'package:firebase_login/presentation/common/widgets/toast_widget.dart';
 import 'package:firebase_login/app/style/app_color.dart';
 import 'package:firebase_login/app/config/constant.dart';
 
