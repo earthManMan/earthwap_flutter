@@ -118,10 +118,10 @@ class _SellViewState extends State<SellView> {
     final viewmodel = Provider.of<SellViewModel>(context, listen: false);
 
     setState(() {
-      viewmodel.categorymodel.clearSelected();
+      //viewmodel.categorymodel.clearSelected();
       categoryList.clear();
       for (String item in selectedCategories) {
-        viewmodel.categorymodel.addselected(item);
+        //viewmodel.categorymodel.addselected(item);
 
         categoryList.add(
           Padding(
@@ -461,8 +461,8 @@ class _SellViewState extends State<SellView> {
               MaterialPageRoute(
                 builder: (context) => CategorySelectionPage(
                   onPressed: handleCategoriesSelected,
-                  categories: viewmodel.categorymodel.categories,
-                  selected: viewmodel.categorymodel.selected,
+                  categories: [],//viewmodel.categorymodel.categories,
+                  selected: viewmodel.selected,
                   isSingleSelection: true,
                 ),
               ),

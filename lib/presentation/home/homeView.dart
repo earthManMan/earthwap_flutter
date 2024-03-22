@@ -57,9 +57,9 @@ class _homeViewState extends State<HomeView> {
     final viewmodel = Provider.of<HomeViewModel>(context, listen: false);
 
     setState(() {
-      viewmodel.categorymodel.clearSelected();
+      //viewmodel.categorymodel.clearSelected();
       for (String item in selectedCategories) {
-        viewmodel.categorymodel.addselected(item);
+        //viewmodel.categorymodel.addselected(item);
       }
       Navigator.of(context).pop();
     });
@@ -95,8 +95,8 @@ class _homeViewState extends State<HomeView> {
                         MaterialPageRoute(
                           builder: (context) => CategorySelectionPage(
                             onPressed: handleCategoriesSelected,
-                            categories: homeViewModel.categorymodel.categories,
-                            selected: homeViewModel.categorymodel.selected,
+                            categories: [],//homeViewModel.categorymodel.categories,
+                            selected: []//homeViewModel.categorymodel.selected,
                           ),
                         ),
                       );

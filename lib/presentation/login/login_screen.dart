@@ -247,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildAutoLogin(LoginViewModel viewmodel) {
     return Container(
-      padding: const EdgeInsets.only(right: 20),
+      padding: const EdgeInsets.all(20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

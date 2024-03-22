@@ -48,7 +48,7 @@ class _EditItemPageState extends State<EditItemPage> {
     final viewmodel = Provider.of<MypageViewModel>(context, listen: false);
 
     categoryList.add(CategoryItem(text: widget.itemInfo.category));
-    viewmodel.categorymodel.addselected(widget.itemInfo.category);
+   // viewmodel.categorymodel.addselected(widget.itemInfo.category);
   }
 
   @override
@@ -89,10 +89,10 @@ class _EditItemPageState extends State<EditItemPage> {
     final viewmodel = Provider.of<MypageViewModel>(context, listen: false);
 
     setState(() {
-      viewmodel.categorymodel.clearSelected();
+    //  viewmodel.categorymodel.clearSelected();
       categoryList.clear();
       for (String item in selectedCategories) {
-        viewmodel.categorymodel.addselected(item);
+       // viewmodel.categorymodel.addselected(item);
 
         categoryList.add(
           Padding(
@@ -260,8 +260,8 @@ class _EditItemPageState extends State<EditItemPage> {
                             MaterialPageRoute(
                               builder: (context) => CategorySelectionPage(
                                 onPressed: handleCategoriesSelected,
-                                categories: ViewModel.categorymodel.categories,
-                                selected: ViewModel.categorymodel.selected,
+                                categories:[], //ViewModel.categorymodel.categories,
+                                selected: [],//ViewModel.categorymodel.selected,
                                 isSingleSelection: true,
                               ),
                             ),

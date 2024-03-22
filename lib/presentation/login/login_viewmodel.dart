@@ -91,37 +91,13 @@ class LoginViewModel extends ChangeNotifier {
 
       _authService.authModel.uid = userinfo!.user!.uid.toString();
 
-      final homeViewModel = Provider.of<HomeViewModel>(context, listen: false);
-      final sellViewModel = Provider.of<SellViewModel>(context, listen: false);
       final myPageViewModel =
           Provider.of<MypageViewModel>(context, listen: false);
 
-      homeViewModel.categorymodel.clearcategories();
-      sellViewModel.categorymodel.clearcategories();
-      myPageViewModel.categorymodel.clearcategories();
-
-      final category = await api.getAllCategoriesOnCallFunction();
-      if (category.isNotEmpty) {
-        for (final item in category) {
-          homeViewModel.categorymodel.addcategory(item['id'].toString());
-          sellViewModel.categorymodel.addcategory(item['id'].toString());
-          myPageViewModel.categorymodel.addcategory(item['id'].toString());
-        }
-      } else {
-        print("error getAllCategoriesOnCallFunction function");
-      }
-
-      final devicetoken = await api.addDeviceTokenOnCallFunction(
-          _authService.authModel.uid, alarm.fcmToken.toString());
-      if (devicetoken) {
-        _userService
-            .startListeningToUserDataChanges(_authService.authModel.uid);
-        alarm.startListeningToNotifications(_authService.authModel.uid);
-        myPageViewModel.startListeningToFollowers(_authService.authModel.uid);
-        myPageViewModel.startListeningToFollowing(_authService.authModel.uid);
-      } else {
-        print("error addDeviceTokenOnCallFunction function");
-      }
+      _userService.startListeningToUserDataChanges(_authService.authModel.uid);
+      alarm.startListeningToNotifications(_authService.authModel.uid);
+      myPageViewModel.startListeningToFollowers(_authService.authModel.uid);
+      myPageViewModel.startListeningToFollowing(_authService.authModel.uid);
 
       return LoginStatus.success;
     } else {
@@ -162,36 +138,13 @@ class LoginViewModel extends ChangeNotifier {
 
     _authService.authModel.uid = userinfo!.user!.uid.toString();
 
-    final homeViewModel = Provider.of<HomeViewModel>(context, listen: false);
-    final sellViewModel = Provider.of<SellViewModel>(context, listen: false);
     final myPageViewModel =
         Provider.of<MypageViewModel>(context, listen: false);
 
-    homeViewModel.categorymodel.clearcategories();
-    sellViewModel.categorymodel.clearcategories();
-    myPageViewModel.categorymodel.clearcategories();
-
-    final category = await api.getAllCategoriesOnCallFunction();
-    if (category.isNotEmpty) {
-      for (final item in category) {
-        homeViewModel.categorymodel.addcategory(item['id'].toString());
-        sellViewModel.categorymodel.addcategory(item['id'].toString());
-        myPageViewModel.categorymodel.addcategory(item['id'].toString());
-      }
-    } else {
-      print("error getAllCategoriesOnCallFunction function");
-    }
-
-    final devicetoken = await api.addDeviceTokenOnCallFunction(
-        _authService.authModel.uid, alarm.fcmToken.toString());
-    if (devicetoken) {
-      _userService.startListeningToUserDataChanges(_authService.authModel.uid);
-      alarm.startListeningToNotifications(_authService.authModel.uid);
-      myPageViewModel.startListeningToFollowers(_authService.authModel.uid);
-      myPageViewModel.startListeningToFollowing(_authService.authModel.uid);
-    } else {
-      print("error addDeviceTokenOnCallFunction function");
-    }
+    _userService.startListeningToUserDataChanges(_authService.authModel.uid);
+    alarm.startListeningToNotifications(_authService.authModel.uid);
+    myPageViewModel.startListeningToFollowers(_authService.authModel.uid);
+    myPageViewModel.startListeningToFollowing(_authService.authModel.uid);
 
     return LoginStatus.success;
   }

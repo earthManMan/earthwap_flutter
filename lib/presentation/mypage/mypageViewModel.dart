@@ -12,22 +12,22 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_login/domain/home/itemService.dart';
 import 'package:firebase_login/domain/world/contentService.dart';
 import 'package:firebase_login/domain/world/TrashPickupService.dart';
-import 'package:firebase_login/domain/category/category_model.dart';
+
 import 'package:firebase_login/app/config/remote_options.dart';
 import 'dart:async';
+import 'package:firebase_login/domain/category/service/category_service.dart';
 
 class MypageViewModel extends ChangeNotifier {
   MypageModel _model;
   final UserService _userService;
   final ItemService _itemService;
   final TrashPickupService _pickupService;
-  final CategoryModel _categoryModel = CategoryModel();
+  final CategoryService _categoryService;
   bool notification_following = false;
   bool notification_followers = false;
 
   final ContentService _contentService;
   MypageModel get model => _model;
-  CategoryModel get categorymodel => _categoryModel;
 
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _followingListener;
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _followersListener;
@@ -35,6 +35,7 @@ class MypageViewModel extends ChangeNotifier {
   MypageViewModel(
     this._model,
     this._userService,
+    this._categoryService,
     this._itemService,
     this._contentService,
     this._pickupService,
@@ -186,8 +187,12 @@ class MypageViewModel extends ChangeNotifier {
   }
 
   // ViewModel의 초기화를 위한 팩토리 메서드
-  factory MypageViewModel.initialize(UserService user, ItemService item,
-      ContentService content, TrashPickupService pickup) {
+  factory MypageViewModel.initialize(
+      UserService user,
+      ItemService item,
+      CategoryService category,
+      ContentService content,
+      TrashPickupService pickup) {
     final mypageModel = MypageModel(); // 필요한 초기화 로직을 수행하도록 변경
     final config = RemoteConfigOptions.instance;
 
@@ -195,7 +200,7 @@ class MypageViewModel extends ChangeNotifier {
     mypageModel.setcustomer_email(valueList['email']);
     mypageModel.setcustomer_time(valueList['time']);
 
-    return MypageViewModel(mypageModel, user, item, content, pickup);
+    return MypageViewModel(mypageModel, user, category, item, content, pickup);
   }
 
   Future<bool> updateProfile() async {

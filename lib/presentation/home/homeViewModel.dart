@@ -3,7 +3,7 @@ import 'package:firebase_login/domain/home/itemService.dart';
 import 'package:firebase_login/domain/login/userService.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_login/domain/home/home_model.dart';
-import 'package:firebase_login/domain/category/category_model.dart';
+import 'package:firebase_login/domain/category/service/category_service.dart';
 
 // 추가된 import 문
 import 'package:firebase_login/API/firebaseAPI.dart';
@@ -13,25 +13,28 @@ class HomeViewModel extends ChangeNotifier {
   final UserService _userService;
   final ItemService _itemService;
   final AlarmService _alarmService;
-  final CategoryModel _categoryModel = CategoryModel();
+  final CategoryService _categoryService;
+  
+  final List<String> _selected = [];
+  List<String> get selected => _selected.toList();
 
   HomeModel get model => _model;
-  CategoryModel get categorymodel => _categoryModel;
 
   // ViewModel의 초기화를 위한 팩토리 메서드
-  factory HomeViewModel.initialize(
-      UserService user, ItemService item, AlarmService alram) {
+  factory HomeViewModel.initialize(UserService user, CategoryService category,
+      ItemService item, AlarmService alram) {
     final homeModel = HomeModel(); // 필요한 초기화 로직을 수행하도록 변경
     return HomeViewModel(
       homeModel,
       user,
+      category,
       item,
       alram,
     );
   }
 
-  HomeViewModel(
-      this._model, this._userService, this._itemService, this._alarmService) {
+  HomeViewModel(this._model, this._userService, this._categoryService,
+      this._itemService, this._alarmService) {
     _itemService.addListener(() {
       if (_itemService.itemList!.isNotEmpty) {
         initializeData();
@@ -48,7 +51,7 @@ class HomeViewModel extends ChangeNotifier {
       String id, List<String> excludeList) async {
     final api = FirebaseAPI();
     return await api.readRecommendedItemsOnCallFunction(
-        id, _categoryModel.selected, excludeList);
+        id, selected, excludeList);
   }
 
   Future<dynamic> _getUserInfo(String itemOwnerUid) async {
