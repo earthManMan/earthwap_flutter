@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     // 자동 로그인 체크
-    _checkAutoLogin();
+   // _checkAutoLogin();
   }
 
   void _checkAutoLogin() async {

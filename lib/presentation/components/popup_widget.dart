@@ -1,181 +1,100 @@
-import 'package:firebase_login/presentation/sell/sellViewModel.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_login/presentation/components/theme.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_login/app/style/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:firebase_login/app/util/localStorage_util.dart';
+import 'package:firebase_login/app/config/constant.dart';
 
-class KeyWordPopup extends Dialog {
-  const KeyWordPopup({
-    super.key,
-  });
+class KeyWordPopup extends StatelessWidget {
+  final String description;
 
-  @override
-  Widget build(BuildContext context) {
-    final ViewModel = Provider.of<SellViewModel>(context, listen: false);
-
-    // TODO: implement build
-    return Dialog(
-      backgroundColor: const Color.fromARGB(255, 8, 8, 8).withOpacity(0.1),
-      insetPadding: EdgeInsets.zero,
-      child: AlertDialog(
-        insetPadding: EdgeInsets.zero,
-        backgroundColor: const Color.fromARGB(255, 8, 8, 8).withOpacity(0.1),
-        content: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 100.0),
-              TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 20, 20, 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  animationDuration: Duration.zero,
-                  splashFactory: NoSplash.splashFactory,
-                ),
-                child: const Text('TIP', style: TextStyle(color: Colors.white)),
-                onPressed: () {},
-              ),
-              const SizedBox(height: 24.0),
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.transparent,
-                  ),
-                  child: Text(
-                    ViewModel.model.getKeywordDescription().toString(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 50.0),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: ColorStyles.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                      child: const Text(
-                        '확인',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 240, 244, 248),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: TextButton(
-                      child: const Text('오늘 그만 보기',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 240, 244, 248),
-                          )),
-                      onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        await prefs.setBool('isKeywordPopup', true);
-
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomAlertDialog extends StatelessWidget {
-  final String message;
-  final VoidCallback? onConfirm;
-  final VoidCallback? onCancel;
-  final bool? visibleConfirm;
-  final bool? visibleCancel;
-
-  CustomAlertDialog({
-    Key? key,
-    required this.message,
-    this.onConfirm,
-    this.onCancel,
-    this.visibleConfirm = true,
-    this.visibleCancel = true,
-  }) : super(key: key);
+  const KeyWordPopup({required this.description, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final double width = mediaQuery.size.width;
+
     return PlatformAlertDialog(
-      actions: _buildActions(context),
-      title: Text(
-        message,
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
+      material: (context, platform) {
+        return MaterialAlertDialogData(
+          backgroundColor: AppColor.gray1C.withOpacity(0.5),
+        );
+      },
+      content: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(height: 100.0),
+          _buildActionButton(
+            text: 'TIP',
+            width: 100,
+            backgroundColor: AppColor.gray1C,
+            onPressed: () {},
+          ),
+          SizedBox(height: 24.0),
+          _buildDescription(description),
+          SizedBox(height: 50.0),
+          _buildActionButton(
+            width: width,
+            text: '확인',
+            onPressed: () => Navigator.of(context).pop(),
+            backgroundColor: AppColor.primary,
+          ),
+          SizedBox(height: 10),
+          _buildActionButton(
+            width: width,
+            text: '오늘 그만 보기',
+            backgroundColor: AppColor.gray1C,
+            onPressed: () async {
+              final _storage = LocalStorage();
+              await _storage.saveitem(KEY_KEYWORDPOPUP, 'true');
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionButton({
+    required String text,
+    required double width,
+    required Function() onPressed,
+    Color? backgroundColor,
+  }) {
+    return SizedBox(
+      width: width,
+      child: TextButton(
+        style: TextButton.styleFrom(
+          backgroundColor: backgroundColor ?? AppColor.gray1C,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: TextStyle(
+            color: AppColor.grayF9,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
   }
 
-  List<Widget> _buildActions(BuildContext context) {
-    List<Widget> actions = [];
-    if (visibleConfirm!) {
-      actions.add(
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-            if (onConfirm != null) {
-              onConfirm!();
-            }
-          },
-          child: Text(
-            '확인',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+  Widget _buildDescription(String description) {
+    return Align(
+      alignment: Alignment.center,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.transparent,
         ),
-      );
-    }
-    if (visibleCancel!) {
-      actions.add(
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-            if (onCancel != null) {
-              onCancel!();
-            }
-          },
-          child: Text(
-            '취소',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+        child: Text(
+          description,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: AppColor.grayF9),
         ),
-      );
-    }
-    return actions;
+      ),
+    );
   }
 }

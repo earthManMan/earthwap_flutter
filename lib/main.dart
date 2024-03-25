@@ -39,7 +39,7 @@ import 'presentation/login/old/loginView.dart';
 import 'presentation/home/homeView.dart';
 import 'presentation/mypage/mypageView.dart';
 import 'presentation/world/worldView.dart';
-import 'presentation/sell/sellView.dart';
+import 'presentation/sell/old/sellView.dart';
 import 'presentation/register/old/registerView.dart';
 import 'presentation/password/passwordView.dart';
 import 'presentation/main/mainView.dart';

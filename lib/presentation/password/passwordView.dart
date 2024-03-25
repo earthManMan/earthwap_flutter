@@ -3,6 +3,7 @@ import 'package:firebase_login/presentation/password/passwordViewModel.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_login/presentation/components/theme.dart';
 import 'package:firebase_login/presentation/components/popup_widget.dart';
+import 'package:firebase_login/presentation/common/widgets/custom_popup_widget.dart';
 
 class PasswordView extends StatefulWidget {
   const PasswordView({super.key});

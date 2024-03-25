@@ -3,17 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:provider/provider.dart';
 
 class ImageAddButton extends StatefulWidget {
   final String title;
-  final bool visible;
+  final String subtitle;
+
   final Function(XFile?) onImageSelected; // Callback function
   final Function(ImageAddButton?) onImageClear;
 
-  const ImageAddButton({
+  ImageAddButton({
     super.key,
     required this.title,
-    required this.visible,
+    required this.subtitle,
     required this.onImageSelected,
     required this.onImageClear,
   });
@@ -25,41 +27,48 @@ class ImageAddButton extends StatefulWidget {
 class _ImageAddButtonState extends State<ImageAddButton> {
   XFile? _pickedImage;
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Future<void> _pickImage() async {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         return SizedBox(
-          height: 150.0,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              PlatformListTile(
-                leading: Icon(Icons.image),
-                title: Text(
-                  '앨범에서 선택',
-                  style: TextStyle(
-                      fontFamily: "SUIT", fontWeight: FontWeight.bold),
-                ),
-                onTap: () {
-                  Navigator.pop(context); // 바텀 시트 닫기
-                  _getImage(ImageSource.gallery);
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.camera_alt),
-                title: Text(
-                  '카메라로 찍기',
-                  style: TextStyle(
-                      fontFamily: "SUIT", fontWeight: FontWeight.bold),
-                ),
-                onTap: () {
-                  Navigator.pop(context); // 바텀 시트 닫기
-                  _getImage(ImageSource.camera);
-                },
-              ),
-            ],
-          ),
+          height: MediaQuery.of(context).size.height / 7,
+          child: Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  PlatformListTile(
+                    leading: Icon(Icons.image),
+                    title: Text(
+                      '앨범에서 선택',
+                      style: TextStyle(
+                          fontFamily: "SUIT", fontWeight: FontWeight.bold),
+                    ),
+                    onTap: () {
+                      Navigator.pop(context); // 바텀 시트 닫기
+                      _getImage(ImageSource.gallery);
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.camera_alt),
+                    title: Text(
+                      '카메라로 찍기',
+                      style: TextStyle(
+                          fontFamily: "SUIT", fontWeight: FontWeight.bold),
+                    ),
+                    onTap: () {
+                      Navigator.pop(context); // 바텀 시트 닫기
+                      _getImage(ImageSource.camera);
+                    },
+                  ),
+                ],
+              )),
         );
       },
     );
@@ -117,6 +126,10 @@ class _ImageAddButtonState extends State<ImageAddButton> {
                       widget.title,
                       style: const TextStyle(color: AppColor.grayF9),
                     ),
+                    Text(
+                      widget.subtitle,
+                      style: const TextStyle(color: AppColor.grayF9),
+                    ),
                   ],
                 ),
         ),
@@ -127,15 +140,14 @@ class _ImageAddButtonState extends State<ImageAddButton> {
                 left: -0,
                 child: Icon(Icons.star_outlined, color: AppColor.primary)),
         if (_pickedImage != null)
-          if (widget.visible)
-            Positioned(
-              top: -10.0,
-              right: -10.0,
-              child: IconButton(
-                icon: const Icon(Icons.close, color: AppColor.grayF9),
-                onPressed: _clearImage,
-              ),
-            )
+          Positioned(
+            top: -10.0,
+            right: -10.0,
+            child: IconButton(
+              icon: const Icon(Icons.close, color: AppColor.grayF9),
+              onPressed: _clearImage,
+            ),
+          )
       ],
     );
   }

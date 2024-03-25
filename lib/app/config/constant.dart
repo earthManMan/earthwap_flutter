@@ -33,3 +33,5 @@ enum ChatMessageType {
 
 const KEY_TOKEN = 'token';
 const KEY_AUTOLOGIN = 'autologin';
+const KEY_KEYWORDPOPUP = 'KeywordPopup';
+

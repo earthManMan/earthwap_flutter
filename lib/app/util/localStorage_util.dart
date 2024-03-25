@@ -1,15 +1,8 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-
-
-
-
-
-
 const COLLECTION_USERS = 'Users';
 const COLLECTION_POSTS = 'Posts';
 const COLLECTION_COMMENTS = 'Comments';
-
 
 const KEY_EMAIL = 'email';
 const KEY_LIKEDPOSTS = 'liked_posts';
@@ -35,11 +28,13 @@ class LocalStorage {
   final storage = const FlutterSecureStorage();
 
   Future<void> deleteitem(String key) async {
-    await storage.delete(key: key);
+    await storage.delete(
+        key: key, aOptions: AndroidOptions(encryptedSharedPreferences: true));
   }
 
   Future<String?> getitem(String key) async {
-    final item = await storage.read(key: key);
+    final item = await storage.read(
+        key: key, aOptions: AndroidOptions(encryptedSharedPreferences: true));
 
     if (item != null) {
       return item;
@@ -49,6 +44,9 @@ class LocalStorage {
   }
 
   Future<void> saveitem(String key, String value) async {
-    await storage.write(key: key, value: value);
+    await storage.write(
+        key: key,
+        value: value,
+        aOptions: AndroidOptions(encryptedSharedPreferences: true));
   }
 }

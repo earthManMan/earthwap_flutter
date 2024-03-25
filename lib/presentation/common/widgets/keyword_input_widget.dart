@@ -1,11 +1,10 @@
-import 'package:firebase_login/presentation/components/popup_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:firebase_login/presentation/components/theme.dart';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_login/app/style/app_color.dart';
+import 'package:firebase_login/presentation/common/widgets/custom_popup_widget.dart';
 
 class KeyWordInputButton extends StatelessWidget {
   final String text;
@@ -98,26 +97,27 @@ class _KeywordWorkPageState extends State<KeywordWorkPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        material: (context, platform) {
+          return MaterialAppBarData(
+            centerTitle: true,
+          );
+        },
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pop(); // Handles the back button click event
           },
         ),
-        centerTitle: true,
-        iconTheme: const IconThemeData(
-          color: Color.fromARGB(255, 255, 255, 255), //색변경
-        ),
         title: const Text('키워드 추가',
             style: TextStyle(
-                color: Color.fromARGB(255, 241, 240, 240),
+                color: AppColor.grayF9,
                 fontFamily: "SUIT",
                 fontSize: 20,
                 fontWeight: FontWeight.bold)),
-        backgroundColor: const Color.fromARGB(255, 20, 22, 25),
-        actions: [
+        backgroundColor: AppColor.gray1C,
+        trailingActions: [
           TextButton(
             onPressed: () {
               if (_textField1Value.text.isNotEmpty ||
@@ -141,8 +141,9 @@ class _KeywordWorkPageState extends State<KeywordWorkPage> {
               style: TextStyle(
                   color: (_textField1Value.text.isNotEmpty ||
                           _textField2Value.text.isNotEmpty)
-                      ? ColorStyles.primary // 활성화 상태일 때 색상
-                      : const Color.fromARGB(255, 79, 79, 79)),
+                      ? AppColor.primary // 활성화 상태일 때 색상
+                      : AppColor.gray3A,
+                  fontWeight: FontWeight.bold),
             ),
           ),
         ],
@@ -159,21 +160,25 @@ class _KeywordWorkPageState extends State<KeywordWorkPage> {
                 padding: const EdgeInsets.all(20),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: TextField(
+                  child: PlatformTextField(
                     enableInteractiveSelection: true,
-                    cursorColor: Colors.red,
+                    cursorColor: AppColor.systemError,
                     controller: _textField1Value,
                     onChanged: (str) => {setState(() {})},
                     maxLength: 10,
-                    decoration: InputDecoration(
-                      hintText: '1ST KEYWORD',
-                      hintStyle: TextStyle(
-                          fontFamily: "Syncopate",
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                          color: widget.mainColor),
-                      enabledBorder: InputBorder.none,
-                    ),
+                    material: (context, platform) {
+                      return MaterialTextFieldData(
+                        decoration: InputDecoration(
+                          hintText: '1ST KEYWORD',
+                          hintStyle: TextStyle(
+                              fontFamily: "Syncopate",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                              color: widget.mainColor),
+                          enabledBorder: InputBorder.none,
+                        ),
+                      );
+                    },
                     style: TextStyle(
                         fontFamily: "Syncopate",
                         fontWeight: FontWeight.bold,
@@ -191,21 +196,25 @@ class _KeywordWorkPageState extends State<KeywordWorkPage> {
                 padding: const EdgeInsets.all(20),
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: TextField(
+                  child: PlatformTextField(
                     enableInteractiveSelection: true,
-                    cursorColor: Colors.red,
+                    cursorColor: AppColor.systemError,
                     controller: _textField2Value,
                     onChanged: (str) => {setState(() {})},
                     maxLength: 10,
-                    decoration: InputDecoration(
-                      hintText: '2ND KEYWORD',
-                      hintStyle: TextStyle(
-                          fontFamily: "Syncopate",
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                          color: widget.subColor),
-                      enabledBorder: InputBorder.none,
-                    ),
+                    material: (context, platform) {
+                      return MaterialTextFieldData(
+                        decoration: InputDecoration(
+                          hintText: '2ND KEYWORD',
+                          hintStyle: TextStyle(
+                              fontFamily: "Syncopate",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                              color: widget.subColor),
+                          enabledBorder: InputBorder.none,
+                        ),
+                      );
+                    },
                     style: TextStyle(
                         fontFamily: "Syncopate",
                         fontWeight: FontWeight.bold,
@@ -226,14 +235,12 @@ class _KeywordWorkPageState extends State<KeywordWorkPage> {
       // URL인 경우
       return CachedNetworkImage(
         imageUrl: imagePath,
-        width: 150,
-        height: 150,
-        fit: BoxFit.contain,
+        fit: BoxFit.fill,
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(
             image: DecorationImage(
               image: imageProvider,
-              fit: BoxFit.contain,
+              fit: BoxFit.fill,
             ),
           ),
         ),
@@ -252,9 +259,7 @@ class _KeywordWorkPageState extends State<KeywordWorkPage> {
       // 파일 경로인 경우
       return Image.file(
         File(imagePath),
-        width: 150,
-        height: 150,
-        fit: BoxFit.contain,
+        fit: BoxFit.fill,
       );
     }
   }

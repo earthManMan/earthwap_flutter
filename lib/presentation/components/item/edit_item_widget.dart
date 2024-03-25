@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:io';
-import 'package:firebase_login/presentation/components/item/keyword_input_widget.dart';
+import 'package:firebase_login/presentation/common/widgets/keyword_input_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_login/presentation/components/popup_widget.dart';
 
@@ -48,7 +48,7 @@ class _EditItemPageState extends State<EditItemPage> {
     final viewmodel = Provider.of<MypageViewModel>(context, listen: false);
 
     categoryList.add(CategoryItem(text: widget.itemInfo.category));
-   // viewmodel.categorymodel.addselected(widget.itemInfo.category);
+    // viewmodel.categorymodel.addselected(widget.itemInfo.category);
   }
 
   @override
@@ -89,10 +89,10 @@ class _EditItemPageState extends State<EditItemPage> {
     final viewmodel = Provider.of<MypageViewModel>(context, listen: false);
 
     setState(() {
-    //  viewmodel.categorymodel.clearSelected();
+      //  viewmodel.categorymodel.clearSelected();
       categoryList.clear();
       for (String item in selectedCategories) {
-       // viewmodel.categorymodel.addselected(item);
+        // viewmodel.categorymodel.addselected(item);
 
         categoryList.add(
           Padding(
@@ -243,7 +243,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                   context: context,
                                   barrierDismissible: true,
                                   builder: (BuildContext context) {
-                                    return const KeyWordPopup();
+                                    return const KeyWordPopup(description: "",);
                                   },
                                 )
                               }
@@ -260,8 +260,8 @@ class _EditItemPageState extends State<EditItemPage> {
                             MaterialPageRoute(
                               builder: (context) => CategorySelectionPage(
                                 onPressed: handleCategoriesSelected,
-                                categories:[], //ViewModel.categorymodel.categories,
-                                selected: [],//ViewModel.categorymodel.selected,
+                                categories: [], //ViewModel.categorymodel.categories,
+                                selected: [], //ViewModel.categorymodel.selected,
                                 isSingleSelection: true,
                               ),
                             ),
