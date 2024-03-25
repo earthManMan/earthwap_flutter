@@ -64,14 +64,15 @@ class _MainScreensState extends State<MainScreens> {
         ],
       ),
       bottomNavBar: PlatformNavBar(
+        backgroundColor: AppColor.gray1C,
+        height: MediaQuery.of(context).size.height * 0.08,
         material3: (context, platform) {
           return MaterialNavigationBarData(indicatorColor: Colors.transparent);
         },
         cupertino: (context, platform) {
           return CupertinoTabBarData(
-              inactiveColor: Colors.transparent,
-              activeColor: Colors.transparent,
-              backgroundColor: Colors.transparent);
+              activeColor: AppColor.primary,
+              backgroundColor: AppColor.gray1C);
         },
         items: [
           BottomNavigationBarItem(

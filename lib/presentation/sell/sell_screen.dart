@@ -277,16 +277,19 @@ class _SellScreenState extends State<SellScreen> {
           backgroundColor: AppColor.gray1C,
         ),
         backgroundColor: AppColor.gray1C,
-        body: SingleChildScrollView(
+        body:
+         SingleChildScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           child: GestureDetector(
             onTap: () {
               // 터치 이벤트 감지 시 키보드 숨기기
               FocusScope.of(context).unfocus();
             },
-            child: Column(
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              child: 
+            Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildImageList(viewmodel),
                 _buildDescription(viewmodel),
@@ -295,7 +298,7 @@ class _SellScreenState extends State<SellScreen> {
                 _buildValueRange(viewmodel),
               ],
             ),
-          ),
+          )),
         ));
   }
 
