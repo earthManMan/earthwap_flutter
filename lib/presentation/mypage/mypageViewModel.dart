@@ -226,8 +226,8 @@ class MypageViewModel extends ChangeNotifier {
 
   Future<dynamic> uploadImage(UploadType type, String uid, XFile image) async {
     final api = FirebaseAPI();
-
-    return api.uploadImage(type, uid, image);
+    return dynamic;
+    //return api.uploadImage(type, uid, image);
   }
 
   Future<bool> createContentList() async {

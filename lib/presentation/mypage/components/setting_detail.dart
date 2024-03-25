@@ -17,7 +17,7 @@ import 'package:firebase_login/presentation/sell/sellViewModel.dart';
 import 'package:firebase_login/presentation/world/worldViewModel.dart';
 import 'package:firebase_login/presentation/chat/chatViewModel.dart';
 import 'package:firebase_login/domain/alarm/alarmService.dart';
-import 'package:firebase_login/presentation/components/popup_widget.dart';
+import 'package:firebase_login/presentation/common/widgets/custom_popup_widget.dart';
 import 'package:firebase_login/presentation/mypage/components/mypage_webview.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_login/presentation/common/widgets/toast_widget.dart';

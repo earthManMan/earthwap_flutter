@@ -1,14 +1,13 @@
 import 'package:firebase_login/presentation/sell/sellViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_login/presentation/common/widgets/image_add_widget.dart';
 import 'package:firebase_login/domain/login/userService.dart';
 import 'package:firebase_login/presentation/components/category_widget.dart';
 import 'package:firebase_login/presentation/common/widgets/keyword_input_widget.dart';
-import 'package:firebase_login/presentation/components/popup_widget.dart';
+
 import 'package:firebase_login/presentation/components/item/value_select_widget.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_login/presentation/common/widgets/toast_widget.dart';
@@ -16,6 +15,7 @@ import 'package:firebase_login/app/style/app_color.dart';
 import 'package:firebase_login/app/config/constant.dart';
 import 'package:firebase_login/app/util/localStorage_util.dart';
 import 'package:firebase_login/presentation/common/widgets/custom_popup_widget.dart';
+import 'package:firebase_login/app/config/remote_options.dart';
 
 class SellScreen extends StatefulWidget {
   const SellScreen({super.key});
@@ -34,11 +34,26 @@ class _SellScreenState extends State<SellScreen> {
   late ImageAddButton _coverWidget;
   List<ImageAddButton> _imgwidgets = [];
 
+  String _description = "";
+  String _mainKeyword = "";
+  String _subKeyword = "";
+  String _Keyword_description = "";
+  String _item_hint_description = "";
+
+  int _userPrice = 0;
+  int _price_start = -1000;
+  int _price_end = 1000;
+
   bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
+    final config = RemoteConfigOptions.instance;
+
+    final valueList = config.getSellModelJsonMap();
+    _Keyword_description = valueList['keywordDescription'];
+    _item_hint_description = valueList['description'];
   }
 
   @override
@@ -48,7 +63,6 @@ class _SellScreenState extends State<SellScreen> {
   }
 
   Future<bool> isKeyword() async {
-    return false;
     final result = await _storage.getitem(KEY_KEYWORDPOPUP);
     if (result.toString().isNotEmpty) {
       bool state = false;
@@ -59,53 +73,17 @@ class _SellScreenState extends State<SellScreen> {
     }
   }
 
-  void _buildinitImgWidget() {
-    final viewmodel = Provider.of<SellViewModel>(context, listen: false);
-
-    if (_imgwidgets.isEmpty) {
-      _coverWidget = ImageAddButton(
-        title: "커버 등록",
-        subtitle: "0/1",
-        onImageSelected: addCoverImages,
-        onImageClear: (p0) {
-          viewmodel.model.setcoverImage("");
-        },
-      );
-      _imgwidgets.add(_coverWidget);
-      _imgwidgets.add(ImageAddButton(
-        title: "사진 등록",
-        subtitle: "0/5",
-        onImageSelected: addImage,
-        onImageClear: (p0) {
-          setState(() {
-            _imgwidgets.remove(p0);
-          });
-        },
-      ));
-    }
-  }
-
   Future<void> addCoverImages(XFile? cover) async {
-    if (cover != null) uploadImage(UploadType.cover, cover);
+    final viewmodel = Provider.of<SellViewModel>(context, listen: false);
+    if (cover != null) viewmodel.uploadImage(UploadType.cover, cover);
     setState(() {
       _coverImage = cover;
     });
   }
 
-  Future<void> getDataBase(String imageURL) async {
-    final viewmodel = Provider.of<SellViewModel>(context, listen: false);
-    viewmodel.getImageUploadResult(imageURL).then((value) => {
-          if (value)
-            setState(() {
-              //      categoryList.clear();
-              //      String str = viewmodel.model.getcategory().toString();
-              //      categoryList.add(CategoryItem(text: str));
-            })
-        });
-  }
-
   Future<void> addImage(XFile? image) async {
-    if (image != null) uploadImage(UploadType.other, image);
+    final viewmodel = Provider.of<SellViewModel>(context, listen: false);
+    if (image != null) viewmodel.uploadImage(UploadType.other, image);
     if (_imgwidgets.length < 6) {
       final count = (_imgwidgets.length.toInt() - 1).toString();
       final widget = ImageAddButton(
@@ -124,40 +102,14 @@ class _SellScreenState extends State<SellScreen> {
     }
   }
 
-  Future<void> uploadImage(UploadType type, XFile image) async {
-    final viewmodel = Provider.of<SellViewModel>(context, listen: false);
-    final user = UserService.instance;
-
-    if (type == UploadType.cover) {
-      viewmodel.uploadImage(type, user.uid!, image).then((result) {
-        if (result != null) {
-          String url = result['url'] ?? ''; // null 체크 추가
-          String uniqueFileName = result['uniqueFileName'] ?? '';
-          getDataBase(uniqueFileName);
-          viewmodel.model.setcoverImage(url);
-        } else {
-          // 에러 처리 또는 실패 처리를 수행할 수 있음
-          print('Error uploading image or result is null');
-        }
-      });
-    } else {
-      viewmodel.uploadImage(type, user.uid!, image).then((url) {
-        if (url != null) {
-          viewmodel.model.addotherImage(url);
-        }
-      });
-    }
-  }
-
   void handleCategoriesSelected(List<String> selectedCategories) {
     final viewmodel = Provider.of<SellViewModel>(context, listen: false);
 
     setState(() {
-      //viewmodel.categorymodel.clearSelected();
+      viewmodel.clearselectedCategory();
       _categoryWidget.clear();
       for (String item in selectedCategories) {
-        //viewmodel.categorymodel.addselected(item);
-
+        viewmodel.addselectedCategory(item);
         _categoryWidget.add(
           Padding(
             padding: const EdgeInsets.all(5.0), // 원하는 패딩 값으로 설정
@@ -173,7 +125,7 @@ class _SellScreenState extends State<SellScreen> {
     _coverImage = null;
     _imgwidgets.clear();
     textEditingController.clear();
-    viewmodel.model.resetModel();
+    viewmodel.clearModel();
   }
 
   @override
@@ -247,18 +199,33 @@ class _SellScreenState extends State<SellScreen> {
                           _isLoading = true;
                         });
 
-                        viewmodel.registerItem().then((result) {
+                        viewmodel
+                            .registerItem(
+                                _description,
+                                _mainKeyword,
+                                _subKeyword,
+                                _userPrice,
+                                _price_start,
+                                _price_end)
+                            .then((result) {
                           if (result.isEmpty) {
                             showtoastMessage(
                                 '물건 등록을 실패 했습니다.', toastStatus.error);
                           } else {
+                            setState(() {
+                              _isLoading = false;
+                              Navigator.of(context).pushNamed('/main');
+                              resetStateAndNavigate(viewmodel);
+                            });
+                            //TODO : 등록된 Item의 id를 받아와서 업데이트 된 후 Main Page로 이동하는 부분 추가
+                            /*
                             viewmodel.getRegisterItem(result).then((value) => {
                                   setState(() {
                                     _isLoading = false;
                                     Navigator.of(context).pushNamed('/main');
                                     resetStateAndNavigate(viewmodel);
                                   })
-                                });
+                                });*/
                           }
                         });
                       }
@@ -277,19 +244,16 @@ class _SellScreenState extends State<SellScreen> {
           backgroundColor: AppColor.gray1C,
         ),
         backgroundColor: AppColor.gray1C,
-        body:
-         SingleChildScrollView(
+        body: SingleChildScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           child: GestureDetector(
             onTap: () {
               // 터치 이벤트 감지 시 키보드 숨기기
               FocusScope.of(context).unfocus();
             },
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              child: 
-            Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildImageList(viewmodel),
                 _buildDescription(viewmodel),
@@ -298,8 +262,35 @@ class _SellScreenState extends State<SellScreen> {
                 _buildValueRange(viewmodel),
               ],
             ),
-          )),
+          ),
         ));
+  }
+
+  void _buildinitImgWidget() {
+    final viewmodel = Provider.of<SellViewModel>(context, listen: false);
+
+    if (_imgwidgets.isEmpty) {
+      _coverWidget = ImageAddButton(
+        title: "커버 등록",
+        subtitle: "0/1",
+        onImageSelected: addCoverImages,
+        onImageClear: (p0) {
+          viewmodel.clearCoverimage();
+          _coverImage = null;
+        },
+      );
+      _imgwidgets.add(_coverWidget);
+      _imgwidgets.add(ImageAddButton(
+        title: "사진 등록",
+        subtitle: "0/5",
+        onImageSelected: addImage,
+        onImageClear: (p0) {
+          setState(() {
+            _imgwidgets.remove(p0);
+          });
+        },
+      ));
+    }
   }
 
   Widget _buildImageList(SellViewModel viewmodel) {
@@ -344,7 +335,7 @@ class _SellScreenState extends State<SellScreen> {
           keyboardType: TextInputType.multiline,
           enableInteractiveSelection: true,
           onChanged: (value) {
-            viewmodel.model.setdescription(value);
+            _description = textEditingController.text;
           },
           controller: textEditingController,
           style: const TextStyle(fontSize: 17),
@@ -355,7 +346,7 @@ class _SellScreenState extends State<SellScreen> {
                 filled: true,
                 fillColor: Colors.transparent,
                 hintMaxLines: 3,
-                hintText: viewmodel.model.getDescriptionHint().toString(),
+                hintText: _item_hint_description,
                 hintStyle: TextStyle(
                   color: AppColor.grayF9,
                   fontSize: 16,
@@ -368,28 +359,14 @@ class _SellScreenState extends State<SellScreen> {
           },
           cupertino: (context, platform) {
             return CupertinoTextFieldData(
-              maxLines: 3,
-              placeholder:
-                  viewmodel.model.getDescriptionHint().toString(), // iOS에서 힌트 텍스트로 사용됨
-                  placeholderStyle: TextStyle(
-                  color: AppColor.grayF9,
-                  fontSize: 16,
-                  fontFamily: "SUIT",
-                  fontWeight: FontWeight.bold,
-                  overflow: TextOverflow.clip,
-                ),
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
                     color: AppColor.grayF9,
-                    width: 0.5, // 조정 가능한 너비
+                    width: 0.5, // Adjust the width as needed
                   ),
                 ),
               ),
-              style: const TextStyle(fontSize: 17),
-              onChanged: (value) {
-                viewmodel.model.setdescription(value);
-              },
             );
           },
         ),
@@ -398,12 +375,10 @@ class _SellScreenState extends State<SellScreen> {
   }
 
   Widget _buildKeyword(SellViewModel viewModel) {
-    final viewmodel = Provider.of<SellViewModel>(context, listen: false);
-
     return KeyWordInputButton(
       text: '키워드 추가',
-      MainKeyword: viewModel.model.getMainKeyword(),
-      SubKeyword: viewModel.model.getSubKeyword(),
+      MainKeyword: _mainKeyword,
+      SubKeyword: _subKeyword,
       onPressed: () {
         if (_coverImage == null) {
           showDialog(
@@ -423,20 +398,20 @@ class _SellScreenState extends State<SellScreen> {
           platformPageRoute(
             context: context,
             builder: (context) => KeywordWorkPage(
-              mainKeyword: viewModel.model.getMainKeyword(),
-              subKeyword: viewModel.model.getSubKeyword(),
-              mainColor: viewModel.model.getmain_color(),
-              subColor: viewModel.model.getsub_color(),
+              mainKeyword: _mainKeyword,
+              subKeyword: _subKeyword,
+              mainColor: viewModel.getMainColor(),
+              subColor: viewModel.getSubColor(),
               colverImage: _coverImage!.path.toString(),
               call: (value, value2) {
                 if (value.isNotEmpty || value2.isNotEmpty) {
                   Navigator.of(context).pop();
                   setState(() {
                     if (value.isNotEmpty) {
-                      viewModel.model.setMainKeyword(value);
+                      _mainKeyword = (value);
                     }
                     if (value2.isNotEmpty) {
-                      viewModel.model.setSubKeyword(value2);
+                      _subKeyword = (value2);
                     }
                   });
                 }
@@ -451,8 +426,7 @@ class _SellScreenState extends State<SellScreen> {
                     context: context,
                     barrierDismissible: true,
                     builder: (BuildContext context) {
-                      return KeyWordPopup(
-                          description: viewmodel.model.getKeywordDescription());
+                      return KeyWordPopup(description: _Keyword_description);
                     },
                   )
                 }
@@ -469,10 +443,11 @@ class _SellScreenState extends State<SellScreen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
+              platformPageRoute(
+                context: context,
                 builder: (context) => CategorySelectionPage(
                   onPressed: handleCategoriesSelected,
-                  categories: [], //viewmodel.categorymodel.categories,
+                  categories: viewmodel.getCategories(),
                   selected: viewmodel.selected,
                   isSingleSelection: true,
                 ),
@@ -494,14 +469,14 @@ class _SellScreenState extends State<SellScreen> {
 
   Widget _buildValueRange(SellViewModel viewmodel) {
     return ValueRangeButton(
-      userPrice: viewmodel.model.getUserPrice(),
-      priceStart: viewmodel.model.getPriceStart(),
-      priceEnd: viewmodel.model.getPriceEnd(),
+      userPrice: _userPrice,
+      priceStart: _price_start,
+      priceEnd: _price_end,
       text: '가격범위',
       call: (price, start, end) {
-        viewmodel.model.setUserPrice(price);
-        viewmodel.model.setprice_start(start);
-        viewmodel.model.setprice_end(end);
+        _userPrice = price;
+        _price_start = start;
+        _price_end = end;
         Navigator.of(context).pop();
         setState(() {});
       },

@@ -1,6 +1,9 @@
 import 'package:firebase_login/domain/auth/model/auth_model.dart';
 import 'package:firebase_login/domain/category/datasource/category_datasource.dart';
 import 'package:firebase_login/domain/category/repo/category_repository.dart';
+import 'package:firebase_login/domain/item/datasource/item_datasource.dart';
+import 'package:firebase_login/domain/item/model/item_model.dart';
+import 'package:firebase_login/domain/item/repo/item_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -23,6 +26,7 @@ import 'package:firebase_login/domain/auth/datasource/auth_datasource.dart';
 import 'package:firebase_login/domain/auth/repo/auth_repository.dart';
 import 'package:firebase_login/domain/auth/service/auth_service.dart';
 import 'package:firebase_login/domain/category/service/category_service.dart';
+import 'package:firebase_login/domain/item/service/item_register_service.dart';
 
 Future<List<SingleChildWidget>> getProviders() async {
   final userService = UserService.instance;
@@ -34,6 +38,10 @@ Future<List<SingleChildWidget>> getProviders() async {
 
   final authservice =
       AuthService(AuthRepository(AuthDataSource()), AuthModel());
+
+  final itemRegisterservice =
+      ItemRegisterService(ItemRepository(ItemDatasource()), ItemModel());
+
   final categoryservice =
       CategoryService(CategoryRepository(CategoryDataSource()));
   return [
@@ -60,7 +68,8 @@ Future<List<SingleChildWidget>> getProviders() async {
       create: (_) => WorldViewModel.initialize(userService),
     ),
     ChangeNotifierProvider(
-      create: (_) => SellViewModel.initialize(userService, categoryservice),
+      create: (_) => SellViewModel.initialize(
+          userService, itemRegisterservice, categoryservice),
     ),
     ChangeNotifierProvider(
       create: (_) => ChatViewModel.initialize(

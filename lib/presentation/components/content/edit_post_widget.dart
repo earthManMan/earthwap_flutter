@@ -184,7 +184,7 @@ class _EditPostPageState extends State<EditPostPage> {
   Future<void> upload_image(XFile image) async {
     final api = FirebaseAPI();
     final userService = UserService.instance;
-
+/*
     await api
         .uploadImage(UploadType.community, userService.uid, image)
         ?.then((url) {
@@ -194,7 +194,7 @@ class _EditPostPageState extends State<EditPostPage> {
         // 에러 처리 또는 실패 처리를 수행할 수 있음
         print('Error uploading image or url is null');
       }
-    });
+    });*/
   }
 
   // 이미지 삭제 함수

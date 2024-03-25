@@ -10,3 +10,4 @@ bool isPhoneValid(String phone) {
 
   return phoneRegex.hasMatch(phoneNumberWithoutHyphen);
 }
+

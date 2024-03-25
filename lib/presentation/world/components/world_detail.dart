@@ -288,7 +288,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
   Future<void> upload_image(XFile image) async {
     final api = FirebaseAPI();
     final userService = UserService.instance;
-
+/*
     await api
         .uploadImage(UploadType.community, userService.uid, image)
         ?.then((url) {
@@ -298,7 +298,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
         // 에러 처리 또는 실패 처리를 수행할 수 있음
         print('Error uploading image or url is null');
       }
-    });
+    });*/
   }
 
   @override

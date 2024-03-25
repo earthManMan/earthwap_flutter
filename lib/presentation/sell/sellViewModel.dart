@@ -1,90 +1,100 @@
-import 'package:firebase_login/domain/home/itemService.dart';
 import 'package:firebase_login/domain/login/userService.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_login/domain/sell/sell_model.dart';
-// 추가된 import 문
-import 'package:firebase_login/API/firebaseAPI.dart';
-import 'package:image_picker/image_picker.dart';
 
-import 'package:firebase_login/app/config/remote_options.dart';
+// 추가된 import 문
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_login/app/util/validateColor_util.dart';
 import 'package:firebase_login/app/config/constant.dart';
 import 'package:firebase_login/domain/category/service/category_service.dart';
+import 'package:firebase_login/domain/item/service/item_register_service.dart';
 
 class SellViewModel extends ChangeNotifier {
-  SellModel _model;
   final UserService _userService;
   final CategoryService _categoryService;
+  final ItemRegisterService _itemService;
   final List<String> _selected = [];
-  SellModel get model => _model;
+
   List<String> get selected => _selected.toList();
+
   SellViewModel(
-    this._model,
     this._userService,
+    this._itemService,
     this._categoryService,
   );
 
   // ViewModel의 초기화를 위한 팩토리 메서드
-  factory SellViewModel.initialize(UserService service,CategoryService category) {
-    final sellModel = SellModel(); // 필요한 초기화 로직을 수행하도록 변경
-    final config = RemoteConfigOptions.instance;
-
-    final valueList = config.getSellModelJsonMap();
-    sellModel.setKeywordDescription(valueList['keywordDescription']);
-    sellModel.setDescriptionHint(valueList['description']);
-
-    return SellViewModel(
-      sellModel,
-      service,
-      category,
-    );
+  factory SellViewModel.initialize(UserService user_service,
+      ItemRegisterService item_service, CategoryService category) {
+    return SellViewModel(user_service, item_service, category);
   }
 
-  Future<bool> getImageUploadResult(String imageURL) async {
-    final api = FirebaseAPI();
-    return api.getImageDataFromDatabase(imageURL, this);
+  Future<void> uploadImage(UploadType type, XFile image) async {
+    final result = await _itemService.upload(type, image);
+
+    if (type == UploadType.cover) {
+      String url = result['url'] ?? '';
+      String uniqueFileName = result['uniqueFileName'] ?? '';
+      _itemService.itemModel.coverImagePath = url;
+      final data = await _itemService.getCoverAnalysis(uniqueFileName);
+      if (data != null) {
+        _itemService.itemModel.mainColor =
+            hexStringToColor(data!["main_color"].toString());
+        _itemService.itemModel.subColor =
+            hexStringToColor(data!["sub_color"].toString());
+      }
+    } else if (type == UploadType.other)
+      _itemService.itemModel.otherImagePaths =
+          List.from(_itemService.itemModel.otherImagePaths)
+            ..add(result.toString());
+
+    notifyListeners();
   }
 
-  Future<dynamic> uploadImage(UploadType type, String uid, XFile image) async {
-    final api = FirebaseAPI();
-
-    return api.uploadImage(type, uid, image);
+  Future<String> registerItem(String description, String mainKeyword,
+      String subKeyword, int userprice, int priceStart, int priceEnd) async {
+    return _itemService.register(_userService.uid.toString(), description,
+        mainKeyword, subKeyword, userprice, priceStart, priceEnd);
   }
 
-  Future<String> registerItem() async {
-    final api = FirebaseAPI();
-
-    // TODO : 카테고리 List로
-    return api.createItemOnCallFunction(
-        _model.getcoverImage(),
-        _model.getotherImages(),
-        selected.first.toString(),
-        _model.getPriceStart(),
-        _model.getPriceEnd(),
-        _model.getdescription(),
-        _userService.uid.toString(),
-        false,
-        _model.getMainKeyword(),
-        _model.getSubKeyword(),
-        _model.getmain_color().value.toRadixString(16),
-        _model.getsub_color().value.toRadixString(16),
-        "google"
-        //_userService.university.toString(),
-        );
-  }
-
+/*
   Future<bool> getRegisterItem(String id) async {
     final item = ItemService.instance;
     item.addItem(id);
     return true;
   }
+*/
+  List<String> getCategories() {
+    return _categoryService.categories;
+  }
+
+  Color getMainColor() {
+    return _itemService.itemModel.mainColor;
+  }
+
+  Color getSubColor() {
+    return _itemService.itemModel.subColor;
+  }
+
+  void addselectedCategory(String item) {
+    _selected.add(item);
+    _itemService.itemModel.category = item;
+  }
+
+  void clearselectedCategory() {
+    _selected.clear();
+    _itemService.itemModel.category = "";
+  }
+
+  void clearCoverimage() {
+    _itemService.itemModel.coverImagePath = "";
+  }
+
+  void clearOtherImage(String url) {
+    _itemService.itemModel.otherImagePaths
+        .removeWhere((element) => element == url);
+  }
 
   void clearModel() {
-    _model.clearModel();
-    _model = SellModel();
-    final config = RemoteConfigOptions.instance;
-
-    final valueList = config.getSellModelJsonMap();
-    _model.setKeywordDescription(valueList['keywordDescription']);
-    _model.setDescriptionHint(valueList['description']);
+    _itemService.clearModel();
   }
 }

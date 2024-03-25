@@ -11,7 +11,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:io';
 import 'package:firebase_login/presentation/common/widgets/keyword_input_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_login/presentation/components/popup_widget.dart';
+import 'package:firebase_login/presentation/common/widgets/custom_popup_widget.dart';
 
 import 'package:firebase_login/presentation/components/item/value_select_widget.dart';
 import 'package:firebase_login/API/firebaseAPI.dart';
@@ -188,9 +188,10 @@ class _EditItemPageState extends State<EditItemPage> {
                             filled: true,
                             fillColor: Colors.transparent,
                             hintMaxLines: 3,
+                            /*
                             hintText: sellviewmodel.model
                                 .getDescriptionHint()
-                                .toString(),
+                                .toString(),*/
                             hintStyle: TextStyle(
                               color: ColorStyles.content,
                               fontSize: 17,
@@ -243,7 +244,9 @@ class _EditItemPageState extends State<EditItemPage> {
                                   context: context,
                                   barrierDismissible: true,
                                   builder: (BuildContext context) {
-                                    return const KeyWordPopup(description: "",);
+                                    return const KeyWordPopup(
+                                      description: "",
+                                    );
                                   },
                                 )
                               }
@@ -495,6 +498,7 @@ class _ImageAddListWidgetState extends State<ImageAddListWidget> {
   }
 
   Future<void> uploadImage(UploadType type, XFile image) async {
+    /*
     final viewmodel = Provider.of<SellViewModel>(context, listen: false);
     final user = UserService.instance;
 
@@ -517,43 +521,44 @@ class _ImageAddListWidgetState extends State<ImageAddListWidget> {
         print('Error uploading image or result is null');
       }
     });
+  }*/
   }
-}
 
-Widget getImageWidget(String imagePath) {
-  if (Uri.parse(imagePath).isAbsolute) {
-    // URL인 경우
-    return CachedNetworkImage(
-      imageUrl: imagePath,
-      width: 150,
-      height: 150,
-      fit: BoxFit.contain,
-      imageBuilder: (context, imageProvider) => Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: imageProvider,
-            fit: BoxFit.contain,
+  Widget getImageWidget(String imagePath) {
+    if (Uri.parse(imagePath).isAbsolute) {
+      // URL인 경우
+      return CachedNetworkImage(
+        imageUrl: imagePath,
+        width: 150,
+        height: 150,
+        fit: BoxFit.contain,
+        imageBuilder: (context, imageProvider) => Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.contain,
+            ),
           ),
         ),
-      ),
-      placeholder: (context, url) => Center(
-        child: PlatformCircularProgressIndicator(
-          cupertino: (context, platform) {
-            return CupertinoProgressIndicatorData(
-              color: AppColor.primary,
-            );
-          },
+        placeholder: (context, url) => Center(
+          child: PlatformCircularProgressIndicator(
+            cupertino: (context, platform) {
+              return CupertinoProgressIndicatorData(
+                color: AppColor.primary,
+              );
+            },
+          ),
         ),
-      ),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
-    );
-  } else {
-    // 파일 경로인 경우
-    return Image.file(
-      File(imagePath),
-      width: 150,
-      height: 150,
-      fit: BoxFit.contain,
-    );
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+      );
+    } else {
+      // 파일 경로인 경우
+      return Image.file(
+        File(imagePath),
+        width: 150,
+        height: 150,
+        fit: BoxFit.contain,
+      );
+    }
   }
 }

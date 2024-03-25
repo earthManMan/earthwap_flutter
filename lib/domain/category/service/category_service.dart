@@ -9,6 +9,8 @@ class CategoryService {
     _initializeCategories();
   }
 
+  List<String> get categories => _categories;
+
   Future<void> _initializeCategories() async {
     if (_categories.isEmpty) {
       final result = await _categoryRepository.getAllCategoriesOnCallFunction();

@@ -1,5 +1,5 @@
 import 'package:firebase_login/app/style/app_color.dart';
-import 'package:firebase_login/presentation/components/popup_widget.dart';
+import 'package:firebase_login/presentation/common/widgets/custom_popup_widget.dart';
 import 'package:firebase_login/presentation/mypage/mypageViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_login/presentation/components/theme.dart';

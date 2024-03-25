@@ -10,7 +10,7 @@ import 'package:firebase_login/domain/login/userService.dart';
 import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:firebase_login/presentation/components/category_widget.dart';
 import 'package:firebase_login/presentation/common/widgets/keyword_input_widget.dart';
-import 'package:firebase_login/presentation/components/popup_widget.dart';
+import 'package:firebase_login/presentation/common/widgets/custom_popup_widget.dart';
 import 'package:firebase_login/presentation/components/item/value_select_widget.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_login/presentation/common/widgets/toast_widget.dart';
@@ -18,7 +18,7 @@ import 'package:firebase_login/app/style/app_color.dart';
 import 'package:firebase_login/app/style/app_color.dart';
 import 'package:firebase_login/app/config/constant.dart';
 import 'package:firebase_login/presentation/common/widgets/custom_popup_widget.dart';
-
+/*
 class SellView extends StatefulWidget {
   const SellView({super.key});
 
@@ -498,3 +498,4 @@ class _SellViewState extends State<SellView> {
     );
   }
 }
+*/

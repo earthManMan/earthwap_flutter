@@ -33,6 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _phonenumber = "";
   String _authcode = "";
 
+  
   void _checkPhoneValidity(String value) {
     if (value.isNotEmpty) {
       setState(() {
