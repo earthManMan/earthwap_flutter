@@ -1,17 +1,17 @@
-import 'package:firebase_login/presentation/sell/sell_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_login/app/config/remote_options.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_login/presentation/sell/sell_screen.dart';
 import 'package:firebase_login/presentation/home/homeView.dart';
 import 'package:firebase_login/presentation/chat/chatView.dart';
 import 'package:firebase_login/presentation/mypage/mypageView.dart';
 import 'package:firebase_login/presentation/world/worldView.dart';
 import 'package:firebase_login/presentation/components/theme.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_login/app/style/app_color.dart';
 
 class MainScreens extends StatefulWidget {
-  const MainScreens({super.key});
+  const MainScreens({Key? key}) : super(key: key);
 
   @override
   _MainScreensState createState() => _MainScreensState();
@@ -28,344 +28,101 @@ class _MainScreensState extends State<MainScreens> {
     if (mounted) {
       final options = RemoteConfigOptions.instance;
       _images.addAll({
-        "home_active": options.getimages()["main_home_active"],
-        "home_normal": options.getimages()["main_home_normal"]
+        "home_active": options.getimages()["main_home_active"]!,
+        "home_normal": options.getimages()["main_home_normal"]!
       });
       _images.addAll({
-        "chat_active": options.getimages()["main_chat_active"],
-        "chat_normal": options.getimages()["main_chat_normal"]
+        "chat_active": options.getimages()["main_chat_active"]!,
+        "chat_normal": options.getimages()["main_chat_normal"]!
       });
       _images.addAll({
-        "sell_active": options.getimages()["main_sell_active"],
-        "sell_normal": options.getimages()["main_sell_normal"]
+        "sell_active": options.getimages()["main_sell_active"]!,
+        "sell_normal": options.getimages()["main_sell_normal"]!
       });
       _images.addAll({
-        "world_active": options.getimages()["main_world_active"],
-        "world_normal": options.getimages()["main_world_normal"]
+        "world_active": options.getimages()["main_world_active"]!,
+        "world_normal": options.getimages()["main_world_normal"]!
       });
       _images.addAll({
-        "my_active": options.getimages()["main_my_active"],
-        "my_normal": options.getimages()["main_my_normal"]
+        "my_active": options.getimages()["main_my_active"]!,
+        "my_normal": options.getimages()["main_my_normal"]!
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: IndexedStack(
-          index: _selectedIndex,
-          children: [
-            const HomeView(),
-            const ChatView(),
-            const SellScreen(),
-            const WorldView(),
-            const MypageView(),
-            //ValueView(),
-          ],
-        ),
-        bottomNavigationBar: Container(
-            height: 80,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-              boxShadow: [
-                BoxShadow(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    spreadRadius: 0,
-                    blurRadius: 0.1),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(30.0),
-                topRight: Radius.circular(30.0),
-              ),
-              child: BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                backgroundColor: const Color.fromARGB(255, 20, 25, 25),
-                currentIndex: _selectedIndex,
-                selectedItemColor: ColorStyles.primary,
-                unselectedItemColor: const Color.fromARGB(255, 255, 255, 255),
-                iconSize: 24,
-                onTap: (index) {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                },
-                items: [
-                  BottomNavigationBarItem(
-                    label: 'HOME',
-                    tooltip: "홈페이지",
-                    icon: CachedNetworkImage(
-                      width: 24,
-                      height: 24,
-                      imageUrl: _images["home_normal"].toString(),
-                      fit: BoxFit.cover,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Center(
-                        child: PlatformCircularProgressIndicator(
-                          cupertino: (context, platform) {
-                            return CupertinoProgressIndicatorData(
-                              color: AppColor.primary,
-                            );
-                          },
-                        ),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                    activeIcon: CachedNetworkImage(
-                      width: 24,
-                      height: 24,
-                      imageUrl: _images["home_active"].toString(),
-                      fit: BoxFit.cover,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Center(
-                        child: PlatformCircularProgressIndicator(
-                          cupertino: (context, platform) {
-                            return CupertinoProgressIndicatorData(
-                              color: AppColor.primary,
-                            );
-                          },
-                        ),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                  ),
-                  BottomNavigationBarItem(
-                    label: 'CHAT',
-                    tooltip: "채팅페이지",
-                    icon: CachedNetworkImage(
-                      width: 24,
-                      height: 24,
-                      imageUrl: _images["chat_normal"].toString(),
-                      fit: BoxFit.cover,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Center(
-                        child: PlatformCircularProgressIndicator(
-                          cupertino: (context, platform) {
-                            return CupertinoProgressIndicatorData(
-                              color: AppColor.primary,
-                            );
-                          },
-                        ),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                    activeIcon: CachedNetworkImage(
-                      width: 24,
-                      height: 24,
-                      imageUrl: _images["chat_active"].toString(),
-                      fit: BoxFit.cover,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Center(
-                        child: PlatformCircularProgressIndicator(
-                          cupertino: (context, platform) {
-                            return CupertinoProgressIndicatorData(
-                              color: AppColor.primary,
-                            );
-                          },
-                        ),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                  ),
-                  BottomNavigationBarItem(
-                    label: 'SELL',
-                    tooltip: "물건등록페이지",
-                    icon: CachedNetworkImage(
-                      width: 24,
-                      height: 24,
-                      imageUrl: _images["sell_normal"].toString(),
-                      fit: BoxFit.cover,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Center(
-                        child: PlatformCircularProgressIndicator(
-                          cupertino: (context, platform) {
-                            return CupertinoProgressIndicatorData(
-                              color: AppColor.primary,
-                            );
-                          },
-                        ),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                    activeIcon: CachedNetworkImage(
-                      width: 24,
-                      height: 24,
-                      imageUrl: _images["sell_active"].toString(),
-                      fit: BoxFit.cover,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Center(
-                        child: PlatformCircularProgressIndicator(
-                          cupertino: (context, platform) {
-                            return CupertinoProgressIndicatorData(
-                              color: AppColor.primary,
-                            );
-                          },
-                        ),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                  ),
-                  BottomNavigationBarItem(
-                    label: 'WORLD',
-                    tooltip: "커뮤니티페이지",
-                    icon: CachedNetworkImage(
-                      width: 24,
-                      height: 24,
-                      imageUrl: _images["world_normal"].toString(),
-                      fit: BoxFit.cover,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Center(
-                        child: PlatformCircularProgressIndicator(
-                          cupertino: (context, platform) {
-                            return CupertinoProgressIndicatorData(
-                              color: AppColor.primary,
-                            );
-                          },
-                        ),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                    activeIcon: CachedNetworkImage(
-                      width: 24,
-                      height: 24,
-                      imageUrl: _images["world_active"].toString(),
-                      fit: BoxFit.cover,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Center(
-                        child: PlatformCircularProgressIndicator(
-                          cupertino: (context, platform) {
-                            return CupertinoProgressIndicatorData(
-                              color: AppColor.primary,
-                            );
-                          },
-                        ),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                  ),
-                  BottomNavigationBarItem(
-                    label: 'MY',
-                    tooltip: "마이페이지",
-                    icon: CachedNetworkImage(
-                      width: 24,
-                      height: 24,
-                      imageUrl: _images["my_normal"].toString(),
-                      fit: BoxFit.cover,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Center(
-                        child: PlatformCircularProgressIndicator(
-                          cupertino: (context, platform) {
-                            return CupertinoProgressIndicatorData(
-                              color: AppColor.primary,
-                            );
-                          },
-                        ),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                    activeIcon: CachedNetworkImage(
-                      width: 24,
-                      height: 24,
-                      imageUrl: _images["my_active"].toString(),
-                      fit: BoxFit.cover,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Center(
-                        child: PlatformCircularProgressIndicator(
-                          cupertino: (context, platform) {
-                            return CupertinoProgressIndicatorData(
-                              color: AppColor.primary,
-                            );
-                          },
-                        ),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                  ),
-                ],
-              ),
-            )));
+    return PlatformScaffold(
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: const [
+          HomeView(),
+          ChatView(),
+          SellScreen(),
+          WorldView(),
+          MypageView(),
+        ],
+      ),
+      bottomNavBar: PlatformNavBar(
+        material3: (context, platform) {
+          return MaterialNavigationBarData(indicatorColor: Colors.transparent);
+        },
+        cupertino: (context, platform) {
+          return CupertinoTabBarData(
+              inactiveColor: Colors.transparent,
+              activeColor: Colors.transparent,
+              backgroundColor: Colors.transparent);
+        },
+        items: [
+          BottomNavigationBarItem(
+            label: 'HOME',
+            icon: _buildNavBarIcon("home_normal"),
+            activeIcon: _buildNavBarIcon("home_active"),
+            tooltip: "홈페이지",
+          ),
+          BottomNavigationBarItem(
+            label: 'CHAT',
+            icon: _buildNavBarIcon("chat_normal"),
+            activeIcon: _buildNavBarIcon("chat_active"),
+            tooltip: "채팅페이지",
+          ),
+          BottomNavigationBarItem(
+            label: 'SELL',
+            icon: _buildNavBarIcon("sell_normal"),
+            activeIcon: _buildNavBarIcon("sell_active"),
+            tooltip: "물건등록페이지",
+          ),
+          BottomNavigationBarItem(
+            label: 'WORLD',
+            icon: _buildNavBarIcon("world_normal"),
+            activeIcon: _buildNavBarIcon("world_active"),
+            tooltip: "커뮤니티페이지",
+          ),
+          BottomNavigationBarItem(
+            label: 'MY',
+            icon: _buildNavBarIcon("my_normal"),
+            activeIcon: _buildNavBarIcon("my_active"),
+            tooltip: "마이페이지",
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        itemChanged: (p0) {
+          setState(() {
+            _selectedIndex = p0;
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _buildNavBarIcon(String imageName) {
+    return CachedNetworkImage(
+      width: 24,
+      height: 24,
+      imageUrl: _images[imageName]!,
+      fit: BoxFit.cover,
+      placeholder: (context, url) => PlatformCircularProgressIndicator(),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
+    );
   }
 }
