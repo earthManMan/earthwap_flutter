@@ -1,10 +1,10 @@
+
 import 'package:firebase_login/presentation/sell/sellViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_login/presentation/common/widgets/image_add_widget.dart';
-import 'package:firebase_login/domain/login/userService.dart';
 import 'package:firebase_login/presentation/components/category_widget.dart';
 import 'package:firebase_login/presentation/common/widgets/keyword_input_widget.dart';
 
@@ -244,16 +244,9 @@ class _SellScreenState extends State<SellScreen> {
           backgroundColor: AppColor.gray1C,
         ),
         backgroundColor: AppColor.gray1C,
-        body: SingleChildScrollView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          child: GestureDetector(
-            onTap: () {
-              // 터치 이벤트 감지 시 키보드 숨기기
-              FocusScope.of(context).unfocus();
-            },
-            child: Column(
+        body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 _buildImageList(viewmodel),
                 _buildDescription(viewmodel),
@@ -261,9 +254,7 @@ class _SellScreenState extends State<SellScreen> {
                 _buildCategory(viewmodel),
                 _buildValueRange(viewmodel),
               ],
-            ),
-          ),
-        ));
+            ),);
   }
 
   void _buildinitImgWidget() {
@@ -359,6 +350,16 @@ class _SellScreenState extends State<SellScreen> {
           },
           cupertino: (context, platform) {
             return CupertinoTextFieldData(
+              maxLines: 3,
+              textAlignVertical: TextAlignVertical.top,
+              placeholder: _item_hint_description,
+              placeholderStyle: TextStyle(
+                  color: AppColor.grayF9,
+                  fontSize: 16,
+                  fontFamily: "SUIT",
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.clip,
+                ),
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
