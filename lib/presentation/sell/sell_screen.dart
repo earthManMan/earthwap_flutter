@@ -48,6 +48,7 @@ class _SellScreenState extends State<SellScreen> {
   }
 
   Future<bool> isKeyword() async {
+    return false;
     final result = await _storage.getitem(KEY_KEYWORDPOPUP);
     if (result.toString().isNotEmpty) {
       bool state = false;
@@ -335,7 +336,7 @@ class _SellScreenState extends State<SellScreen> {
         ),
       ),
       constraints: const BoxConstraints(maxHeight: 200),
-      child: Scrollbar(
+      child: PlatformScrollbar(
         child: PlatformTextField(
           keyboardType: TextInputType.multiline,
           enableInteractiveSelection: true,
@@ -360,6 +361,32 @@ class _SellScreenState extends State<SellScreen> {
                   overflow: TextOverflow.clip,
                 ),
               ),
+            );
+          },
+          cupertino: (context, platform) {
+            return CupertinoTextFieldData(
+              maxLines: 3,
+              placeholder:
+                  viewmodel.model.getDescriptionHint().toString(), // iOS에서 힌트 텍스트로 사용됨
+                  placeholderStyle: TextStyle(
+                  color: AppColor.grayF9,
+                  fontSize: 16,
+                  fontFamily: "SUIT",
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.clip,
+                ),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: AppColor.grayF9,
+                    width: 0.5, // 조정 가능한 너비
+                  ),
+                ),
+              ),
+              style: const TextStyle(fontSize: 17),
+              onChanged: (value) {
+                viewmodel.model.setdescription(value);
+              },
             );
           },
         ),

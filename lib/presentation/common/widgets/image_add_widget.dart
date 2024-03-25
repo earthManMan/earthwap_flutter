@@ -55,7 +55,7 @@ class _ImageAddButtonState extends State<ImageAddButton> {
                       _getImage(ImageSource.gallery);
                     },
                   ),
-                  ListTile(
+                  PlatformListTile(
                     leading: Icon(Icons.camera_alt),
                     title: Text(
                       '카메라로 찍기',

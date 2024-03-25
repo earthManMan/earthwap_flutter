@@ -92,7 +92,7 @@ class KeyWordPopup extends StatelessWidget {
         child: Text(
           description,
           textAlign: TextAlign.center,
-          style: TextStyle(color: AppColor.grayF9),
+          style: TextStyle(color: AppColor.gray1C),
         ),
       ),
     );

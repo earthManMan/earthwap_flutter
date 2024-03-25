@@ -179,6 +179,24 @@ class _KeywordWorkPageState extends State<KeywordWorkPage> {
                         ),
                       );
                     },
+                    cupertino: (context, platform) {
+                      return CupertinoTextFieldData(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: AppColor.grayF9,
+                              width: 0.5, // 조정 가능한 너비
+                            ),
+                          ),
+                        ),
+                        placeholder: '1ST KEYWORD', // iOS에서 힌트 텍스트로 사용됨
+                        placeholderStyle: TextStyle(
+                            fontFamily: "Syncopate",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                            color: widget.mainColor),
+                      );
+                    },
                     style: TextStyle(
                         fontFamily: "Syncopate",
                         fontWeight: FontWeight.bold,
@@ -215,6 +233,24 @@ class _KeywordWorkPageState extends State<KeywordWorkPage> {
                         ),
                       );
                     },
+                    cupertino: (context, platform) {
+                      return CupertinoTextFieldData(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: AppColor.grayF9,
+                              width: 0.5, // 조정 가능한 너비
+                            ),
+                          ),
+                        ),
+                        placeholder: '2ND KEYWORD', // iOS에서 힌트 텍스트로 사용됨
+                        placeholderStyle: TextStyle(
+                            fontFamily: "Syncopate",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                            color: widget.subColor),
+                      );
+                    },
                     style: TextStyle(
                         fontFamily: "Syncopate",
                         fontWeight: FontWeight.bold,
@@ -235,12 +271,15 @@ class _KeywordWorkPageState extends State<KeywordWorkPage> {
       // URL인 경우
       return CachedNetworkImage(
         imageUrl: imagePath,
+        width: 500,
+        height: 700,
         fit: BoxFit.fill,
+        color: AppColor.systemError,
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(
             image: DecorationImage(
               image: imageProvider,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
           ),
         ),
@@ -259,6 +298,8 @@ class _KeywordWorkPageState extends State<KeywordWorkPage> {
       // 파일 경로인 경우
       return Image.file(
         File(imagePath),
+        width: 500,
+        height: 700,
         fit: BoxFit.fill,
       );
     }
