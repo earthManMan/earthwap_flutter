@@ -7,7 +7,7 @@ import 'package:firebase_login/presentation/common/widgets/image_add_widget.dart
 import 'package:firebase_login/presentation/components/category_widget.dart';
 import 'package:firebase_login/presentation/common/widgets/keyword_input_widget.dart';
 
-import 'package:firebase_login/presentation/components/item/value_select_widget.dart';
+import 'package:firebase_login/presentation/common/widgets/value_select_widget.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_login/presentation/common/widgets/toast_widget.dart';
 import 'package:firebase_login/app/style/app_color.dart';
@@ -246,22 +246,23 @@ class _SellScreenState extends State<SellScreen> {
             FocusScope.of(context).unfocus();
           },
           child: Container(
+              height: MediaQuery.of(context).size.height,
               child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              _buildImageList(),
-              _buildDescription(),
-              _buildKeyword(viewmodel),
-              _buildCategory(viewmodel),
-              _buildValueRange(),
-            ],
-          )),
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  _buildImageList(),
+                  _buildDescription(),
+                  _buildKeyword(viewmodel),
+                  _buildCategory(viewmodel),
+                  _buildValueRange(),
+                ],
+              )),
         ),
       ),
     );
   }
-  
+
   void _buildinitImgWidget() {
     final viewmodel = Provider.of<SellViewModel>(context, listen: false);
 

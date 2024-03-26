@@ -37,7 +37,7 @@ import 'package:firebase_login/presentation/splash/splash_screen.dart';
 import 'package:firebase_login/presentation/start/start_screen.dart';
 import 'presentation/login/old/loginView.dart';
 import 'presentation/home/homeView.dart';
-import 'presentation/mypage/mypageView.dart';
+import 'presentation/mypage/old/mypageView.dart';
 import 'presentation/world/worldView.dart';
 import 'presentation/sell/old/sellView.dart';
 import 'presentation/register/old/registerView.dart';

@@ -10,6 +10,9 @@ import 'package:firebase_login/presentation/mypage/components/mypage_detail.dart
 import 'package:firebase_login/presentation/mypage/mypageViewModel.dart';
 import 'package:firebase_login/presentation/common/widgets/toast_widget.dart';
 import 'package:firebase_login/app/config/constant.dart';
+
+import 'package:firebase_login/app/style/app_color.dart';
+
 class MypageView extends StatefulWidget {
   final bool isMyPage; // isMyPage 속성 추가
 
@@ -75,14 +78,11 @@ class _MypageViewState extends State<MypageView>
       }*/
 
       fllowListen();
-
       return Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
             automaticallyImplyLeading: false,
             actions: [
-              // TODO : 다음 Version에 추가.
-              /*
               IconButton(
                 onPressed: () {
                   Navigator.push(
@@ -99,7 +99,7 @@ class _MypageViewState extends State<MypageView>
                   ),
                   child: Image.asset('assets/components/premium.png'),
                 ),
-              ),*/
+              ),
               IconButton(
                 onPressed: () {
                   Navigator.push(

@@ -11,7 +11,7 @@ import 'package:firebase_login/API/firebaseAPI.dart';
 import 'package:firebase_login/presentation/components/category_widget.dart';
 import 'package:firebase_login/presentation/common/widgets/keyword_input_widget.dart';
 import 'package:firebase_login/presentation/common/widgets/custom_popup_widget.dart';
-import 'package:firebase_login/presentation/components/item/value_select_widget.dart';
+import 'package:firebase_login/presentation/common/widgets/value_select_widget.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_login/presentation/common/widgets/toast_widget.dart';
 import 'package:firebase_login/app/style/app_color.dart';
