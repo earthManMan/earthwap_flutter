@@ -89,44 +89,47 @@ class KeyWordPopup extends StatelessWidget {
     final double width = mediaQuery.size.width;
 
     return PlatformAlertDialog(
-      material: (context, platform) {
-        return MaterialAlertDialogData(
-          backgroundColor: AppColor.gray1C.withOpacity(0.5),
-        );
-      },
-      content: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(height: 100.0),
-          _buildActionButton(
-            text: 'TIP',
-            width: 100,
-            backgroundColor: AppColor.gray1C,
-            onPressed: () {},
+        material: (context, platform) {
+          return MaterialAlertDialogData(
+            backgroundColor: AppColor.gray1C.withOpacity(0.5),
+          );
+        },
+        content: SizedBox(
+          height: (mediaQuery.size.height / 2) < 400
+              ? mediaQuery.size.height
+              : mediaQuery.size.height / 2,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildActionButton(
+                text: 'TIP',
+                width: 100,
+                backgroundColor: AppColor.gray1C,
+                onPressed: () {},
+              ),
+              SizedBox(height: 24.0),
+              _buildDescription(description),
+              SizedBox(height: 50.0),
+              _buildActionButton(
+                width: width,
+                text: '확인',
+                onPressed: () => Navigator.of(context).pop(),
+                backgroundColor: AppColor.primary,
+              ),
+              SizedBox(height: 10),
+              _buildActionButton(
+                width: width,
+                text: '오늘 그만 보기',
+                backgroundColor: AppColor.gray1C,
+                onPressed: () async {
+                  final _storage = LocalStorage();
+                  await _storage.saveitem(KEY_KEYWORDPOPUP, 'true');
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
           ),
-          SizedBox(height: 24.0),
-          _buildDescription(description),
-          SizedBox(height: 50.0),
-          _buildActionButton(
-            width: width,
-            text: '확인',
-            onPressed: () => Navigator.of(context).pop(),
-            backgroundColor: AppColor.primary,
-          ),
-          SizedBox(height: 10),
-          _buildActionButton(
-            width: width,
-            text: '오늘 그만 보기',
-            backgroundColor: AppColor.gray1C,
-            onPressed: () async {
-              final _storage = LocalStorage();
-              await _storage.saveitem(KEY_KEYWORDPOPUP, 'true');
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      ),
-    );
+        ));
   }
 
   Widget _buildActionButton({
@@ -166,7 +169,7 @@ class KeyWordPopup extends StatelessWidget {
         child: Text(
           description,
           textAlign: TextAlign.center,
-          style: TextStyle(color: AppColor.gray1C),
+          style: TextStyle(color: AppColor.grayF9),
         ),
       ),
     );

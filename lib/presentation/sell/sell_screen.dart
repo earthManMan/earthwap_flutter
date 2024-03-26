@@ -1,4 +1,3 @@
-
 import 'package:firebase_login/presentation/sell/sellViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -134,91 +133,86 @@ class _SellScreenState extends State<SellScreen> {
     _buildinitImgWidget();
 
     return PlatformScaffold(
-        appBar: PlatformAppBar(
-          material: (context, platform) {
-            return MaterialAppBarData(
-              centerTitle: true,
-            );
+      appBar: PlatformAppBar(
+        material: (context, platform) {
+          return MaterialAppBarData(
+            centerTitle: true,
+          );
+        },
+        automaticallyImplyLeading: false,
+        leading: TextButton(
+          onPressed: () {
+            Navigator.of(context).pushNamed('/main');
+            resetStateAndNavigate(viewmodel);
           },
-          automaticallyImplyLeading: false,
-          leading: TextButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed('/main');
-              resetStateAndNavigate(viewmodel);
-            },
-            child: const Text(
-              "취소",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: AppColor.primary,
-              ),
+          child: const Text(
+            "취소",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: AppColor.primary,
             ),
           ),
-          title: const Text('내 물건 업로드',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: AppColor.grayF9)),
-          trailingActions: [
-            _isLoading == true
-                ? PlatformCircularProgressIndicator(
-                    cupertino: (context, platform) {
-                      return CupertinoProgressIndicatorData(
-                        color: AppColor.primary,
-                      );
-                    },
-                  )
-                : TextButton(
-                    onPressed: () async {
-                      if (_coverImage == null || _categoryWidget.isEmpty) {
-                        if (_coverImage == null) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomAlertDialog(
-                                message: "Cover Image를 등록 해 주세요.",
-                                visibleCancel: false,
-                                visibleConfirm: true,
-                              );
-                            },
-                          );
-                        } else if (_categoryWidget.isEmpty) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomAlertDialog(
-                                message: "Category를 선택해 주세요.",
-                                visibleCancel: false,
-                                visibleConfirm: true,
-                              );
-                            },
-                          );
-                        }
-                      } else {
-                        setState(() {
-                          _isLoading = true;
-                        });
+        ),
+        title: const Text('내 물건 업로드',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: AppColor.grayF9)),
+        trailingActions: [
+          _isLoading == true
+              ? PlatformCircularProgressIndicator(
+                  cupertino: (context, platform) {
+                    return CupertinoProgressIndicatorData(
+                      color: AppColor.primary,
+                    );
+                  },
+                )
+              : TextButton(
+                  onPressed: () async {
+                    if (_coverImage == null || _categoryWidget.isEmpty) {
+                      if (_coverImage == null) {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CustomAlertDialog(
+                              message: "Cover Image를 등록 해 주세요.",
+                              visibleCancel: false,
+                              visibleConfirm: true,
+                            );
+                          },
+                        );
+                      } else if (_categoryWidget.isEmpty) {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CustomAlertDialog(
+                              message: "Category를 선택해 주세요.",
+                              visibleCancel: false,
+                              visibleConfirm: true,
+                            );
+                          },
+                        );
+                      }
+                    } else {
+                      setState(() {
+                        _isLoading = true;
+                      });
 
-                        viewmodel
-                            .registerItem(
-                                _description,
-                                _mainKeyword,
-                                _subKeyword,
-                                _userPrice,
-                                _price_start,
-                                _price_end)
-                            .then((result) {
-                          if (result.isEmpty) {
-                            showtoastMessage(
-                                '물건 등록을 실패 했습니다.', toastStatus.error);
-                          } else {
-                            setState(() {
-                              _isLoading = false;
-                              Navigator.of(context).pushNamed('/main');
-                              resetStateAndNavigate(viewmodel);
-                            });
-                            //TODO : 등록된 Item의 id를 받아와서 업데이트 된 후 Main Page로 이동하는 부분 추가
-                            /*
+                      viewmodel
+                          .registerItem(_description, _mainKeyword, _subKeyword,
+                              _userPrice, _price_start, _price_end)
+                          .then((result) {
+                        if (result.isEmpty) {
+                          showtoastMessage(
+                              '물건 등록을 실패 했습니다.', toastStatus.error);
+                        } else {
+                          setState(() {
+                            _isLoading = false;
+                            Navigator.of(context).pushNamed('/main');
+                            resetStateAndNavigate(viewmodel);
+                          });
+                          //TODO : 등록된 Item의 id를 받아와서 업데이트 된 후 Main Page로 이동하는 부분 추가
+                          /*
                             viewmodel.getRegisterItem(result).then((value) => {
                                   setState(() {
                                     _isLoading = false;
@@ -226,37 +220,48 @@ class _SellScreenState extends State<SellScreen> {
                                     resetStateAndNavigate(viewmodel);
                                   })
                                 });*/
-                          }
-                        });
-                      }
-                    },
-                    child: Text(
-                      "완료",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: _coverImage == null || _categoryWidget.isEmpty
-                            ? AppColor.gray3A
-                            : AppColor.primary,
-                      ),
+                        }
+                      });
+                    }
+                  },
+                  child: Text(
+                    "완료",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: _coverImage == null || _categoryWidget.isEmpty
+                          ? AppColor.gray3A
+                          : AppColor.primary,
                     ),
                   ),
-          ],
-          backgroundColor: AppColor.gray1C,
-        ),
+                ),
+        ],
         backgroundColor: AppColor.gray1C,
-        body: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                _buildImageList(viewmodel),
-                _buildDescription(viewmodel),
-                _buildKeyword(viewmodel),
-                _buildCategory(viewmodel),
-                _buildValueRange(viewmodel),
-              ],
-            ),);
+      ),
+      backgroundColor: AppColor.gray1C,
+      body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        child: GestureDetector(
+          onTap: () {
+            // 터치 이벤트 감지 시 키보드 숨기기
+            FocusScope.of(context).unfocus();
+          },
+          child: Container(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              _buildImageList(),
+              _buildDescription(),
+              _buildKeyword(viewmodel),
+              _buildCategory(viewmodel),
+              _buildValueRange(),
+            ],
+          )),
+        ),
+      ),
+    );
   }
-
+  
   void _buildinitImgWidget() {
     final viewmodel = Provider.of<SellViewModel>(context, listen: false);
 
@@ -284,7 +289,7 @@ class _SellScreenState extends State<SellScreen> {
     }
   }
 
-  Widget _buildImageList(SellViewModel viewmodel) {
+  Widget _buildImageList() {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Row(
@@ -311,7 +316,7 @@ class _SellScreenState extends State<SellScreen> {
     );
   }
 
-  Widget _buildDescription(SellViewModel viewmodel) {
+  Widget _buildDescription() {
     return Container(
       height: 200,
       decoration: BoxDecoration(
@@ -354,12 +359,12 @@ class _SellScreenState extends State<SellScreen> {
               textAlignVertical: TextAlignVertical.top,
               placeholder: _item_hint_description,
               placeholderStyle: TextStyle(
-                  color: AppColor.grayF9,
-                  fontSize: 16,
-                  fontFamily: "SUIT",
-                  fontWeight: FontWeight.bold,
-                  overflow: TextOverflow.clip,
-                ),
+                color: AppColor.grayF9,
+                fontSize: 16,
+                fontFamily: "SUIT",
+                fontWeight: FontWeight.bold,
+                overflow: TextOverflow.clip,
+              ),
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
@@ -468,7 +473,7 @@ class _SellScreenState extends State<SellScreen> {
     );
   }
 
-  Widget _buildValueRange(SellViewModel viewmodel) {
+  Widget _buildValueRange() {
     return ValueRangeButton(
       userPrice: _userPrice,
       priceStart: _price_start,

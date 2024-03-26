@@ -160,17 +160,21 @@ class ItemDatasource {
           .child(imageUrl)
           .child("inference_result");
 
-      reference.onValue.listen((DatabaseEvent event) {
-        if (event.snapshot.value == null) {
-          print("Null");
-        } else {
-          final data = event.snapshot.value as Map<dynamic, dynamic>;
-          print(data);
-          reference.onValue.listen(null);
-          completer.complete(data);
+      final listener = reference.onValue.listen((event) {});
+
+      listener.onData((data) {
+        if (data.snapshot.value != null) {
+          final val = data.snapshot.value as Map<dynamic, dynamic>;
+          completer.complete(val);
+          print("data.snapshot.value $val");
+          listener.cancel(); // 리스너 취소
         }
       });
 
+      listener.onError((error) {
+        print("Error occurred: $error");
+        listener.cancel(); // 리스너 취소
+      });
       return completer.future;
     } catch (error) {
       print('Error fetching data from the database: $error');
