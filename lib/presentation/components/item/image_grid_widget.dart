@@ -39,6 +39,7 @@ class _ImageGridViewState extends State<ImageGridView> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      padding: EdgeInsets.zero,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3, // 열의 수
         crossAxisSpacing: 1.0, // 열 간의 간격
