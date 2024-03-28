@@ -1,3 +1,4 @@
+import 'package:firebase_login/domain/login/userService.dart';
 import 'package:firebase_login/presentation/components/common_components.dart';
 import 'package:firebase_login/presentation/login/login_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     // 자동 로그인 체크
-   // _checkAutoLogin();
+    // _checkAutoLogin();
   }
 
   void _checkAutoLogin() async {
@@ -316,8 +317,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     } else if (login == LoginStatus.logined) {
                       print("토큰으로 계정 로그인 실패");
                     } else if (login == LoginStatus.success) {
-                      Navigator.pushReplacementNamed(context, '/main');
-                      showtoastMessage("안녕하세요. 어스왑입니다~", toastStatus.success);
+                      final user = UserService.instance;
+                      if (user.nickname!.isEmpty) {
+                        Navigator.pushReplacementNamed(context, '/setup');
+                      } else {
+                        Navigator.pushReplacementNamed(context, '/main');
+                        showtoastMessage("안녕하세요. 어스왑입니다~", toastStatus.success);
+                      }
                     }
                   } else {
                     showtoastMessage("인증 코드를 다시 확인해주세요.", toastStatus.error);

@@ -75,7 +75,7 @@ class AuthDataSource {
         'uid': uid,
         'phone': phone,
         'device_token': device_token,
-        'nickname': "test",
+        'nickname': "",
       });
 
       print(response.data.toString());

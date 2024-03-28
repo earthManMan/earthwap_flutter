@@ -4,6 +4,8 @@ import 'package:firebase_login/domain/category/repo/category_repository.dart';
 import 'package:firebase_login/domain/item/datasource/item_datasource.dart';
 import 'package:firebase_login/domain/item/model/item_model.dart';
 import 'package:firebase_login/domain/item/repo/item_repository.dart';
+import 'package:firebase_login/domain/location/datasource/location_datasource.dart';
+import 'package:firebase_login/domain/location/repo/location_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -27,6 +29,8 @@ import 'package:firebase_login/domain/auth/repo/auth_repository.dart';
 import 'package:firebase_login/domain/auth/service/auth_service.dart';
 import 'package:firebase_login/domain/category/service/category_service.dart';
 import 'package:firebase_login/domain/item/service/item_register_service.dart';
+import 'package:firebase_login/presentation/profile/profile_setup_screen.dart';
+import 'package:firebase_login/domain/location/service/location_service.dart';
 
 Future<List<SingleChildWidget>> getProviders() async {
   final userService = UserService.instance;
@@ -44,6 +48,10 @@ Future<List<SingleChildWidget>> getProviders() async {
 
   final categoryservice =
       CategoryService(CategoryRepository(CategoryDataSource()));
+
+  final locationservice =
+      LocationService(LocationRepository(LocationDataSource()));
+
   return [
     ChangeNotifierProvider(
         create: (_) => LoginViewModel(userService, authservice)),
@@ -60,6 +68,7 @@ Future<List<SingleChildWidget>> getProviders() async {
         userService,
         itemService,
         categoryservice,
+        locationservice,
         contentService,
         pickupService,
       ),

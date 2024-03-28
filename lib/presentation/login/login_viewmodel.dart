@@ -136,15 +136,18 @@ class LoginViewModel extends ChangeNotifier {
       return LoginStatus.logined;
     }
 
-    _authService.authModel.uid = userinfo!.user!.uid.toString();
+    _authService.authModel.uid = userinfo.user!.uid.toString();
 
     final myPageViewModel =
         Provider.of<MypageViewModel>(context, listen: false);
 
-    _userService.startListeningToUserDataChanges(_authService.authModel.uid);
-    alarm.startListeningToNotifications(_authService.authModel.uid);
-    myPageViewModel.startListeningToFollowers(_authService.authModel.uid);
-    myPageViewModel.startListeningToFollowing(_authService.authModel.uid);
+    final result = await _userService
+        .startListeningToUserDataChanges(_authService.authModel.uid);
+    if (result) {
+      alarm.startListeningToNotifications(_authService.authModel.uid);
+      myPageViewModel.startListeningToFollowers(_authService.authModel.uid);
+      myPageViewModel.startListeningToFollowing(_authService.authModel.uid);
+    }
 
     return LoginStatus.success;
   }

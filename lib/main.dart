@@ -1,55 +1,32 @@
 import 'package:firebase_login/app/style/thema/android_thema.dart';
 import 'package:firebase_login/app/style/thema/ios_thema.dart';
+import 'package:firebase_login/presentation/profile/profile_setup_screen.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 // common
-import 'package:firebase_login/domain/world/TrashPickupService.dart';
 import 'package:firebase_login/domain/alarm/alarmService.dart';
-import 'package:firebase_login/domain/world/contentService.dart';
-import 'package:firebase_login/domain/chat/matchService.dart';
-import 'package:firebase_login/presentation/chat/chatView.dart';
 import 'package:firebase_login/presentation/login/login_screen.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
-import 'dart:io';
-import 'package:device_info_plus/device_info_plus.dart';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'app/config/firebase_options.dart';
-import 'package:firebase_login/presentation/components/theme.dart';
-
-// view model
-
-import 'package:firebase_login/presentation/home/homeViewModel.dart';
-import 'package:firebase_login/presentation/login/login_viewmodel.dart';
-import 'package:firebase_login/presentation/mypage/mypageViewModel.dart';
-import 'package:firebase_login/presentation/sell/sellViewModel.dart';
-import 'package:firebase_login/presentation/world/worldViewModel.dart';
-import 'package:firebase_login/presentation/chat/chatViewModel.dart';
-import 'package:firebase_login/presentation/register/old/registerViewModel.dart';
-import 'package:firebase_login/presentation/password/passwordViewModel.dart';
 
 // View
 import 'package:firebase_login/presentation/splash/splash_screen.dart';
 import 'package:firebase_login/presentation/start/start_screen.dart';
-import 'presentation/login/old/loginView.dart';
-import 'presentation/home/old/homeView.dart';
+
 import 'presentation/mypage/old/mypageView.dart';
-import 'presentation/world/worldView.dart';
-import 'presentation/sell/old/sellView.dart';
-import 'presentation/register/old/registerView.dart';
+
 import 'presentation/password/passwordView.dart';
 import 'presentation/main/mainView.dart';
-import 'domain/login/userService.dart';
-import 'domain/home/itemService.dart';
+
 import 'presentation/register/register_screen.dart';
 
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_login/app/config/remote_options.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_login/di/provider_setup.dart';
 
@@ -131,6 +108,7 @@ class MainApp extends StatelessWidget {
               '/main': (context) => const MainScreens(),
               '/mypage': (context) => const MypageView(),
               '/password': (context) => const PasswordView(),
+              '/setup':(context) => const ProfileSetUpScreen(),
             },
             initialRoute: '/splash',
           ),

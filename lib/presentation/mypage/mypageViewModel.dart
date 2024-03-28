@@ -1,3 +1,4 @@
+import 'package:firebase_login/domain/location/service/location_service.dart';
 import 'package:firebase_login/domain/login/userService.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_login/domain/mypage/mypage_model.dart';
@@ -23,6 +24,8 @@ class MypageViewModel extends ChangeNotifier {
   final ItemService _itemService;
   final TrashPickupService _pickupService;
   final CategoryService _categoryService;
+  final LocationService _locationService;
+
   bool notification_following = false;
   bool notification_followers = false;
 
@@ -36,6 +39,7 @@ class MypageViewModel extends ChangeNotifier {
     this._model,
     this._userService,
     this._categoryService,
+    this._locationService,
     this._itemService,
     this._contentService,
     this._pickupService,
@@ -55,6 +59,10 @@ class MypageViewModel extends ChangeNotifier {
         createPickupList();
       }
     });
+  }
+
+  LocationService getLocationService() {
+    return _locationService;
   }
 
   void startListeningToFollowing(String uid) async {
@@ -191,6 +199,7 @@ class MypageViewModel extends ChangeNotifier {
       UserService user,
       ItemService item,
       CategoryService category,
+      LocationService location,
       ContentService content,
       TrashPickupService pickup) {
     final mypageModel = MypageModel(); // 필요한 초기화 로직을 수행하도록 변경
@@ -200,7 +209,8 @@ class MypageViewModel extends ChangeNotifier {
     mypageModel.setcustomer_email(valueList['email']);
     mypageModel.setcustomer_time(valueList['time']);
 
-    return MypageViewModel(mypageModel, user, category, item, content, pickup);
+    return MypageViewModel(
+        mypageModel, user, category, location, item, content, pickup);
   }
 
   Future<bool> updateProfile() async {
@@ -218,6 +228,8 @@ class MypageViewModel extends ChangeNotifier {
         await api.updateNicknameOnCallFunction(uid, name);
     final descriptionUpdateResult =
         await api.updateDescriptionOnCallFunction(uid, description);
+
+        
     _userService.setProfileImage(url);
     _userService.setNickname(name);
     _userService.setDescription(description);

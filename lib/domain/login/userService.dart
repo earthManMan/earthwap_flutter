@@ -14,6 +14,8 @@ class UserService with ChangeNotifier {
   String _nickname = "";
   String _university = "";
   String _description = "";
+  String _locationCity = "";
+  String _locationDistrict = "";
 
   bool _isPremium = false;
   String _communityID = "";
@@ -21,64 +23,74 @@ class UserService with ChangeNotifier {
   StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _userDataListener;
 
   // user 정보로 부터 Data Setting
-  void startListeningToUserDataChanges(String uid) async {
-    if (uid.isNotEmpty) {
-      final userDocRef =
-          FirebaseFirestore.instance.collection('/users/').doc(uid);
+  Future<bool> startListeningToUserDataChanges(String uid) async {
+    final Completer<bool> completer = Completer<bool>();
+    try {
+      if (uid.isNotEmpty) {
+        final userDocRef =
+            FirebaseFirestore.instance.collection('/users/').doc(uid);
 
-      // Cancel the existing listener if there is one
-      _userDataListener?.cancel();
+        // Cancel the existing listener if there is one
+        _userDataListener?.cancel();
 
-      _userDataListener = userDocRef.snapshots().listen((event) async {
-        if (event.exists) {
-          final itemService = ItemService.instance;
-          final contentService = ContentService.instance;
-          final matchService = MatchService.instance;
-          final pickupService = TrashPickupService.instance;
+        _userDataListener = userDocRef.snapshots().listen((event) async {
+          if (event.exists) {
+            final itemService = ItemService.instance;
+            final contentService = ContentService.instance;
+            final matchService = MatchService.instance;
+            final pickupService = TrashPickupService.instance;
 
-          final api = FirebaseAPI();
+            final api = FirebaseAPI();
 
-          // User data has changed, update your local user data accordingly
-          final userData = event.data() as Map<String, dynamic>;
+            // User data has changed, update your local user data accordingly
+            final userData = event.data() as Map<String, dynamic>;
 
-          List<dynamic> contents = userData["contents"] ?? [];
-          List<dynamic> items = userData["items"] ?? [];
-          List<dynamic> matitems = userData["matches"] ?? [];
-          List<dynamic> picks = userData["pickups"] ?? [];
+            List<dynamic> contents = userData["contents"] ?? [];
+            List<dynamic> items = userData["items"] ?? [];
+            List<dynamic> matitems = userData["matches"] ?? [];
+            List<dynamic> picks = userData["pickups"] ?? [];
 
-          //final commuID =
-          //    await api.getUniversityInfoOnCallFunction(userData['university']);
+            //final commuID =
+            //    await api.getUniversityInfoOnCallFunction(userData['university']);
 
-          setUserData(
-            uid: uid,
-            isPremium:
-                userData['access_grant']?.toString() == 'basic' ? false : true,
-            email: userData['email'] ?? "",
-            university: userData['university'] ?? "",
-            profileImage: userData['profile_picture_url'] ?? "",
-            description: userData['description'] ?? "",
-            nickname: userData['nickname'] ?? "",
-            communityID: "google",
-          );
-          notifyListeners(); // _itemList 변경 알림
+            setUserData(
+              uid: uid,
+              isPremium: userData['access_grant']?.toString() == 'basic'
+                  ? false
+                  : true,
+              email: userData['email'] ?? "",
+              university: userData['university'] ?? "",
+              profileImage: userData['profile_picture_url'] ?? "",
+              description: userData['description'] ?? "",
+              nickname: userData['nickname'] ?? "",
+              communityID: "google",
+            );
+            notifyListeners(); // _itemList 변경 알림
 
-          itemService.ClearItems();
-          contentService.ClearContents();
-          matchService.clearMatchs();
-          pickupService.clearTrash();
+            itemService.ClearItems();
+            contentService.ClearContents();
+            matchService.clearMatchs();
+            pickupService.clearTrash();
 
-          // Setvice 해당 되는 Item 등록
-          itemService.setItemList(
-              (items ?? []).map((item) => item.toString()).toList());
-          contentService.setContents(
-              (contents ?? []).map((item) => item.toString()).toList());
-          matchService.setMatchItemList(
-              (matitems ?? []).map((item) => item.toString()).toList());
-          pickupService.setPickups(
-              (picks ?? []).map((item) => item.toString()).toList());
-        }
-      });
+            // Setvice 해당 되는 Item 등록
+            itemService.setItemList(
+                (items ?? []).map((item) => item.toString()).toList());
+            contentService.setContents(
+                (contents ?? []).map((item) => item.toString()).toList());
+            matchService.setMatchItemList(
+                (matitems ?? []).map((item) => item.toString()).toList());
+            pickupService.setPickups(
+                (picks ?? []).map((item) => item.toString()).toList());
+            completer.complete(true);
+          }
+        });
+      }
+    } on Exception catch (e) {
+      print("Error fetching or activating remote config: $e");
+      completer.complete(false);
+      return completer.future;
     }
+    return completer.future;
   }
 
   void stopListeningToUserDataChanges() {

@@ -14,8 +14,8 @@ import 'package:firebase_login/presentation/mypage/mypageViewModel.dart';
 import 'package:firebase_login/presentation/common/widgets/toast_widget.dart';
 import 'package:firebase_login/app/config/constant.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:firebase_login/presentation/common/widgets/profile_top_widget.dart';
-import 'package:firebase_login/presentation/common/widgets/profile_body_widget.dart';
+import 'package:firebase_login/presentation/profile/profile_top_widget.dart';
+import 'package:firebase_login/presentation/profile/profile_body_widget.dart';
 import 'dart:io';
 
 class MyPageScreen extends StatefulWidget {
@@ -148,7 +148,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
                   return ProfileTopWidget(
                       isMyPage: true,
                       profileImageUrl: userService.profileImage.toString(),
-                      description: "2024년 3월 26일 오늘도 지나가리~",
+                      description: userService.description!,
                       followersCount: viewmodel.model.Followers?.length ?? 0,
                       followingCount: viewmodel.model.Following?.length ?? 0,
                       follower_callback: () {
