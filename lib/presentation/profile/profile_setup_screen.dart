@@ -181,9 +181,19 @@ class _ProfileSetUpScreenState extends State<ProfileSetUpScreen> {
                     fontFamily: "SUIT",
                     fontSize: 20,
                     fontWeight: FontWeight.bold)),
-            Container(
-                child: _buildProvinceDropdown()
-            ),
+            Platform.isIOS
+                ? Container(child: _buildIOSProvinceWidget())
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildAndroidProvinceDropdown(),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      if (_selectedProvince != null)
+                        _buildAndoriodDistrictDropdown(),
+                    ],
+                  ),
             const SizedBox(height: 20.0),
             SizedBox(
                 width: MediaQuery.of(context).size.width * 0.6,
@@ -215,146 +225,149 @@ class _ProfileSetUpScreenState extends State<ProfileSetUpScreen> {
       ),
     );
   }
-Widget _buildProvinceDropdown() {
-  return Platform.isIOS
-      ? Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            CupertinoButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) => Container(
-                    height: 200,
-                    child: CupertinoPicker(
-                      itemExtent: 30.0,
-                      onSelectedItemChanged: (index) {
-                        setState(() {
-                          _selectedProvince = _locations.keys.toList()[index];
-                          _selectedDistrict = null;
-                        });
-                      },
-                      children: _locations.keys
-                          .map((String province) => Text(
-                                province,
-                                style: TextStyle(
-                                  fontFamily: "SUIT",
-                                  fontSize: 16,
-                                                                  color: AppColor.grayF9,
 
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ))
-                          .toList(),
-                    ),
-                  ),
-                );
-              },
-              child: Text(
-                _selectedProvince ?? 'Select Province',
-                style: TextStyle(
-                  fontFamily: "SUIT",
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            if (_selectedProvince != null)
-              SizedBox(height: 20),
-            if (_selectedProvince != null) _buildDistrictDropdown(),
-          ],
-        )
-      : DropdownButton<String>(
-          value: _selectedProvince,
-          onChanged: (String? newValue) {
-            setState(() {
-              _selectedProvince = newValue;
-              _selectedDistrict = null; 
-            });
-          },
-          items: _locations.keys.map((String province) {
-            return DropdownMenuItem<String>(
-              value: province,
-              child: Text(
-                province,
-                style: TextStyle(
-                  fontFamily: "SUIT",
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            );
-          }).toList(),
-        );
-}
-Widget _buildDistrictDropdown() {
-  return Platform.isIOS
-      ? Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            CupertinoButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) => Container(
-                    height: 200,
-                    child: CupertinoPicker(
-                      itemExtent: 30.0,
-                      onSelectedItemChanged: (index) {
-                        setState(() {
-                          _selectedDistrict =
-                              _locations[_selectedProvince]![index];
-                        });
-                      },
-                      children: _locations[_selectedProvince]!
-                          .map(
-                            (String district) => Text(
-                              district,
-                              style: TextStyle(
-                                color: AppColor.grayF9,
-                                fontFamily: "SUIT",
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
+  Widget _buildIOSProvinceWidget() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        CupertinoButton(
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              builder: (context) => Container(
+                height: 200,
+                child: CupertinoPicker(
+                  itemExtent: 30.0,
+                  onSelectedItemChanged: (index) {
+                    setState(() {
+                      _selectedProvince = _locations.keys.toList()[index];
+                      _selectedDistrict = null;
+                    });
+                  },
+                  children: _locations.keys
+                      .map((String province) => Text(
+                            province,
+                            style: TextStyle(
+                              fontFamily: "SUIT",
+                              fontSize: 16,
+                              color: AppColor.grayF9,
+                              fontWeight: FontWeight.bold,
                             ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                );
-              },
-              child: Text(
-                _selectedDistrict ?? 'Select District',
-                style: TextStyle(
-                  fontFamily: "SUIT",
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        )
-      : DropdownButton<String>(
-          value: _selectedDistrict,
-          onChanged: (String? newValue) {
-            setState(() {
-              _selectedDistrict = newValue;
-            });
-          },
-          items: _locations[_selectedProvince]!
-              .map<DropdownMenuItem<String>>((String district) {
-            return DropdownMenuItem<String>(
-              value: district,
-              child: Text(
-                district,
-                style: TextStyle(
-                  fontFamily: "SUIT",
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                          ))
+                      .toList(),
                 ),
               ),
             );
-          }).toList(),
+          },
+          child: Text(
+            _selectedProvince ?? 'Select Province',
+            style: TextStyle(
+              fontFamily: "SUIT",
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        if (_selectedProvince != null) SizedBox(height: 20),
+        if (_selectedProvince != null) _buildIosDistrictWidget(),
+      ],
+    );
+  }
+
+  Widget _buildIosDistrictWidget() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        CupertinoButton(
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              builder: (context) => Container(
+                height: 200,
+                child: CupertinoPicker(
+                  itemExtent: 30.0,
+                  onSelectedItemChanged: (index) {
+                    setState(() {
+                      _selectedDistrict = _locations[_selectedProvince]![index];
+                    });
+                  },
+                  children: _locations[_selectedProvince]!
+                      .map(
+                        (String district) => Text(
+                          district,
+                          style: TextStyle(
+                            color: AppColor.grayF9,
+                            fontFamily: "SUIT",
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            );
+          },
+          child: Text(
+            _selectedDistrict ?? 'Select District',
+            style: TextStyle(
+              fontFamily: "SUIT",
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAndroidProvinceDropdown() {
+    return DropdownButton<String>(
+      value: _selectedProvince,
+      onChanged: (String? newValue) {
+        setState(() {
+          _selectedProvince = newValue;
+          _selectedDistrict = null;
+        });
+      },
+      items: _locations.keys.map((String province) {
+        return DropdownMenuItem<String>(
+          value: province,
+          child: Text(
+            province,
+            style: TextStyle(
+              fontFamily: "SUIT",
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         );
-}
+      }).toList(),
+    );
+  }
+
+  Widget _buildAndoriodDistrictDropdown() {
+    return DropdownButton<String>(
+      value: _selectedDistrict,
+      onChanged: (String? newValue) {
+        setState(() {
+          _selectedDistrict = newValue;
+        });
+      },
+      items: _locations[_selectedProvince]!
+          .map<DropdownMenuItem<String>>((String district) {
+        return DropdownMenuItem<String>(
+          value: district,
+          child: Text(
+            district,
+            style: TextStyle(
+              fontFamily: "SUIT",
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
 }
