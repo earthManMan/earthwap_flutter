@@ -3,11 +3,8 @@ import 'package:firebase_login/domain/world/contentService.dart';
 import 'package:firebase_login/presentation/start/start_screen.dart';
 
 import 'package:flutter/material.dart';
-import 'package:firebase_login/presentation/components/common_components.dart';
 import 'package:firebase_login/domain/login/userService.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'dart:async';
 import 'package:firebase_login/app/config/remote_options.dart';
 import 'package:firebase_login/app/config/constant.dart';
 // view model
@@ -23,16 +20,15 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_login/presentation/common/widgets/toast_widget.dart';
 import 'package:firebase_login/app/style/app_color.dart';
 import 'package:firebase_login/app/util/localStorage_util.dart';
-import 'package:firebase_login/presentation/common/widgets/custom_popup_widget.dart';
 
-class settingLayout extends StatefulWidget {
-  const settingLayout({super.key});
+class SettingScreen extends StatefulWidget {
+  const SettingScreen({super.key});
 
   @override
-  State<settingLayout> createState() => _settingLayoutState();
+  State<SettingScreen> createState() => _SettingScreenState();
 }
 
-class _settingLayoutState extends State<settingLayout> {
+class _SettingScreenState extends State<SettingScreen> {
   @override
   void initState() {
     super.initState();
@@ -40,8 +36,8 @@ class _settingLayoutState extends State<settingLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -49,19 +45,23 @@ class _settingLayoutState extends State<settingLayout> {
             Navigator.of(context).pop();
           },
         ),
-        centerTitle: true, // 편집 모드일 때만 title을 가운데 정렬
+        material: (context, platform) {
+          return MaterialAppBarData(
+            centerTitle: true, // 편집 모드일 때만 title을 가운데 정렬
+            iconTheme: const IconThemeData(
+              color: AppColor.grayF9,
+            ),
+          );
+        },
         title: const Text(
           '설정',
           style: TextStyle(
               fontFamily: "SUIT",
               fontWeight: FontWeight.bold,
               fontSize: 20, // 원하는 크기로 조정
-              color: Color.fromARGB(255, 241, 240, 240)),
+              color: AppColor.grayF9),
         ),
-        iconTheme: const IconThemeData(
-          color: Color.fromARGB(255, 255, 255, 255),
-        ),
-        backgroundColor: const Color.fromARGB(255, 20, 22, 25),
+        backgroundColor: AppColor.gray1C,
       ),
       body: SettingItemList(),
     );
@@ -148,7 +148,7 @@ class SettingItem extends StatelessWidget {
         style: TextStyle(fontFamily: "SUIT", fontWeight: FontWeight.bold),
       ),
       trailing: title == '알림 설정'
-          ? Switch(
+          ? PlatformSwitch(
               value: value == 'on',
               onChanged: (bool newValue) {
                 onValueChanged(newValue ? 'on' : 'off');
@@ -173,7 +173,8 @@ class SettingItem extends StatelessWidget {
 
           Navigator.push(
             context,
-            MaterialPageRoute(
+            platformPageRoute(
+                context: context,
                 builder: (context) => InAppWebViewScreen(
                       myUrl: Uri.parse(remote.getPrivacyPolicy().toString()),
                       title: "이용약관",
@@ -182,7 +183,8 @@ class SettingItem extends StatelessWidget {
         } else if (title == '개인 정보 처리 방침') {
           Navigator.push(
             context,
-            MaterialPageRoute(
+            platformPageRoute(
+                context: context,
                 builder: (context) => InAppWebViewScreen(
                       myUrl: Uri.parse(remote.getPrivacyPolicy().toString()),
                       title: "개인 정보 처리 방침",
@@ -233,7 +235,8 @@ class SettingItem extends StatelessWidget {
             // 모든 화면을 dispose하고 StartView로 이동
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => StartScreen()),
+              platformPageRoute(
+                  context: context, builder: (context) => StartScreen()),
               (route) => false,
             ); // 메인 화면으로 이동
 
@@ -292,90 +295,7 @@ class SettingItem extends StatelessWidget {
           visibleCancel: false,
           visibleConfirm: true,
         );
-
-        /*
-        return AlertDialog(
-          backgroundColor: ColorStyles.background,
-          alignment: Alignment.center,
-          /*title: const Text(
-            '고객센터',
-            style: TextStyle(fontFamily: "SUIT", fontWeight: FontWeight.bold),
-          ),*/
-          content: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '${user.nickname}님\n\n${ViewModel.model.getcustomer_email().isEmpty == true ? valueList['email'] : ViewModel.model.getcustomer_email()}',
-                style:
-                    TextStyle(fontFamily: "SUIT", fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                  ViewModel.model.getcustomer_time().isEmpty == true
-                      ? valueList['time']
-                      : ViewModel.model.getcustomer_time(),
-                  style: TextStyle(
-                      fontFamily: "SUIT", fontWeight: FontWeight.bold)),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text(
-                '확인',
-                style:
-                    TextStyle(fontFamily: "SUIT", fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
-        );
-      */
       },
-    );
-  }
-}
-
-class TermsOfServicePage extends StatelessWidget {
-  const TermsOfServicePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          '이용약관',
-          style: TextStyle(fontFamily: "SUIT", fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: const Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '이용약관 내용 예시',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Text(
-              '1. 이 앱을 이용함으로써 약관에 동의하는 것으로 간주합니다.',
-              style: TextStyle(fontSize: 16),
-            ),
-            Text(
-              '2. 회원은 이 앱을 부정 이용해서는 안 됩니다.',
-              style: TextStyle(fontSize: 16),
-            ),
-            Text(
-              '3. 기타 앱 이용에 관한 상세한 내용은 앱 내 공지사항을 참고하세요.',
-              style: TextStyle(fontSize: 16),
-            ),
-            // 추가적인 이용약관 내용을 필요에 따라 추가할 수 있습니다.
-          ],
-        ),
-      ),
     );
   }
 }
@@ -385,8 +305,8 @@ class PrivacyPolicyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
         title: const Text('개인정보 처리방침'),
       ),
       body: const Padding(
@@ -447,111 +367,4 @@ void showAppVersion(BuildContext context, String version) {
       );
     },
   );
-}
-
-class PDFScreen extends StatefulWidget {
-  final String? path;
-  final String? title;
-  const PDFScreen({super.key, this.path, this.title});
-
-  @override
-  _PDFScreenState createState() => _PDFScreenState();
-}
-
-class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
-  final Completer<PDFViewController> _controller =
-      Completer<PDFViewController>();
-  int? pages = 0;
-  int? currentPage = 0;
-  bool isReady = false;
-  String errorMessage = '';
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.title!,
-          style: TextStyle(fontFamily: "SUIT", fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
-      body: Stack(
-        children: <Widget>[
-          PDFView(
-            filePath: widget.path,
-            enableSwipe: true,
-            swipeHorizontal: true,
-            autoSpacing: false,
-            pageFling: true,
-            pageSnap: true,
-            defaultPage: currentPage!,
-            fitPolicy: FitPolicy.BOTH,
-            preventLinkNavigation:
-                false, // if set to true the link is handled in flutter
-            onRender: (pages) {
-              setState(() {
-                pages = pages;
-                isReady = true;
-              });
-            },
-            onError: (error) {
-              setState(() {
-                errorMessage = error.toString();
-              });
-              print(error.toString());
-            },
-            onPageError: (page, error) {
-              setState(() {
-                errorMessage = '$page: ${error.toString()}';
-              });
-              print('$page: ${error.toString()}');
-            },
-            onViewCreated: (PDFViewController pdfViewController) {
-              _controller.complete(pdfViewController);
-            },
-            onLinkHandler: (String? uri) {
-              print('goto uri: $uri');
-            },
-            onPageChanged: (int? page, int? total) {
-              print('page change: $page/$total');
-              setState(() {
-                currentPage = page;
-              });
-            },
-          ),
-          errorMessage.isEmpty
-              ? !isReady
-                  ? Center(
-                      child: PlatformCircularProgressIndicator(
-                        cupertino: (context, platform) {
-                          return CupertinoProgressIndicatorData(
-                            color: AppColor.primary,
-                          );
-                        },
-                      ),
-                    )
-                  : Container()
-              : Center(
-                  child: Text(errorMessage),
-                )
-        ],
-      ),
-      floatingActionButton: FutureBuilder<PDFViewController>(
-        future: _controller.future,
-        builder: (context, AsyncSnapshot<PDFViewController> snapshot) {
-          if (snapshot.hasData) {
-            return FloatingActionButton.extended(
-              label: Text("Go to ${pages! ~/ 2}"),
-              onPressed: () async {
-                await snapshot.data!.setPage(pages! ~/ 2);
-              },
-            );
-          }
-
-          return Container();
-        },
-      ),
-    );
-  }
 }

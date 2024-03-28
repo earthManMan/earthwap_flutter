@@ -1023,8 +1023,8 @@ class _TrashRequestFormState extends State<TrashRequestForm> {
           ],
         ),
         TableCalendar(
-          firstDay: DateTime.utc(2023, 1, 1),
-          lastDay: DateTime.utc(2023, 12, 31),
+          firstDay: DateTime.utc(2024, 1, 1),
+          lastDay: DateTime.utc(2024, 12, 31),
           focusedDay: _focusedDay,
           calendarFormat: _calendarFormat,
           selectedDayPredicate: (day) {

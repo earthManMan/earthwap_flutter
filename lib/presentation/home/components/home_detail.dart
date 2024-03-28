@@ -24,6 +24,8 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_login/presentation/common/widgets/toast_widget.dart';
 import 'package:firebase_login/app/style/app_color.dart';
 import 'package:firebase_login/app/config/constant.dart';
+
+
 class CombinedFlipAndSwipe extends StatefulWidget {
   List<ItemInfo> items = [];
 
@@ -85,7 +87,6 @@ class _CombinedFlipAndSwipeState extends State<CombinedFlipAndSwipe> {
   @override
   Widget build(BuildContext context) {
     if (widget.items.isNotEmpty) _initializeData();
-
     return SafeArea(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -110,7 +111,7 @@ class _CombinedFlipAndSwipeState extends State<CombinedFlipAndSwipe> {
                           child: Text(
                             "매칭 될 물건을 못찾았습니다\n 내 물건을 더 등록해주세요!",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppColor.grayF9,
                               fontWeight: FontWeight.bold,
                               fontFamily: "SUIT",
                             ),
@@ -275,7 +276,7 @@ class _BackCardState extends State<BackCard> {
       MenuItem(
         callback: report_function,
         Content: '프로필 신고하기',
-        textColor: Colors.white,
+        textColor: AppColor.grayF9,
       ),
     );
   }
@@ -312,7 +313,7 @@ class _BackCardState extends State<BackCard> {
                     widget._itemInfo.otherImagesLocation[pageindex - 1]),
           ),
           borderRadius: BorderRadius.circular(20),
-          color: Colors.grey.shade300,
+          color: AppColor.gray3A,
         ),
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       ),
@@ -324,10 +325,10 @@ class _BackCardState extends State<BackCard> {
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: const Color.fromARGB(255, 20, 22, 25),
+            color: AppColor.gray1C,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
+                color: AppColor.gray3A.withOpacity(0.2),
                 spreadRadius: 3,
                 blurRadius: 7,
                 offset: const Offset(0, 3),
@@ -348,7 +349,7 @@ class _BackCardState extends State<BackCard> {
                   effect: const WormEffect(
                     dotHeight: 10,
                     dotWidth: 10,
-                    activeDotColor: ColorStyles.primary,
+                    activeDotColor: AppColor.primary,
                     type: WormType.thinUnderground,
                   ),
                 ),
@@ -449,7 +450,7 @@ class _BackCardState extends State<BackCard> {
           style: ElevatedButton.styleFrom(
             backgroundColor: widget.isSubscribed == true
                 ? Colors.green
-                : ColorStyles.primary,
+                : AppColor.primary,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
@@ -577,10 +578,10 @@ class FrontCard extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
-        color: Colors.white,
+        color: AppColor.grayF9,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
+            color: AppColor.gray3A.withOpacity(0.2),
             spreadRadius: 3,
             blurRadius: 7,
             offset: const Offset(0, 3),

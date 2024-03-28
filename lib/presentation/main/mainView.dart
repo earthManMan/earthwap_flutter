@@ -4,7 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_login/app/config/remote_options.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_login/presentation/sell/sell_screen.dart';
-import 'package:firebase_login/presentation/home/homeView.dart';
+import 'package:firebase_login/presentation/home/old/homeView.dart';
 import 'package:firebase_login/presentation/chat/chatView.dart';
 import 'package:firebase_login/presentation/world/worldView.dart';
 import 'package:firebase_login/presentation/components/theme.dart';

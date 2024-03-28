@@ -22,9 +22,50 @@ class PremiumPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: isPremium ? true : false,
+    return PlatformScaffold(
+      material: (context, platform) {
+        return MaterialScaffoldData(
+            floatingActionButton: isPremium
+                ? null
+                : FloatingActionButton.extended(
+                    backgroundColor: ColorStyles.primary,
+                    onPressed: () {},
+                    label: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: const Center(
+                        child: Text(
+                          'Premium 결제하기',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                      ),
+                    ),
+                  ));
+      },
+      cupertino: (context, platform) {
+        return CupertinoPageScaffoldData(
+          body: isPremium
+              ? null
+              : FloatingActionButton.extended(
+                  backgroundColor: ColorStyles.primary,
+                  onPressed: () {},
+                  label: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: const Center(
+                      child: Text(
+                        'Premium 결제하기',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ),
+                  ),
+                ),
+        );
+      },
+      appBar: PlatformAppBar(
+        material: (context, platform) {
+          return MaterialAppBarData(
+            centerTitle: isPremium ? true : false,
+          );
+        },
         title: isPremium ? const Text("어스왑 Premium") : null,
         backgroundColor: Colors.transparent,
         leading: IconButton(
@@ -46,21 +87,6 @@ class PremiumPage extends StatelessWidget {
           child: isPremium ? _buildRegularLayout() : _buildPremiumLayout(),
         ),
       ),
-      floatingActionButton: isPremium
-          ? null
-          : FloatingActionButton.extended(
-              backgroundColor: ColorStyles.primary,
-              onPressed: () {},
-              label: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: const Center(
-                  child: Text(
-                    'Premium 결제하기',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
-              ),
-            ),
     );
   }
 
@@ -138,7 +164,7 @@ class PremiumPage extends StatelessWidget {
             imageUrl: userService.profileImage.toString(),
             width: 200,
             height: 200,
-            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+            backgroundColor: AppColor.grayF9,
             callback: () {},
           ),
         ),
@@ -150,7 +176,7 @@ class PremiumPage extends StatelessWidget {
               onPressed: null,
               icon: ColorFiltered(
                 colorFilter: const ColorFilter.mode(
-                  ColorStyles.primary,
+                  AppColor.primary,
                   BlendMode.dstIn,
                 ),
                 child: Image.asset('assets/components/premium.png'),
@@ -165,8 +191,7 @@ class PremiumPage extends StatelessWidget {
         const Center(
             child: Text(
           "Premium 결제일 : 2023년 09월 12일",
-          style: TextStyle(
-              fontSize: 15, color: Color.fromARGB(255, 130, 130, 130)),
+          style: TextStyle(fontSize: 15, color: AppColor.gray3A),
         )),
         Card(
             margin: const EdgeInsets.all(8.0),
@@ -178,8 +203,8 @@ class PremiumPage extends StatelessWidget {
                 child: Column(
                   children: [
                     const Text("지금까지 이용한 어스왑 Premium 혜택",
-                        style: TextStyle(
-                            fontSize: 20, color: ColorStyles.primary)),
+                        style:
+                            TextStyle(fontSize: 20, color: AppColor.primary)),
                     const SizedBox(height: 10),
                     _buildRowIconText(
                         "assets/components/Trash.png", "광고없는 Swipe", "60시간"),
@@ -201,8 +226,8 @@ class PremiumPage extends StatelessWidget {
                 child: Column(
                   children: [
                     const Text("이용중인 이용권",
-                        style: TextStyle(
-                            fontSize: 20, color: ColorStyles.primary)),
+                        style:
+                            TextStyle(fontSize: 20, color: AppColor.primary)),
                     const SizedBox(height: 10),
                     _buildRowText("연간 무한 이용권", "50,000/연간"),
                     const SizedBox(height: 10),
@@ -223,10 +248,11 @@ class PremiumPage extends StatelessWidget {
           fit: BoxFit.fill,
         ),
         const SizedBox(width: 8),
-        Text(Title, style: const TextStyle(fontSize: 20, color: Colors.white)),
+        Text(Title,
+            style: const TextStyle(fontSize: 20, color: AppColor.grayF9)),
         const Spacer(),
         Text(Content,
-            style: const TextStyle(fontSize: 15, color: Colors.white)),
+            style: const TextStyle(fontSize: 15, color: AppColor.grayF9)),
       ],
     );
   }
@@ -234,10 +260,11 @@ class PremiumPage extends StatelessWidget {
   Widget _buildRowText(String Title, String Content) {
     return Row(
       children: [
-        Text(Title, style: const TextStyle(fontSize: 20, color: Colors.white)),
+        Text(Title,
+            style: const TextStyle(fontSize: 20, color: AppColor.grayF9)),
         const Spacer(),
         Text(Content,
-            style: const TextStyle(fontSize: 15, color: Colors.white)),
+            style: const TextStyle(fontSize: 15, color: AppColor.grayF9)),
       ],
     );
   }
@@ -270,13 +297,13 @@ class _CheckButtonState extends State<CheckButton> {
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.0), // Add some border radius
             side: BorderSide(
-              color: isChecked ? Colors.blue : Colors.transparent,
+              color: isChecked ? AppColor.primary : Colors.transparent,
               width: 2.0, // Add outline width
             ),
           ),
         ),
         backgroundColor: MaterialStateProperty.all(
-          const Color.fromARGB(170, 27, 30, 34),
+          AppColor.gray1C,
         ),
       ),
       child: Row(
@@ -293,14 +320,14 @@ class _CheckButtonState extends State<CheckButton> {
                     style: const TextStyle(
                       fontFamily: "SUIT",
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 0, 133, 255),
+                      color: AppColor.primary,
                     ),
                   ),
                   Text(
                     widget.subTitle,
                     style: const TextStyle(
                       fontFamily: "SUIT",
-                      color: Colors.white,
+                      color: AppColor.grayF9,
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),
@@ -314,7 +341,7 @@ class _CheckButtonState extends State<CheckButton> {
                 isChecked = value!;
               });
             },
-            activeColor: Colors.blue,
+            activeColor: AppColor.primary,
           ),
         ],
       ),
@@ -327,8 +354,8 @@ class TransactionHistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -336,7 +363,11 @@ class TransactionHistoryPage extends StatelessWidget {
           },
         ),
         title: const Text('거래내역'),
-        centerTitle: true,
+        material: (context, platform) {
+          return MaterialAppBarData(
+            centerTitle: true,
+          );
+        },
       ),
       body: ListView.builder(
         cacheExtent: 1000,
@@ -357,13 +388,12 @@ class TransactionHistoryPage extends StatelessWidget {
             subtitle: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
-                color:
-                    const Color.fromARGB(255, 44, 47, 51), // 상태에 따라 색상을 조정하세요.
+                color: AppColor.gray1C, // 상태에 따라 색상을 조정하세요.
               ),
               //padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Text(
                 transaction.status,
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: AppColor.grayF9),
               ),
             ),
             trailing: Text(
@@ -433,9 +463,13 @@ class _TrashCollectionPageState extends State<TrashCollectionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        material: (context, platform) {
+          return MaterialAppBarData(
+            centerTitle: true,
+          );
+        },
         title: const Text(
           '수거 신청 내역',
           style: TextStyle(
@@ -453,7 +487,8 @@ class _TrashCollectionPageState extends State<TrashCollectionPage> {
           return InkWell(
             onTap: () {
               Navigator.of(context).push(
-                MaterialPageRoute(
+                platformPageRoute(
+                  context: context,
                   builder: (context) => TrashDetailPage(
                     collection: collection,
                     onReturnTrashCollection: (value) {
@@ -464,7 +499,7 @@ class _TrashCollectionPageState extends State<TrashCollectionPage> {
               );
             },
             child: Card(
-              color: ColorStyles.background,
+              color: AppColor.gray1C,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -476,14 +511,14 @@ class _TrashCollectionPageState extends State<TrashCollectionPage> {
                         "상태 : ${viewModel.model.TrashList![index].status}",
                         style: const TextStyle(
                           fontSize: 20,
-                          color: ColorStyles.primary,
+                          color: AppColor.primary,
                         ),
                       ),
                       Text(
                         viewModel.model.TrashList![index].date,
                         style: const TextStyle(
                           fontSize: 15,
-                          color: Colors.white,
+                          color: AppColor.grayF9,
                         ),
                       ),
                     ],
@@ -517,41 +552,180 @@ class _TrashDetailPageState extends State<TrashDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
+    return PlatformScaffold(
+      material: (context, platform) {
+        return MaterialScaffoldData(
+          bottomSheet: widget.collection.status != 'CANCELLED'
+              ? SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorStyles.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                    onPressed: _isLoading
+                        ? null
+                        : () async {
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            final api = FirebaseAPI();
+                            final user = UserService.instance;
+
+                            bool cancle = await api.cancelPaymentOnCallFunction(
+                                user.uid!, widget.collection.order_id, "");
+                            if (cancle) {
+                              showtoastMessage(
+                                  '해당 주문취소를 완료 하였습니다. 계좌를 확인 해 주세요!',
+                                  toastStatus.success);
+                              widget.onReturnTrashCollection(widget.collection);
+                            } else {
+                              showtoastMessage(
+                                  '해당 주문취소를 실패 하였습니다. 고객센터에 문의 바랍니다!',
+                                  toastStatus.error);
+                            }
+                            setState(() {
+                              _isLoading = false;
+                            });
+                          },
+                    child: _isLoading
+                        ? PlatformCircularProgressIndicator(
+                            material: (context, platform) {
+                              return MaterialProgressIndicatorData(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                              );
+                            },
+                            cupertino: (context, platform) {
+                              return CupertinoProgressIndicatorData(
+                                color: AppColor.primary,
+                              );
+                            },
+                          )
+                        : const Text(
+                            '취소하기',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                            ),
+                          ),
+                  ),
+                )
+              : null,
+        );
+      },
+      cupertino: (context, platform) {
+        return CupertinoPageScaffoldData(
+          body: widget.collection.status != 'CANCELLED'
+              ? SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorStyles.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                    onPressed: _isLoading
+                        ? null
+                        : () async {
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            final api = FirebaseAPI();
+                            final user = UserService.instance;
+
+                            bool cancle = await api.cancelPaymentOnCallFunction(
+                                user.uid!, widget.collection.order_id, "");
+                            if (cancle) {
+                              showtoastMessage(
+                                  '해당 주문취소를 완료 하였습니다. 계좌를 확인 해 주세요!',
+                                  toastStatus.success);
+                              widget.onReturnTrashCollection(widget.collection);
+                            } else {
+                              showtoastMessage(
+                                  '해당 주문취소를 실패 하였습니다. 고객센터에 문의 바랍니다!',
+                                  toastStatus.error);
+                            }
+                            setState(() {
+                              _isLoading = false;
+                            });
+                          },
+                    child: _isLoading
+                        ? PlatformCircularProgressIndicator(
+                            material: (context, platform) {
+                              return MaterialProgressIndicatorData(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                              );
+                            },
+                            cupertino: (context, platform) {
+                              return CupertinoProgressIndicatorData(
+                                color: AppColor.primary,
+                              );
+                            },
+                          )
+                        : const Text(
+                            '취소하기',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                            ),
+                          ),
+                  ),
+                )
+              : null,
+        );
+      },
+      appBar: PlatformAppBar(
+        material: (context, platform) {
+          return MaterialAppBarData(
+            centerTitle: true,
+          );
+        },
         title: const Text('이용내역 상세',
             style: TextStyle(
                 fontFamily: "SUIT", fontSize: 20, fontWeight: FontWeight.bold)),
       ),
+
       body: SingleChildScrollView(
           child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Card(
-                color: ColorStyles.background,
+                color: AppColor.gray1C,
                 margin: const EdgeInsets.all(16),
                 child: Column(
                   children: [
                     ListTile(
                       title: const Text('주소',
-                          style: TextStyle(fontSize: 30, color: Colors.white)),
+                          style:
+                              TextStyle(fontSize: 30, color: AppColor.grayF9)),
                       subtitle: Text(widget.collection.address),
                     ),
                     ListTile(
                       title: const Text('상세 주소',
-                          style: TextStyle(fontSize: 30, color: Colors.white)),
+                          style:
+                              TextStyle(fontSize: 30, color: AppColor.grayF9)),
                       subtitle: Text(widget.collection.address_detail),
                     ),
                     ListTile(
                       title: const Text('공동현관 출입번호',
-                          style: TextStyle(fontSize: 30, color: Colors.white)),
+                          style:
+                              TextStyle(fontSize: 30, color: AppColor.grayF9)),
                       subtitle: Text(widget.collection.door),
                     ),
                     ListTile(
                       title: const Text('추가 요청사항',
-                          style: TextStyle(fontSize: 30, color: Colors.white)),
+                          style:
+                              TextStyle(fontSize: 30, color: AppColor.grayF9)),
                       subtitle: Text(widget.collection.comment),
                     ),
                   ],
@@ -561,7 +735,7 @@ class _TrashDetailPageState extends State<TrashDetailPage> {
               margin: const EdgeInsets.all(16),
               child: ListTile(
                 title: const Text('날짜',
-                    style: TextStyle(fontSize: 30, color: Colors.white)),
+                    style: TextStyle(fontSize: 30, color: AppColor.grayF9)),
                 subtitle: Text(widget.collection.date),
               ),
             ),
@@ -570,7 +744,7 @@ class _TrashDetailPageState extends State<TrashDetailPage> {
               margin: const EdgeInsets.all(16),
               child: ListTile(
                 title: const Text('연락처',
-                    style: TextStyle(fontSize: 30, color: Colors.white)),
+                    style: TextStyle(fontSize: 30, color: AppColor.grayF9)),
                 subtitle: Text(widget.collection.phone),
               ),
             ),
@@ -579,13 +753,16 @@ class _TrashDetailPageState extends State<TrashDetailPage> {
               margin: EdgeInsets.all(16),
               child: ListTile(
                 title: Text('결제 금액',
-                    style: TextStyle(fontSize: 30, color: Colors.white)),
+                    style: TextStyle(fontSize: 30, color: AppColor.grayF9)),
                 subtitle: Text("4500원"),
               ),
             ),
           ],
         ),
       )),
+
+      // TODO : 바텀 시트 찾기
+      /*
       bottomSheet: widget.collection.status != 'CANCELLED'
           ? SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
@@ -644,7 +821,7 @@ class _TrashDetailPageState extends State<TrashDetailPage> {
                       ),
               ),
             )
-          : null,
+          : null,*/
     );
   }
 }
@@ -709,7 +886,7 @@ class _ImageAddButtonState extends State<ImageAddButton> {
             _pickImage();
           },
           style: OutlinedButton.styleFrom(
-            side: const BorderSide(color: Colors.white, width: 2.0),
+            side: const BorderSide(color: AppColor.grayF9, width: 2.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
@@ -734,17 +911,17 @@ class _ImageAddButtonState extends State<ImageAddButton> {
                         const SizedBox(height: 20.0),
                         const Icon(
                           Icons.camera_alt_outlined,
-                          color: Color.fromRGBO(255, 255, 255, 1),
+                          color: AppColor.grayF9,
                         ),
                         const SizedBox(height: 12.0),
                         Text(
                           widget.title,
-                          style: const TextStyle(color: Colors.white),
+                          style: const TextStyle(color: AppColor.grayF9),
                         ),
                         const SizedBox(height: 12.0),
                         Text(
                           widget.imageCount,
-                          style: const TextStyle(color: Colors.white),
+                          style: const TextStyle(color: AppColor.grayF9),
                         ),
                         const SizedBox(height: 12.0),
                       ],
@@ -755,7 +932,7 @@ class _ImageAddButtonState extends State<ImageAddButton> {
             top: -10.0,
             right: -10.0,
             child: IconButton(
-              icon: const Icon(Icons.close, color: Colors.white),
+              icon: const Icon(Icons.close, color: AppColor.grayF9),
               onPressed: _clearImage,
             ),
           ),
@@ -805,9 +982,13 @@ class _FollowerPageState extends State<FollowerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        material: (context, platform) {
+          return MaterialAppBarData(
+            centerTitle: true,
+          );
+        },
         title: const Text(
           "팔로워",
           style: TextStyle(
@@ -831,13 +1012,14 @@ class _FollowerPageState extends State<FollowerPage> {
               imageUrl: widget._viewModel.model.Followers![index].profileImage,
               width: 60,
               height: 60,
-              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+              backgroundColor: AppColor.grayF9,
               callback: () {
                 // 이미지를 누르면 Image 상세 정보를 나타내는 페이지로 이동
                 if (UserService.instance.uid !=
                     widget._viewModel.model.Followers![index].uid) {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
+                    platformPageRoute(
+                      context: context,
                       builder: (context) => UserProfile(
                         uid: widget._viewModel.model.Followers![index].uid,
                       ),
@@ -864,7 +1046,7 @@ class _FollowerPageState extends State<FollowerPage> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: ColorStyles.primary,
+                backgroundColor: AppColor.primary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),
@@ -874,13 +1056,13 @@ class _FollowerPageState extends State<FollowerPage> {
                 children: [
                   Icon(
                     isFollowing ? Icons.check : Icons.add,
-                    color: Colors.white,
+                    color: AppColor.grayF9,
                   ),
                   const SizedBox(width: 8),
                   Text(
                     isFollowing ? "팔로잉" : "팔로우",
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: AppColor.grayF9,
                       fontFamily: "SUIT",
                       fontWeight: FontWeight.bold,
                     ),
@@ -916,9 +1098,13 @@ class FollowingPage extends StatefulWidget {
 class _FollowingPageState extends State<FollowingPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        material: (context, platform) {
+          return MaterialAppBarData(
+            centerTitle: true,
+          );
+        },
         title: const Text(
           "팔로잉",
           style: TextStyle(
@@ -943,13 +1129,14 @@ class _FollowingPageState extends State<FollowingPage> {
               imageUrl: widget._viewModel.model.Following![index].profileImage,
               width: 60,
               height: 60,
-              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+              backgroundColor: AppColor.grayF9,
               callback: () {
                 // 이미지를 누르면 Image 상세 정보를 나타내는 페이지로 이동
                 if (UserService.instance.uid !=
                     widget._viewModel.model.Following![index].uid) {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
+                    platformPageRoute(
+                      context: context,
                       builder: (context) => UserProfile(
                           uid: widget._viewModel.model.Following![index].uid),
                     ),
@@ -976,7 +1163,7 @@ class _FollowingPageState extends State<FollowingPage> {
                 setState(() {});
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: ColorStyles.primary,
+                backgroundColor: AppColor.primary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),
@@ -986,13 +1173,13 @@ class _FollowingPageState extends State<FollowingPage> {
                 children: [
                   Icon(
                     isFollowing ? Icons.check : Icons.add,
-                    color: Colors.white,
+                    color: AppColor.grayF9,
                   ),
                   const SizedBox(width: 8),
                   Text(
                     isFollowing ? "팔로잉" : "팔로우",
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: AppColor.grayF9,
                       fontFamily: "SUIT",
                       fontWeight: FontWeight.bold,
                     ),
@@ -1065,9 +1252,13 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        material: (context, platform) {
+          return MaterialAppBarData(
+            centerTitle: true,
+          );
+        },
         title: const Text('프로필 편집',
             style: TextStyle(
                 fontFamily: "SUIT", fontSize: 20, fontWeight: FontWeight.bold)),
@@ -1094,11 +1285,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               ),
             ),
             const SizedBox(height: 20.0),
-            TextField(
+            PlatformTextField(
               enableInteractiveSelection: true,
-              decoration: const InputDecoration(
-                labelText: '닉네임',
-              ),
+              hintText: "닉네임",
               controller:
                   TextEditingController(text: widget._user.nickname.toString()),
               onChanged: (value) {
@@ -1106,11 +1295,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               },
             ),
             const SizedBox(height: 20.0),
-            TextField(
+            PlatformTextField(
               enableInteractiveSelection: true,
-              decoration: const InputDecoration(
-                labelText: '자기소개',
-              ),
+              hintText: '자기소개',
               controller: TextEditingController(
                 text: widget._user.description
                     .toString(), // 초기값은 _controller에서 가져오기

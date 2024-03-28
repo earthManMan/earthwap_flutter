@@ -1,7 +1,7 @@
 import 'package:firebase_login/app/style/app_color.dart';
 import 'package:firebase_login/presentation/components/item/image_grid_widget.dart';
 import 'package:firebase_login/presentation/components/content/post_grid_widget.dart';
-import 'package:firebase_login/presentation/mypage/components/setting_detail.dart';
+import 'package:firebase_login/presentation/setting/setting_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,6 +16,7 @@ import 'package:firebase_login/app/config/constant.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_login/presentation/common/widgets/profile_top_widget.dart';
 import 'package:firebase_login/presentation/common/widgets/profile_body_widget.dart';
+import 'dart:io';
 
 class MyPageScreen extends StatefulWidget {
   final bool isMyPage; // isMyPage 속성 추가
@@ -70,7 +71,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
   @override
   Widget build(BuildContext context) {
     final userService = UserService.instance;
-    final viewmodel = Provider.of<MypageViewModel>(context, listen: false);
+
     fllowListen();
 
     return PlatformScaffold(
@@ -85,12 +86,13 @@ class _MyPageScreenState extends State<MyPageScreen> {
           trailingActions: [
             IconButton(
               onPressed: () {
+                ;
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => PremiumPage(isPremium: true),
-                  ),
-                );
+                    context,
+                    platformPageRoute(
+                      context: context,
+                      builder: (context) => PremiumPage(isPremium: true),
+                    ));
               },
               icon: ColorFiltered(
                 colorFilter: const ColorFilter.mode(
@@ -104,8 +106,9 @@ class _MyPageScreenState extends State<MyPageScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => settingLayout(),
+                  platformPageRoute(
+                    context: context,
+                    builder: (context) => SettingScreen(),
                   ),
                 );
               },
@@ -136,97 +139,104 @@ class _MyPageScreenState extends State<MyPageScreen> {
         backgroundColor: AppColor.gray1C,
         body: Container(
             padding: EdgeInsets.only(
-                top: MediaQuery.of(context).padding.top + kToolbarHeight),
+                top: MediaQuery.of(context).padding.top +
+                    (Platform.isIOS ? kToolbarHeight : 0)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ProfileTopWidget(
-                  isMyPage: true,
-                  profileImageUrl: userService.profileImage.toString(),
-                  description: "2024년 3월 26일 오늘도 지나가리~",
-                  followersCount: viewmodel.model.Followers?.length ?? 0,
-                  followingCount: viewmodel.model.Following?.length ?? 0,
-                  follower_callback: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FollowerPage(
-                            userService: userService, viewModel: viewmodel),
-                      ),
-                    );
-                  },
-                  following_callback: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FollowingPage(
-                          userService: userService,
-                          viewModel: viewmodel,
-                          callback: (uid) {
-                            setState(() {
-                              viewmodel.model.Following!
-                                  .map(
-                                      (userProfile) => userProfile.itemInfoList)
-                                  .expand((i) => i)
-                                  .toList()
-                                  .removeWhere((element) =>
-                                      element.item_owner_id == uid);
-                            });
-                          },
-                        ),
-                      ),
-                    );
-                  },
-                  edit_callback: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProfileEditPage(
-                            userService: userService, viewModel: viewmodel),
-                      ),
-                    ).then((updatedData) {
-                      if (updatedData == true) {
-                        // 여기에서 setState를 호출하고 updatedData를 사용하여 상태를 업데이트합니다.
-                        setState(() {
-                          // 상태를 업데이트하는 코드를 추가하세요.
-                        });
-                      }
-                    });
-                  },
-                  trash_callback: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const TrashCollectionPage(),
-                      ),
-                    );
-                  },
-                  follow_callback: () {},
-                ),
-                Expanded(
-                    flex: 1,
-                    child: ProfileBodyWidget(
+                Consumer<MypageViewModel>(builder: (context, viewmodel, child) {
+                  return ProfileTopWidget(
                       isMyPage: true,
-                      scaffoldKey: _scaffoldKey,
-                      itemInfo: viewmodel.model.getItemList(),
-                      post_itemInfo: viewmodel.model.getPostItemList(),
-                      follow_itemInfo: viewmodel.model.Following!
-                          .map((userProfile) => userProfile.itemInfoList)
-                          .expand((i) => i)
-                          .toList(),
-                      delete_callback: (itemId) async {
-                        final value = await viewmodel.deleteItem(itemId);
-                        if (value == true) {
-                          // 삭제 성공 시 Navigator를 통해 뒤로 이동
-                          setState(() {
-                            showtoastMessage(
-                                '해당 item을 삭제하였습니다.', toastStatus.info);
-                            Navigator.of(context, rootNavigator: true)
-                                .pop(true);
-                          });
-                        }
+                      profileImageUrl: userService.profileImage.toString(),
+                      description: "2024년 3월 26일 오늘도 지나가리~",
+                      followersCount: viewmodel.model.Followers?.length ?? 0,
+                      followingCount: viewmodel.model.Following?.length ?? 0,
+                      follower_callback: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FollowerPage(
+                                userService: userService, viewModel: viewmodel),
+                          ),
+                        );
                       },
-                    )),
+                      following_callback: () {
+                        Navigator.push(
+                          context,
+                          platformPageRoute(
+                            context: context,
+                            builder: (context) => FollowingPage(
+                              userService: userService,
+                              viewModel: viewmodel,
+                              callback: (uid) {
+                                setState(() {
+                                  viewmodel.model.Following!
+                                      .map((userProfile) =>
+                                          userProfile.itemInfoList)
+                                      .expand((i) => i)
+                                      .toList()
+                                      .removeWhere((element) =>
+                                          element.item_owner_id == uid);
+                                });
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                      edit_callback: () {
+                        Navigator.push(
+                          context,
+                          platformPageRoute(
+                            context: context,
+                            builder: (context) => ProfileEditPage(
+                                userService: userService, viewModel: viewmodel),
+                          ),
+                        ).then((updatedData) {
+                          if (updatedData == true) {
+                            // 여기에서 setState를 호출하고 updatedData를 사용하여 상태를 업데이트합니다.
+                            setState(() {
+                              // 상태를 업데이트하는 코드를 추가하세요.
+                            });
+                          }
+                        });
+                      },
+                      trash_callback: () {
+                        Navigator.push(
+                          context,
+                          platformPageRoute(
+                            context: context,
+                            builder: (context) => const TrashCollectionPage(),
+                          ),
+                        );
+                      },
+                      follow_callback: () {});
+                }),
+                Consumer<MypageViewModel>(builder: (context, viewmodel, child) {
+                  return Expanded(
+                      flex: 1,
+                      child: ProfileBodyWidget(
+                        isMyPage: true,
+                        scaffoldKey: _scaffoldKey,
+                        itemInfo: viewmodel.model.getItemList(),
+                        post_itemInfo: viewmodel.model.getPostItemList(),
+                        follow_itemInfo: viewmodel.model.Following!
+                            .map((userProfile) => userProfile.itemInfoList)
+                            .expand((i) => i)
+                            .toList(),
+                        delete_callback: (itemId) async {
+                          final value = await viewmodel.deleteItem(itemId);
+                          if (value == true) {
+                            // 삭제 성공 시 Navigator를 통해 뒤로 이동
+                            setState(() {
+                              showtoastMessage(
+                                  '해당 item을 삭제하였습니다.', toastStatus.info);
+                              Navigator.of(context, rootNavigator: true)
+                                  .pop(true);
+                            });
+                          }
+                        },
+                      ));
+                })
               ],
             )));
   }

@@ -1,6 +1,6 @@
 import 'package:firebase_login/presentation/components/item/image_grid_widget.dart';
 import 'package:firebase_login/presentation/components/content/post_grid_widget.dart';
-import 'package:firebase_login/presentation/mypage/components/setting_detail.dart';
+import 'package:firebase_login/presentation/setting/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_login/presentation/components/theme.dart';
@@ -105,7 +105,7 @@ class _MypageViewState extends State<MypageView>
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => settingLayout(),
+                      builder: (context) => SettingScreen(),
                     ),
                   );
                 },
