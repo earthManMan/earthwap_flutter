@@ -321,7 +321,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (user.nickname!.isEmpty) {
                         Navigator.pushReplacementNamed(context, '/setup');
                       } else {
-                        Navigator.pushReplacementNamed(context, '/main');
+                        Navigator.pushReplacementNamed(context, '/setup');
                         showtoastMessage("안녕하세요. 어스왑입니다~", toastStatus.success);
                       }
                     }

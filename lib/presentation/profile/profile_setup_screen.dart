@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_login/app/style/app_color.dart';
 import 'package:firebase_login/domain/login/userService.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -50,8 +51,7 @@ class _ProfileSetUpScreenState extends State<ProfileSetUpScreen> {
         await picker.pickImage(source: ImageSource.gallery, imageQuality: 30);
     if (pickedFile != null) {
       viewmodel
-          .uploadImage(
-              UploadType.profile, _user.uid.toString(), pickedFile)
+          .uploadImage(UploadType.profile, _user.uid.toString(), pickedFile)
           .then((url) {
         if (url != null) {
           _user.setProfileImage(url);
@@ -72,7 +72,9 @@ class _ProfileSetUpScreenState extends State<ProfileSetUpScreen> {
     final viewmodel = Provider.of<MypageViewModel>(context, listen: false);
 
     return PlatformScaffold(
+      backgroundColor: AppColor.gray1C,
       appBar: PlatformAppBar(
+        backgroundColor: Colors.transparent,
         material: (context, platform) {
           return MaterialAppBarData(
             centerTitle: true,
@@ -82,8 +84,12 @@ class _ProfileSetUpScreenState extends State<ProfileSetUpScreen> {
             style: TextStyle(
                 fontFamily: "SUIT", fontSize: 20, fontWeight: FontWeight.bold)),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(30.0),
+      body: Container(
+        padding: EdgeInsets.only(
+            left: 30,
+            right: 30,
+            top: MediaQuery.of(context).padding.top +
+                (Platform.isIOS ? kToolbarHeight : 0)),
         child: Column(
           children: <Widget>[
             GestureDetector(
@@ -109,12 +115,26 @@ class _ProfileSetUpScreenState extends State<ProfileSetUpScreen> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold)),
             PlatformTextField(
+              keyboardAppearance: Brightness.dark,
               enableInteractiveSelection: true,
               hintText: "닉네임",
-              style: TextStyle(
-                  fontFamily: "SUIT",
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontSize: 16,
+                color: AppColor.grayF9,
+                fontWeight: FontWeight.bold,
+              ),
+              cupertino: (context, platform) {
+                return CupertinoTextFieldData(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: AppColor.grayF9,
+                        width: 0.5, // Adjust the width as needed
+                      ),
+                    ),
+                  ),
+                );
+              },
               controller:
                   TextEditingController(text: _user.nickname.toString()),
               onChanged: (value) {
@@ -130,10 +150,23 @@ class _ProfileSetUpScreenState extends State<ProfileSetUpScreen> {
             PlatformTextField(
               enableInteractiveSelection: true,
               hintText: '자기소개',
-              style: TextStyle(
-                  fontFamily: "SUIT",
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontSize: 16,
+                color: AppColor.grayF9,
+                fontWeight: FontWeight.bold,
+              ),
+              cupertino: (context, platform) {
+                return CupertinoTextFieldData(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: AppColor.grayF9,
+                        width: 0.5, // Adjust the width as needed
+                      ),
+                    ),
+                  ),
+                );
+              },
               controller: TextEditingController(
                 text: _user.description.toString(), // 초기값은 _controller에서 가져오기
               ),
@@ -148,13 +181,8 @@ class _ProfileSetUpScreenState extends State<ProfileSetUpScreen> {
                     fontFamily: "SUIT",
                     fontSize: 20,
                     fontWeight: FontWeight.bold)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildProvinceDropdown(),
-                SizedBox(width: 20),
-                if (_selectedProvince != null) _buildDistrictDropdown(),
-              ],
+            Container(
+                child: _buildProvinceDropdown()
             ),
             const SizedBox(height: 20.0),
             SizedBox(
@@ -187,81 +215,146 @@ class _ProfileSetUpScreenState extends State<ProfileSetUpScreen> {
       ),
     );
   }
+Widget _buildProvinceDropdown() {
+  return Platform.isIOS
+      ? Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CupertinoButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) => Container(
+                    height: 200,
+                    child: CupertinoPicker(
+                      itemExtent: 30.0,
+                      onSelectedItemChanged: (index) {
+                        setState(() {
+                          _selectedProvince = _locations.keys.toList()[index];
+                          _selectedDistrict = null;
+                        });
+                      },
+                      children: _locations.keys
+                          .map((String province) => Text(
+                                province,
+                                style: TextStyle(
+                                  fontFamily: "SUIT",
+                                  fontSize: 16,
+                                                                  color: AppColor.grayF9,
 
-  Widget _buildProvinceDropdown() {
-    return Platform.isIOS
-        ? CupertinoPicker(
-            itemExtent: 30.0,
-            onSelectedItemChanged: (index) {
-              setState(() {
-                _selectedProvince = _locations.keys.toList()[index];
-                _selectedDistrict = null; // 변경: Reset selected district
-              });
-            },
-            children: _locations.keys
-                .map((String province) => Text(province,
-                    style: TextStyle(
-                        fontFamily: "SUIT",
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold)))
-                .toList(),
-          )
-        : DropdownButton<String>(
-            value: _selectedProvince,
-            onChanged: (String? newValue) {
-              setState(() {
-                _selectedProvince = newValue;
-                _selectedDistrict = null; // 변경: Reset selected district
-              });
-            },
-            items: _locations.keys.map((String province) {
-              return DropdownMenuItem<String>(
-                value: province,
-                child: Text(province,
-                    style: TextStyle(
-                        fontFamily: "SUIT",
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold)),
-              );
-            }).toList(),
-          );
-  }
-
-  Widget _buildDistrictDropdown() {
-    return Platform.isIOS
-        ? CupertinoPicker(
-            itemExtent: 30.0,
-            onSelectedItemChanged: (index) {
-              setState(() {
-                _selectedDistrict = _locations[_selectedProvince]![index];
-              });
-            },
-            children: _locations[_selectedProvince]!
-                .map((String district) => Text(district,
-                    style: TextStyle(
-                        fontFamily: "SUIT",
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold)))
-                .toList(),
-          )
-        : DropdownButton<String>(
-            value: _selectedDistrict,
-            onChanged: (String? newValue) {
-              setState(() {
-                _selectedDistrict = newValue;
-              });
-            },
-            items: _locations[_selectedProvince]!
-                .map<DropdownMenuItem<String>>((String district) {
-              return DropdownMenuItem<String>(
-                value: district,
-                child: Text(district,
-                    style: TextStyle(
-                        fontFamily: "SUIT",
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold)),
-              );
-            }).toList(),
-          );
-  }
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ))
+                          .toList(),
+                    ),
+                  ),
+                );
+              },
+              child: Text(
+                _selectedProvince ?? 'Select Province',
+                style: TextStyle(
+                  fontFamily: "SUIT",
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            if (_selectedProvince != null)
+              SizedBox(height: 20),
+            if (_selectedProvince != null) _buildDistrictDropdown(),
+          ],
+        )
+      : DropdownButton<String>(
+          value: _selectedProvince,
+          onChanged: (String? newValue) {
+            setState(() {
+              _selectedProvince = newValue;
+              _selectedDistrict = null; 
+            });
+          },
+          items: _locations.keys.map((String province) {
+            return DropdownMenuItem<String>(
+              value: province,
+              child: Text(
+                province,
+                style: TextStyle(
+                  fontFamily: "SUIT",
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          }).toList(),
+        );
+}
+Widget _buildDistrictDropdown() {
+  return Platform.isIOS
+      ? Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CupertinoButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) => Container(
+                    height: 200,
+                    child: CupertinoPicker(
+                      itemExtent: 30.0,
+                      onSelectedItemChanged: (index) {
+                        setState(() {
+                          _selectedDistrict =
+                              _locations[_selectedProvince]![index];
+                        });
+                      },
+                      children: _locations[_selectedProvince]!
+                          .map(
+                            (String district) => Text(
+                              district,
+                              style: TextStyle(
+                                color: AppColor.grayF9,
+                                fontFamily: "SUIT",
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                );
+              },
+              child: Text(
+                _selectedDistrict ?? 'Select District',
+                style: TextStyle(
+                  fontFamily: "SUIT",
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        )
+      : DropdownButton<String>(
+          value: _selectedDistrict,
+          onChanged: (String? newValue) {
+            setState(() {
+              _selectedDistrict = newValue;
+            });
+          },
+          items: _locations[_selectedProvince]!
+              .map<DropdownMenuItem<String>>((String district) {
+            return DropdownMenuItem<String>(
+              value: district,
+              child: Text(
+                district,
+                style: TextStyle(
+                  fontFamily: "SUIT",
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          }).toList(),
+        );
+}
 }
